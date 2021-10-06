@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Schedule app</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="select_date_label"> Select date</string>
+    <string name="duration_label"> Enter a duration (from 60min to 300min)</string>
+    <string name="start_time_label">Enter start time (from 8h to 19h)</string>
+    <string name="event_name_label">Enter event name</string>
+    <string name="location_name_label">Enter location name</string>
+    <string name="color_label">Select wanted color</string>
+    <string name="day_of_week">Enter day of week (1 from 7)</string>
+    <string name="format">%1$tY-%1$tm-%1$td %1$tH:%1$tM</string>
+    <string name="upcoming_events">Upcoming events today:</string>
+    <string name="no_data_available">You have no upcoming events today</string>
+    <string name="event_odd_week">Even/odd week selection</string>
+
+    <string-array name="colors">
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Black</item>
+        <item>Cyan</item>
+    </string-array>
+    <string-array name="even_odd_options">
+        <item>Every week</item>
+        <item>Even week</item>
+        <item>Odd week</item>
+    </string-array>
+
+</resources>

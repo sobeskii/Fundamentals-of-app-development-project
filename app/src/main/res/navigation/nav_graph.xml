@@ -16,8 +16,8 @@
             android:id="@+id/action_scheduleFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
-            android:id="@+id/action_scheduleFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_scheduleFragment_to_profileFragment2"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -27,8 +27,8 @@
             android:id="@+id/action_homeFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_homeFragment_to_profileFragment2"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
@@ -38,24 +38,18 @@
             android:id="@+id/action_createEventFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
         <action
-            android:id="@+id/action_createEventFragment_to_massAddEvents"
-            app:destination="@id/massAddEvents" />
+            android:id="@+id/action_createEventFragment_to_profileFragment2"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="ktu.edu.projektas.app.ui.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings">
+        android:id="@+id/profileFragment"
+        android:name="ktu.edu.projektas.app.ui.ProfileFragment"
+        android:label="Profile" >
         <action
-            android:id="@+id/action_settingsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_scheduleFragment"
+            android:id="@+id/action_profileFragment2_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_profileFragment2_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/massAddEvents"
-        android:name="ktu.edu.projektas.app.ui.MassAddEvents"
-        android:label="Mass add events"
-        tools:layout="@layout/fragment_mass_add_events" />
 </navigation>

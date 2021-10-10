@@ -26,16 +26,14 @@ import ktu.edu.projektas.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var prefs: SharedPreferences
     private lateinit var adapter : HomeAdapter
     private var semesterStart : Long? = null
     private var semesterEnd : Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        prefs = requireContext().getSharedPreferences("ktu.edu.projektas.app", Context.MODE_PRIVATE)
-        semesterStart = prefs.getLong("ktu.edu.projektas.app.semester_start", getCurrentMonthFirstDay()?.toEpochMilli()!!)
-        semesterEnd = prefs.getLong("ktu.edu.projektas.app.semester_end", getCurrentMonthLastDay()?.toEpochMilli()!!)
+        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
+        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
     }
     
     override fun onCreateView(

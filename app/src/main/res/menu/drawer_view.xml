@@ -9,5 +9,9 @@
             android:id="@+id/scheduleFragment"
             android:icon="@drawable/calendar_ic"
             android:title="Schedule" />
+        <item
+            android:id="@+id/profileFragment"
+            android:icon="?android:attr/listChoiceIndicatorSingle"
+            android:title="Profile" />
     </group>
 </menu>

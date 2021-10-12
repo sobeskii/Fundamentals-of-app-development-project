@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.Home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.databinding.EventItemBinding
 
+// Created to show the upcoming event list in HomeFragment
+// Boiler plate adapter code
 class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback()) {
     class ViewHolder(private val binding: EventItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -23,11 +25,7 @@ class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback
             return oldItem == newItem
         }
     }
-    override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-    ): ViewHolder {
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
                 EventItemBinding.inflate(
                         LayoutInflater.from(parent.context), parent, false

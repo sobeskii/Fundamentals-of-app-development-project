@@ -8,11 +8,15 @@ import kotlinx.coroutines.launch
 import java.time.*
 
 
+// ViewModels are used to call queries that are formed in Dao files.
+// ViewModels are used to interact with the database
 class ScheduleViewModel(context: Context,
                         private val semesterStart: Long, private val semesterEnd: Long) : ViewModel() {
 
+    // Builds database
     private val db = Room.databaseBuilder(context, ScheduleDatabase::class.java, "events").build()
 
+    // LiveData list of all of the events in the database
     private val _events = db.ScheduleDao().getAllEvents().asLiveData()
     val events: LiveData<List<Event>>
         get() = _events

@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.User
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

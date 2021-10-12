@@ -8,6 +8,7 @@ import java.time.LocalDateTime
 
 @Dao
 interface ScheduleDao {
+    // Flow list is used dynamically show events
     @Query("SELECT * FROM events")
     fun getAllEvents(): Flow<List<Event>>
     @Insert

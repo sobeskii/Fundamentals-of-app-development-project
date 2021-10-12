@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/drawable-anydpi/add_ic.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/drawable-anydpi/calendar_ic.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/drawable-anydpi/home_ic.xml" value="0.23958333333333334" />
         <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/layout/event_item.xml" value="0.2234375" />
         <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_home.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_profile.xml" value="0.17300724637681159" />
+        <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.2234375" />
         <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/menu/drawer_view.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/xml/preferences.xml" value="0.2234375" />
       </map>
     </option>
   </component>

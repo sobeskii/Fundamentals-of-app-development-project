@@ -6,6 +6,10 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
+
+// Type converters that are used by the Database
+// Converts LocalDateTime and else to Database friendly data
+
 class LocalDateTimeConverter{
     @TypeConverter
     fun longToLocalDateTime(value: Long?): LocalDateTime? {

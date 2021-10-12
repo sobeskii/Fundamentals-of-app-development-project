@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="ktu.edu.projektas.app.ui.ScheduleFragment"
+        android:name="ktu.edu.projektas.app.ui.Schedule.ScheduleFragment"
         android:label="Schedule">
         <action
             android:id="@+id/action_scheduleFragment_to_createEventFragment"
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ktu.edu.projektas.app.ui.HomeFragment"
+        android:name="ktu.edu.projektas.app.ui.Home.HomeFragment"
         android:label="Home">
         <action
             android:id="@+id/action_homeFragment_to_scheduleFragment"
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
-        android:name="ktu.edu.projektas.app.ui.CreateEventFragment"
+        android:name="ktu.edu.projektas.app.ui.Schedule.CreateEventFragment"
         android:label="Add one event">
         <action
             android:id="@+id/action_createEventFragment_to_scheduleFragment"
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="ktu.edu.projektas.app.ui.ProfileFragment"
+        android:name="ktu.edu.projektas.app.ui.User.ProfileFragment"
         android:label="Profile" >
         <action
             android:id="@+id/action_profileFragment2_to_scheduleFragment"

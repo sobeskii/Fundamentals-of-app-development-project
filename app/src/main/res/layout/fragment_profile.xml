@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.ui.User.ProfileFragment">
+        tools:context=".app.ui.ProfileFragment">
 
         <TextView
             android:layout_width="match_parent"

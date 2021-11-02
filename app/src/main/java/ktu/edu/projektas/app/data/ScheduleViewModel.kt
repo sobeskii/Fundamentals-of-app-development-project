@@ -4,22 +4,36 @@ import android.content.Context
 import android.graphics.Color
 import androidx.lifecycle.*
 import androidx.room.Room
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import java.time.*
 
 
-// ViewModels are used to call queries that are formed in Dao files.
-// ViewModels are used to interact with the database
 class ScheduleViewModel(context: Context,
                         private val semesterStart: Long, private val semesterEnd: Long) : ViewModel() {
 
-    // Builds database
     private val db = Room.databaseBuilder(context, ScheduleDatabase::class.java, "events").build()
 
-    // LiveData list of all of the events in the database
     private val _events = db.ScheduleDao().getAllEvents().asLiveData()
     val events: LiveData<List<Event>>
         get() = _events
+
+
+    fun getAllEventsByColor(color:String) : LiveData<List<Event>>? {
+
+        val id = getColorCode(color)
+        // if there is color isn't defined return all events
+        if(id == -1)
+            return events
+
+        var data : LiveData<List<Event>>? = null
+
+        viewModelScope.launch {
+            data = db.ScheduleDao().getAllEventsByColor(id).asLiveData()
+        }
+        return data
+    }
 
     fun deleteByGroup(id:Int) {
         viewModelScope.launch {
@@ -49,7 +63,7 @@ class ScheduleViewModel(context: Context,
             "Green" -> Color.GREEN
             "Cyan" -> Color.CYAN
 
-            else -> Color.BLACK
+            else -> -1
         }
     }
     private fun generateGroupId(): Int {

@@ -1,11 +1,12 @@
-package ktu.edu.projektas.app.ui.Schedule
-import ktu.edu.projektas.app.ui.Schedule.ScheduleAdapter
+package ktu.edu.projektas.app.ui
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -20,6 +21,14 @@ import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
 import java.time.*
+import android.view.MenuInflater
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import ScheduleAdapter
+import android.graphics.Color
+import android.util.Log
+import kotlinx.coroutines.flow.observeOn
+
 
 class ScheduleFragment : Fragment() {
 
@@ -27,6 +36,10 @@ class ScheduleFragment : Fragment() {
 
     private var semesterStart : Long? = null
     private var semesterEnd : Long? = null
+
+    private lateinit var spinner : Spinner
+    private val adapter =   ScheduleAdapter(clickListener = this::onLongClick,
+                                            secondListener = this::onClick)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,14 +50,59 @@ class ScheduleFragment : Fragment() {
     private val viewModel : ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+    // Add spinner to top toolbar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.top_menu, menu)
 
+        val item: MenuItem = menu!!.findItem(R.id.spinner)
+        spinner = item.actionView as Spinner
+        //Fill spinner with color list
+        activity?.let {
+            ArrayAdapter.createFromResource(
+                it.applicationContext,
+                R.array.colors, android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = adapter
+            }
+        }
+        // On selected listener to change data when spinner is changed
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                var selectedItem  = spinner.selectedItem.toString()
+                binding.weekView.adapter = null
+                // Get events by color
+                viewModel.getAllEventsByColor(selectedItem)?.observe(viewLifecycleOwner){
+                    adapter.submitList(it)
+                }
+                binding.weekView.adapter = adapter
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+                binding.weekView.adapter = null
+                // Reset to normal event data
+                viewModel.events.observe(viewLifecycleOwner){
+                    adapter.submitList(it)
+                }
+                binding.weekView.adapter = adapter
+            }
+        }
+        return super.onCreateOptionsMenu(menu!!, inflater!!)
+    }
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         binding = FragmentScheduleBinding.inflate(inflater)
-
-        val adapter =   ScheduleAdapter(clickListener = this::onLongClick)
 
         viewModel.events.observe(viewLifecycleOwner){
             adapter.submitList(it)
@@ -66,7 +124,6 @@ class ScheduleFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_scheduleFragment_to_createEventFragment)
         }
 
-
         return binding.root
     }
 
@@ -84,4 +141,13 @@ class ScheduleFragment : Fragment() {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
     }
+
+    private fun onClick(event: Event) {
+
+        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.startTime.toString())
+
+        view?.findNavController()
+            ?.navigate(action)
+    }
+
 }

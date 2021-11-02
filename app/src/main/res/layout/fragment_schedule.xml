@@ -11,7 +11,7 @@
             android:id="@+id/schedule_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".app.ui.Schedule.ScheduleFragment"
+            tools:context=".app.ui.ScheduleFragment"
             tools:viewBindingIgnore="false">
                 >
                 <com.alamkanak.weekview.WeekView

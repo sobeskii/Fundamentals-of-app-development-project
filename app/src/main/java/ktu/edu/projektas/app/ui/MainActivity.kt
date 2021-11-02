@@ -1,5 +1,12 @@
 package ktu.edu.projektas.app.ui
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -21,18 +28,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Nav host fragment container is a UI element that contains all of the fragments in it
-        // This helps us to use nav_graph and setup navigation much easier
         navController = findNavController(R.id.nav_host_fragment_container)
-
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigationView)
-
         navigationView.setupWithNavController(navController)
 
-        // Configures the navigation drawer
-        // (add R.id.<fragmentId (from nav_graph)> to connect the fragment to the navigation menu)
-        appBarConfiguration =   AppBarConfiguration(setOf(R.id.homeFragment, R.id.scheduleFragment,R.id.profileFragment,/*insert here*/), drawerLayout)
+        appBarConfiguration =   AppBarConfiguration(setOf(R.id.homeFragment, R.id.scheduleFragment,R.id.profileFragment), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_container)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return false
+    }
 
 }

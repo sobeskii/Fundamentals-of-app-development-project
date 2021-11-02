@@ -16,6 +16,7 @@
     <string name="event_odd_week">Even/odd week selection</string>
 
     <string-array name="colors">
+        <item>None</item>
         <item>Red</item>
         <item>Blue</item>
         <item>Green</item>

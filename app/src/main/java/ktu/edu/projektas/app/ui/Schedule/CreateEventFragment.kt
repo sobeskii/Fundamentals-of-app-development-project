@@ -1,11 +1,13 @@
-package ktu.edu.projektas.app.ui.Schedule
+package ktu.edu.projektas.app.ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -24,6 +27,7 @@ import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentCreateEventBinding
+import java.io.Console
 import java.sql.Time
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -46,27 +50,16 @@ class CreateEventFragment : Fragment() {
 
     private var semesterStart : Long? = null
     private var semesterEnd : Long? = null
-    /*
-    *   When fragment is added on to the activity add semester start time and semester end time
-    *
-    * */
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
         semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
     }
-    /*
-    *   ViewModel declaration
-    *
-    * */
+
     private val viewModel : ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
     }
-    /*
-    *
-    *   Validation for Create event form with Kotlin Flow
-    *
-    * */
     private val formIsValid = combine(
             date,
             startTime,
@@ -106,23 +99,14 @@ class CreateEventFragment : Fragment() {
         }
         dateIsValid and duration and startTimeIsValid and event and location
     }
-    /*
-    *
-    * onCreateView() is the Fragment equivalent of onCreate() for Activities and runs during the View creation.
-    *
-    * */
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
 
-        //  Bindings are activated in layour files.
-        //  Press on ALT+Enter while having <layout> selected and press the "Convert to databinding layout" button
-        //  Then you can use the Fragment<fragmentname>Binding import
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
 
-
-        //  Color list adapter
         val spinner: Spinner = binding.selectEventColors
         ArrayAdapter.createFromResource(
                 activity?.applicationContext!!,
@@ -134,18 +118,15 @@ class CreateEventFragment : Fragment() {
         }
 
         binding.startTimeInput.isFocusable = false
-
         binding.startTimeInput.setOnClickListener{
             setTimeFromTimePicker(context, binding.startTimeInput)
         }
 
         binding.selectDayInput.isFocusable = false
-
         binding.selectDayInput.setOnClickListener{
             setDateFromDatePicker(context, binding.selectDayInput)
         }
 
-        // Validates and gets all of the values
         with(binding) {
             selectDayInput.doOnTextChanged { text, _, _, _ ->
                 date.value = text.toString()
@@ -164,10 +145,8 @@ class CreateEventFragment : Fragment() {
             }
         }
 
-        // Creates the "Event added" message
         val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added!", Snackbar.LENGTH_LONG) }
 
-        // Creates event and shows the message when the "Create event" button is clicked
         binding.createEventBtn.setOnClickListener {
             if (snackBar != null) {
                 snackBar.show()
@@ -184,7 +163,7 @@ class CreateEventFragment : Fragment() {
                 binding.locationInput.text.clear()
             }
         }
-        // Makes the "Create event" button clickable if the validation is correct
+
         lifecycleScope.launch {
             formIsValid.collect {
                 binding.createEventBtn.apply {
@@ -200,12 +179,7 @@ class CreateEventFragment : Fragment() {
         return binding.root
     }
 
-    /*
-    *
-    *   Function to activate DatePicker element from Android UI
-    *
-    * */
-    private fun setDateFromDatePicker(context: Context?, editText: EditText) {
+    fun setDateFromDatePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -222,11 +196,6 @@ class CreateEventFragment : Fragment() {
         }
         dpd?.show()
     }
-    /*
-    *
-    *   Function to activate TimePicker element from Android UI
-    *
-    * */
     fun setTimeFromTimePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
@@ -243,11 +212,7 @@ class CreateEventFragment : Fragment() {
         }
         dpd?.show()
     }
-    /*
-    *
-    * Checks if date is correctly formed
-    *
-    * */
+
     private fun dateIsValid(dateStr: String): LocalDate? {
         try{
             LocalDate.parse(dateStr, DateTimeFormatter.ISO_DATE)

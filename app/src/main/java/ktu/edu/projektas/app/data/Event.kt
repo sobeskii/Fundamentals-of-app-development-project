@@ -1,16 +1,14 @@
 package ktu.edu.projektas.app.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
-@Entity(tableName = "events")
-data class Event (
-        @PrimaryKey(autoGenerate = true) val id: Long,
-        val groupId: Int,
-        val title: String,
-        val startTime: LocalDateTime,
-        val endTime: LocalDateTime,
-        val color : Int,
-        val location : String
+ class Event (
+        var firebaseId: String = "",
+        val id: Long = 0,
+        val groupId: Int =0,
+        val title: String ="",
+        val startTime: Long =0,
+        val endTime: Long=0,
+        val color : Int=0,
+        val location : String=""
         )

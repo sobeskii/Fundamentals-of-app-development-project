@@ -1,8 +1,6 @@
 package ktu.edu.projektas.app.ui
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
@@ -14,7 +12,6 @@ import androidx.navigation.findNavController
 import com.alamkanak.weekview.jsr310.maxDateAsLocalDate
 import com.alamkanak.weekview.jsr310.minDateAsLocalDate
 import ktu.edu.projektas.R
-import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
@@ -24,10 +21,8 @@ import java.time.*
 import android.view.MenuInflater
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import ScheduleAdapter
-import android.graphics.Color
-import android.util.Log
-import kotlinx.coroutines.flow.observeOn
+import ktu.edu.projektas.app.data.Event
+import ktu.edu.projektas.app.ui.Schedule.ScheduleAdapter
 
 
 class ScheduleFragment : Fragment() {
@@ -135,7 +130,7 @@ class ScheduleFragment : Fragment() {
                 .setTitle("Delete entry")
                 .setMessage("Are you sure you want to delete this entry?")
                 .setPositiveButton(android.R.string.yes) { dialog, which ->
-                    viewModel.deleteByGroup(event.groupId)
+                    viewModel.deleteByGroup(event.firebaseId)
                 }
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -149,5 +144,4 @@ class ScheduleFragment : Fragment() {
         view?.findNavController()
             ?.navigate(action)
     }
-
 }

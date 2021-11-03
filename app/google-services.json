@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "486531238038",
+    "project_id": "schedule-app-2519c",
+    "storage_bucket": "schedule-app-2519c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486531238038:android:c5c5f7637db982e83a9ab7",
+        "android_client_info": {
+          "package_name": "ktu.edu.projektas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486531238038-6tb0s433t5ech49l3dtl2svcbf1jk87d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpC0ICwmkzcear1fkG4gKKL2_Aq5xLSBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486531238038-6tb0s433t5ech49l3dtl2svcbf1jk87d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

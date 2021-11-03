@@ -1,58 +1,123 @@
 package ktu.edu.projektas.app.data
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.*
-import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
+import java.util.*
+import kotlin.collections.ArrayList
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.SetOptions
 
 
 class ScheduleViewModel(context: Context,
                         private val semesterStart: Long, private val semesterEnd: Long) : ViewModel() {
 
-    private val db = Room.databaseBuilder(context, ScheduleDatabase::class.java, "events").build()
+    private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var _events: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
-    private val _events = db.ScheduleDao().getAllEvents().asLiveData()
-    val events: LiveData<List<Event>>
-        get() = _events
+    internal var events:MutableLiveData<List<Event>>
+        get() { return _events}
+        set(value) {_events = value}
 
+    init {
+        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        listenToEvents()
+    }
+
+    private fun listenToEvents() {
+        fdb.collection("events").addSnapshotListener {
+                snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen Failed", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val allEvents = mutableListOf<Event>()
+                val documents = snapshot.documents
+                documents.forEach {
+
+                    val event = it.toObject(Event::class.java)
+                    if (event != null) {
+                        event.firebaseId = it.id
+                        allEvents.add(event!!)
+                    }
+                }
+                _events.value = Collections.unmodifiableList(allEvents)
+            }
+        }
+    }
 
     fun getAllEventsByColor(color:String) : LiveData<List<Event>>? {
 
-        val id = getColorCode(color)
-        // if there is color isn't defined return all events
-        if(id == -1)
+        var colorCode = getColorCode(color)
+
+        if(colorCode == -1)
             return events
 
-        var data : LiveData<List<Event>>? = null
+        var data: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
-        viewModelScope.launch {
-            data = db.ScheduleDao().getAllEventsByColor(id).asLiveData()
+        fdb.collection("events").addSnapshotListener {
+                snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen Failed", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val allEvents = mutableListOf<Event>()
+                val documents = snapshot.documents
+                documents.forEach {
+
+                    val event = it.toObject(Event::class.java)
+                    if (event != null && event.color == colorCode) {
+                        event.firebaseId = it.id
+                        allEvents.add(event!!)
+                    }
+                }
+                data.value = Collections.unmodifiableList(allEvents)
+            }
         }
         return data
     }
-
-    fun deleteByGroup(id:Int) {
-        viewModelScope.launch {
-            db.ScheduleDao().deleteByGroup(id)
-        }
+    fun deleteByGroup(id:String) {
+        fdb.collection("events").document(id)
+            .delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
     }
+
     fun addEvent(date: String, startTime: String, duration: String, name: String, color: String,location: String) {
-        viewModelScope.launch {
-            val yr : LocalDate = LocalDate.parse(date)
 
-            val time = LocalTime.parse(startTime)
+        val yr : LocalDate = LocalDate.parse(date)
+        val time = LocalTime.parse(startTime)
 
-            var colorCode = getColorCode(color)
-            var groupId = generateGroupId()
+        var colorCode = getColorCode(color)
+        var groupId = generateGroupId()
 
-            val startDateTime = yr.atTime(time)
-            val endDateTime = startDateTime.plusMinutes(duration.toLong())
+        val startDateTime = yr.atTime(time)
+        val endDateTime = startDateTime.plusMinutes(duration.toLong())
 
-            db.ScheduleDao().insertEvent(Event(0, groupId, name, startDateTime, endDateTime, colorCode,location))
+        val ref: DocumentReference = fdb.collection("events").document()
+        val myId = ref.id
+
+
+        localDateTimeToLong(startDateTime)?.let {
+            localDateTimeToLong(endDateTime)?.let { it1 ->
+                Event(myId,0,groupId, name,
+                    it, it1, colorCode,location)
+            }
+        }?.let {
+            fdb.collection("events").document(myId).set(
+                it,
+                SetOptions.merge())
         }
     }
     private fun getColorCode(str:String?) : Int{

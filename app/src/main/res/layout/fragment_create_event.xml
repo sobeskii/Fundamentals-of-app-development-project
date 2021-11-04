@@ -59,6 +59,7 @@
             android:inputType="textNoSuggestions"
             app:layout_constraintBottom_toTopOf="@+id/event_name_label"
             app:layout_constraintEnd_toEndOf="@+id/duration_label"
+            app:layout_constraintHorizontal_bias="0.243"
             app:layout_constraintStart_toStartOf="@+id/duration_label"
             app:layout_constraintTop_toBottomOf="@+id/duration_label" />
 
@@ -110,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Create event"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/open_mass_events_button"
             app:layout_constraintEnd_toEndOf="@+id/location_label"
             app:layout_constraintStart_toStartOf="@+id/location_label"
             app:layout_constraintTop_toBottomOf="@+id/location_label" />
@@ -178,6 +179,19 @@
             app:layout_constraintEnd_toEndOf="@+id/select_event_colors"
             app:layout_constraintStart_toStartOf="@+id/select_event_colors"
             app:layout_constraintTop_toBottomOf="@+id/select_event_colors" />
+
+        <Button
+            android:id="@+id/open_mass_events_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Open mass events"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/create_event_btn"
+            app:layout_constraintHorizontal_bias="0.439"
+            app:layout_constraintStart_toStartOf="@+id/create_event_btn"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

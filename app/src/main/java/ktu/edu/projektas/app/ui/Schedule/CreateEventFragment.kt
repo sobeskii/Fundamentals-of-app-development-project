@@ -164,6 +164,10 @@ class CreateEventFragment : Fragment() {
             }
         }
 
+        binding.openMassEventsButton.setOnClickListener{
+            view?.findNavController()?.navigate(R.id.action_createEventFragment_to_massAddEvents)
+        }
+
         lifecycleScope.launch {
             formIsValid.collect {
                 binding.createEventBtn.apply {

@@ -5,8 +5,11 @@ import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.*
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
@@ -14,8 +17,6 @@ import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
 import kotlin.collections.ArrayList
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.SetOptions
 
 
 class ScheduleViewModel(context: Context,
@@ -87,21 +88,41 @@ class ScheduleViewModel(context: Context,
         }
         return data
     }
-    fun deleteByGroup(id:String) {
-        fdb.collection("events").document(id)
-            .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+    fun deleteByGroup(groupId : Int) {
+        val eventsRef: CollectionReference = fdb.collection("events")
+        val docIdQuery: Query = eventsRef.whereEqualTo("groupId", groupId)
+        docIdQuery.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    document.reference.delete()
+                        .addOnSuccessListener(object : OnSuccessListener<Void?> {
+                            override fun onSuccess(aVoid: Void?) {
+                                Log.d(TAG, "Document successfully deleted!")
+                            }
+                        }).addOnFailureListener(object : OnFailureListener {
+                        override fun onFailure(e: Exception) {
+                            Log.w(TAG, "Error deleting document", e)
+                        }
+                    })
+                }
+            } else {
+                Log.d(
+                    TAG,
+                    "Error getting documents: ",
+                    task.getException()
+                ) //Don't ignore potential errors!
+            }
+        }
     }
 
-    fun addEvent(date: String, startTime: String, duration: String, name: String, color: String,location: String) {
+    fun addEvent(date: String, startTime: String, duration: String, name: String, color: String,location: String,group : Int = 0) {
 
         val yr : LocalDate = LocalDate.parse(date)
         val time = LocalTime.parse(startTime)
 
         var colorCode = getColorCode(color)
-        var groupId = generateGroupId()
 
+        var groupId =   if (group == 0)  generateGroupId()   else   group
         val startDateTime = yr.atTime(time)
         val endDateTime = startDateTime.plusMinutes(duration.toLong())
 
@@ -111,13 +132,66 @@ class ScheduleViewModel(context: Context,
 
         localDateTimeToLong(startDateTime)?.let {
             localDateTimeToLong(endDateTime)?.let { it1 ->
-                Event(myId,0,groupId, name,
+                Event(myId,generateId(),groupId, name,
                     it, it1, colorCode,location)
             }
         }?.let {
             fdb.collection("events").document(myId).set(
                 it,
                 SetOptions.merge())
+        }
+    }
+    fun massAddEvents(weekDay: String, startTime: String, duration: String, name: String, color: String, location:String, evenOdd:String) {
+        viewModelScope.launch {
+            val daysToAdd = (weekDay.toInt().toLong()-1)
+            val startTimeValues = startTime.split(":")
+
+            val hoursToAdd = startTimeValues[0].toInt().toLong()
+            val minutesToAdd = startTimeValues[1].toInt().toLong()
+
+            val startDate = Instant.ofEpochMilli(semesterStart!!).atZone(ZoneId.systemDefault()).toLocalDateTime()
+            val firstDayOfGivenWeek = startDate.with(DayOfWeek.MONDAY)
+
+            val addedDays = firstDayOfGivenWeek.plusDays(daysToAdd)
+            val addedHours = addedDays.plusHours(hoursToAdd)
+            val addedMins = addedHours.plusMinutes(minutesToAdd)
+
+            val firstEventTime = addedMins.toInstant(OffsetDateTime.now().offset).toEpochMilli()/1000
+
+            var iterate : Long = firstEventTime
+
+            var groupId = generateGroupId()
+
+            val getEvenOdd = getEvenOddValues(evenOdd)
+
+            var weekNumber = 1
+
+            while(iterate < (semesterEnd/1000)){
+                if(weekNumber % 2 == 0 && getEvenOdd == 1) {
+                    val eventStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(iterate), OffsetDateTime.now().offset)
+                    addEvent(eventStart.toLocalDate().toString(),eventStart.toLocalTime().toString(),duration,name,color, location,groupId)
+
+                }
+                else if(weekNumber % 2 != 0 && getEvenOdd == 2){
+                    val eventStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(iterate), OffsetDateTime.now().offset)
+                    addEvent(eventStart.toLocalDate().toString(),eventStart.toLocalTime().toString(),duration,name,color, location,groupId)
+                }
+                else if(getEvenOdd == 0 ){
+                    val eventStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(iterate), OffsetDateTime.now().offset)
+                    addEvent(eventStart.toLocalDate().toString(),eventStart.toLocalTime().toString(),duration,name,color, location,groupId)
+                }
+                iterate += 604800
+                weekNumber += 1
+            }
+
+        }
+    }
+    private fun getEvenOddValues(str:String?) : Int{
+        return when (str) {
+            "Every week" -> 0
+            "Even week" ->  1
+            "Odd week" -> 2
+            else -> 0
         }
     }
     private fun getColorCode(str:String?) : Int{
@@ -133,6 +207,9 @@ class ScheduleViewModel(context: Context,
     }
     private fun generateGroupId(): Int {
         return (0..100000).random()
+    }
+    private fun generateId(): Long {
+        return (0..1000000000000).random()
     }
 }
 

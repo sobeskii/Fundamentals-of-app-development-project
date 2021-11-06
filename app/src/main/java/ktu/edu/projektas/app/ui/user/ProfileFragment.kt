@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import ktu.edu.projektas.R
@@ -28,6 +30,7 @@ class ProfileFragment : Fragment() {
     private lateinit var dialog: Dialog
     private lateinit var user: User
     private lateinit var uid: String
+    private lateinit var navController : NavController
 
 
     override fun onCreateView(
@@ -38,14 +41,24 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.buttonChange.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_profileFragment_to_changePwFragment)
+        }
         auth = FirebaseAuth.getInstance()
         uid = auth.currentUser?.uid.toString()
 
         if(uid.isNotEmpty()){
             readFireStoreData()
         }
+        binding.buttonLogout.setOnClickListener {
+            logOut()
+        }
 
         return binding.root
+    }
+    private fun logOut(){
+        auth.signOut()
+        view?.findNavController()?.navigate(R.id.action_profileFragment_to_loginFragment)
     }
     fun readFireStoreData() {
         val db = FirebaseFirestore.getInstance()

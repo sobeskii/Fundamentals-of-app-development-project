@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -41,6 +42,10 @@ class RegisterFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.btRegister.setOnClickListener { registerUser()  }
+
+        val rolesArray = resources.getStringArray(R.array.roles)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, rolesArray)
+        binding.etRole.setAdapter(arrayAdapter)
 
         return binding.root
 
@@ -89,7 +94,7 @@ class RegisterFragment : Fragment() {
                 activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered!", Snackbar.LENGTH_LONG) }
                     ?.show()
 
-                var user = User(binding.etFirstName.text.toString(),binding.etLastName.text.toString(),binding.etEmail.text.toString())
+                var user = User(binding.etFirstName.text.toString(),binding.etLastName.text.toString(),binding.etEmail.text.toString(), binding.etRole.text.toString(), binding.etGroup.text.toString())
 
                 FirebaseAuth.getInstance().currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
 

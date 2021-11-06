@@ -112,7 +112,53 @@
                         android:textColorHint="#808080"
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_group"
+                    android:layout_width="0dp"
+                    app:layout_constraintWidth_percent="0.7"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="#808080"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_email">
 
+                    <EditText
+                        android:id="@+id/et_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#00808080"
+                        android:gravity="center"
+                        android:hint="Group(for students)"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#808080"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:id="@+id/layout_role"
+                    android:layout_width="0dp"
+                    app:layout_constraintWidth_percent="0.7"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:textColorHint="#808080"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_group">
+                    <AutoCompleteTextView
+
+                        android:id="@+id/et_role"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:text="Student"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_password"
@@ -123,7 +169,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="10dp"
                     android:textColorHint="#808080"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_email">
+                    app:layout_constraintTop_toBottomOf="@+id/layout_role">
 
                     <EditText
                         android:id="@+id/et_password"

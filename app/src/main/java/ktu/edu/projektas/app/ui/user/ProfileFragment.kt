@@ -54,9 +54,13 @@ class ProfileFragment : Fragment() {
                 val firstName = documentSnapshot.getString("firstName")
                 val lastName = documentSnapshot.getString("lastName")
                 val email  = documentSnapshot.getString("email")
+                val role  = documentSnapshot.getString("role")
+                val group  = documentSnapshot.getString("group")
                 binding.fullname.text = firstName
                 binding.lastname.text = lastName
                 binding.email.text = email
+                binding.layoutRole.text = role
+                binding.layoutGroup.text = group
             })
     }
 

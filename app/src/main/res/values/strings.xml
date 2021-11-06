@@ -14,7 +14,7 @@
     <string name="upcoming_events">Upcoming events today:</string>
     <string name="no_data_available">You have no upcoming events today</string>
     <string name="event_odd_week">Even/odd week selection</string>
-
+    <string name="sign_up_text">Don\'t have an account?</string>
     <string-array name="colors">
         <item>None</item>
         <item>Red</item>

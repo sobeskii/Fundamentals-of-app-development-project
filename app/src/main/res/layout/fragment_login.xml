@@ -124,7 +124,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:textColor="#000"
                         android:textSize="18sp"
-                        android:text="Already have an account?" />
+                        android:text="@string/sign_up_text" />
 
                     <Button
                         android:id="@+id/bt_signup"

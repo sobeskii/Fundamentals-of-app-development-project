@@ -22,7 +22,7 @@ import android.view.MenuInflater
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import ktu.edu.projektas.app.data.Event
-import ktu.edu.projektas.app.ui.Schedule.ScheduleAdapter
+import ktu.edu.projektas.app.ui.schedule.ScheduleAdapter
 
 
 class ScheduleFragment : Fragment() {

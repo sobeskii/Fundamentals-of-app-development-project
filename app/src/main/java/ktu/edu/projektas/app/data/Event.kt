@@ -1,7 +1,5 @@
 package ktu.edu.projektas.app.data
 
-import java.time.LocalDateTime
-
  class Event (
         var firebaseId: String = "",
         val id: Long = 0,

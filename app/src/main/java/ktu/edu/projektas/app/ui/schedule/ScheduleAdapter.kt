@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui.Schedule
+package ktu.edu.projektas.app.ui.schedule
 
 import com.alamkanak.weekview.WeekView
 import com.alamkanak.weekview.WeekViewEntity

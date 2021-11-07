@@ -25,13 +25,23 @@ class ScheduleViewModel(context: Context,
     private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
     private var _events: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
+    private var _upcomingEvents: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
+
+    private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
+    private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(1).withHour(0))
+
     internal var events:MutableLiveData<List<Event>>
         get() { return _events}
         set(value) {_events = value}
 
+    internal var upcomingEvents:MutableLiveData<List<Event>>
+        get() { return _upcomingEvents}
+        set(value) {_upcomingEvents = value}
+
     init {
         fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
         listenToEvents()
+        listenToUpcomingEvents()
     }
 
     private fun listenToEvents() {
@@ -56,6 +66,34 @@ class ScheduleViewModel(context: Context,
             }
         }
     }
+
+    fun listenToUpcomingEvents(){
+        if (currentTime != null) {
+            if (timeAfterHour != null) {
+                fdb.collection("events")
+                    .whereGreaterThan("startTime",currentTime)
+                    .addSnapshotListener { snapshot, e ->
+                        if (e != null) {
+                            Log.w(TAG, "Listen Failed", e)
+                            return@addSnapshotListener
+                        }
+                        if (snapshot != null) {
+                            val allEvents = mutableListOf<Event>()
+                            val documents = snapshot.documents
+                            documents.forEach {
+                                val event = it.toObject(Event::class.java)
+                                if (event != null && event.endTime <= timeAfterHour) {
+                                    event.firebaseId = it.id
+                                    allEvents.add(event!!)
+                                }
+                            }
+                            _upcomingEvents.value = Collections.unmodifiableList(allEvents)
+                        }
+                    }
+            }
+        }
+    }
+
 
     fun getAllEventsByColor(color:String) : LiveData<List<Event>>? {
 

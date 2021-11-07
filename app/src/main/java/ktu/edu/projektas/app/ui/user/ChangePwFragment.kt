@@ -32,7 +32,6 @@ class ChangePwFragment : Fragment() {
     private lateinit var user: User
     private lateinit var uid: String
     private lateinit var mAuth : FirebaseAuth
-    private lateinit var navController : NavController
 
 
     override fun onCreateView(

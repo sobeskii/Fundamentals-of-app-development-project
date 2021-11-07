@@ -26,11 +26,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth : FirebaseAuth
-    private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
-    private lateinit var dialog: Dialog
-    private lateinit var user: User
     private lateinit var uid: String
-    private lateinit var navController : NavController
 
 
     override fun onCreateView(
@@ -60,21 +56,20 @@ class ProfileFragment : Fragment() {
         auth.signOut()
         view?.findNavController()?.navigate(R.id.action_profileFragment_to_loginFragment)
     }
-    fun readFireStoreData() {
+    private fun readFireStoreData() {
         val db = FirebaseFirestore.getInstance()
-        db.collection("users").document(uid).get().addOnSuccessListener(
-            OnSuccessListener<DocumentSnapshot> { documentSnapshot ->
-                val firstName = documentSnapshot.getString("firstName")
-                val lastName = documentSnapshot.getString("lastName")
-                val email  = documentSnapshot.getString("email")
-                val role  = documentSnapshot.getString("role")
-                val group  = documentSnapshot.getString("group")
-                binding.fullname.text = firstName
-                binding.lastname.text = lastName
-                binding.email.text = email
-                binding.layoutRole.text = role
-                binding.layoutGroup.text = group
-            })
+        db.collection("users").document(uid).get().addOnSuccessListener { documentSnapshot ->
+            val firstName = documentSnapshot.getString("firstName")
+            val lastName = documentSnapshot.getString("lastName")
+            val email = documentSnapshot.getString("email")
+            val role = documentSnapshot.getString("role")
+            val group = documentSnapshot.getString("group")
+            binding.fullname.text = firstName
+            binding.lastname.text = lastName
+            binding.email.text = email
+            binding.layoutRole.text = role
+            binding.layoutGroup.text = group
+        }
     }
 
 

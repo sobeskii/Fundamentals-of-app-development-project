@@ -23,7 +23,8 @@
             android:layout_marginTop="16dp"
             android:text="@{event.title}"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="23sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/event_time"
             app:layout_constraintEnd_toStartOf="@+id/location"
             app:layout_constraintHorizontal_bias="0.5"
@@ -38,7 +39,7 @@
             android:layout_marginBottom="16dp"
             android:text="@{@string/format(event.startTime)}"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/event_name"
             app:layout_constraintStart_toStartOf="@+id/event_name"
@@ -49,11 +50,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{event.location}"
-            android:textSize="16sp"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/event_name"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/event_name" />
+            app:layout_constraintStart_toEndOf="@+id/event_name"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

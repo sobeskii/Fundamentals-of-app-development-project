@@ -228,11 +228,11 @@ class ScheduleViewModel(context: Context,
     }
     private fun getColorCode(str:String?) : Int{
         return when (str) {
-            "Red" -> Color.RED
-            "Black" -> Color.BLACK
-            "Blue" -> Color.BLUE
-            "Green" -> Color.GREEN
-            "Cyan" -> Color.CYAN
+            "Red" -> Color.rgb(184,19,13)
+            "Black" -> Color.rgb(44, 48, 48)
+            "Blue" -> Color.rgb(12, 32, 166)
+            "Green" -> Color.rgb(9, 122, 22)
+            "Cyan" -> Color.rgb(4, 148, 143)
 
             else -> -1
         }

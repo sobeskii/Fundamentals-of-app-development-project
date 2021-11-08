@@ -37,4 +37,5 @@ class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
 }

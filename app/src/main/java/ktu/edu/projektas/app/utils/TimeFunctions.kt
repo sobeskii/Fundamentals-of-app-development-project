@@ -21,6 +21,11 @@ fun formatLocalDate(date: LocalDate) : String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     return date.format(formatter)
 }
+fun formatLocalDateTime(localDateTime: LocalDateTime?) : String{
+    val localDateTime = LocalDateTime.parse(localDateTime.toString())
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+    return formatter.format(localDateTime)
+}
 fun formatTime(time: Time) : String{
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     return formatter.format(time)

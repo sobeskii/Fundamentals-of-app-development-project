@@ -3,6 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/dropdown_item.xml" value="0.15625" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/event_item.xml" value="0.15625" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_changepw.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.2" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_event.xml" value="0.2" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_login.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_mass_add_events.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.15625" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/menu/drawer_view.xml" value="0.4" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/menu/top_menu.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/xml/preferences.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/marty/Documents/GitHub/Fundamentals-of-app-development-project/app/src/main/res/drawable-anydpi/settings_ic.xml" value="0.3828125" />
         <entry key="..\:/Users/marty/Documents/GitHub/Fundamentals-of-app-development-project/app/src/main/res/drawable/btn_dropdown.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/marty/Documents/GitHub/Fundamentals-of-app-development-project/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.14895833333333333" />

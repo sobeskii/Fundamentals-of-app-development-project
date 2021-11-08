@@ -42,7 +42,7 @@
     <fragment
         android:id="@+id/createEventFragment"
         android:name="ktu.edu.projektas.app.ui.CreateEventFragment"
-        android:label="Add one event">
+        android:label="Create single event">
         <action
             android:id="@+id/action_createEventFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
@@ -89,11 +89,14 @@
         <action
             android:id="@+id/action_eventFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
+        <argument
+            android:name="end_time"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/massAddEvents"
         android:name="ktu.edu.projektas.app.ui.MassAddEvents"
-        android:label="Add recurring events">
+        android:label="Create recurring event">
         <action
             android:id="@+id/action_massAddEvents_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -114,7 +117,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="ktu.edu.projektas.app.ui.user.RegisterFragment"
-        android:label="Register user">
+        android:label="Sign up for Schedule App">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

@@ -14,25 +14,59 @@
         tools:context=".CreateEvent">
 
         <TextView
-            android:id="@+id/location_label"
+            android:id="@+id/txtErrorMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:text="@string/location_name_label"
-            app:layout_constraintBottom_toTopOf="@+id/create_event_btn"
-            app:layout_constraintEnd_toEndOf="@+id/location_input"
-            app:layout_constraintStart_toStartOf="@+id/location_input"
-            app:layout_constraintTop_toBottomOf="@+id/location_input" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toTopOf="@+id/event_name_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-        <TextView
-            android:id="@+id/event_name_label"
+        <EditText
+            android:id="@+id/event_name_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/event_name_label"
-            app:layout_constraintBottom_toTopOf="@+id/select_event_colors"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Event title"
+            android:inputType="textNoSuggestions"
+            app:layout_constraintBottom_toTopOf="@+id/select_day_input"
+            app:layout_constraintEnd_toEndOf="@+id/txtErrorMessage"
+            app:layout_constraintStart_toStartOf="@+id/txtErrorMessage"
+            app:layout_constraintTop_toBottomOf="@+id/txtErrorMessage" />
+
+        <EditText
+            android:id="@+id/select_day_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Date"
+            android:inputType="none"
+            app:layout_constraintBottom_toTopOf="@+id/start_time_input"
             app:layout_constraintEnd_toEndOf="@+id/event_name_input"
             app:layout_constraintStart_toStartOf="@+id/event_name_input"
             app:layout_constraintTop_toBottomOf="@+id/event_name_input" />
+
+        <EditText
+            android:id="@+id/start_time_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Start time"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/event_duration_input"
+            app:layout_constraintEnd_toEndOf="@+id/select_day_input"
+            app:layout_constraintStart_toStartOf="@+id/select_day_input"
+            app:layout_constraintTop_toBottomOf="@+id/select_day_input" />
 
         <EditText
             android:id="@+id/event_duration_input"
@@ -41,27 +75,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
-            android:hint="Duration (minutes)"
+            android:hint="Duration (min)"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/duration_label"
-            app:layout_constraintEnd_toEndOf="@+id/start_time_label"
-            app:layout_constraintStart_toStartOf="@+id/start_time_label"
-            app:layout_constraintTop_toBottomOf="@+id/start_time_label" />
+            app:layout_constraintBottom_toTopOf="@+id/location_input"
+            app:layout_constraintEnd_toEndOf="@+id/start_time_input"
+            app:layout_constraintStart_toStartOf="@+id/start_time_input"
+            app:layout_constraintTop_toBottomOf="@+id/start_time_input" />
 
-        <EditText
-            android:id="@+id/event_name_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:hint="Event Name"
-            android:inputType="textNoSuggestions"
-            app:layout_constraintBottom_toTopOf="@+id/event_name_label"
-            app:layout_constraintEnd_toEndOf="@+id/duration_label"
-            app:layout_constraintHorizontal_bias="0.243"
-            app:layout_constraintStart_toStartOf="@+id/duration_label"
-            app:layout_constraintTop_toBottomOf="@+id/duration_label" />
 
         <EditText
             android:id="@+id/location_input"
@@ -72,89 +92,7 @@
             android:ems="10"
             android:hint="Location"
             android:inputType="textNoSuggestions"
-            app:layout_constraintBottom_toTopOf="@+id/location_label"
-            app:layout_constraintEnd_toEndOf="@+id/select_event_color_label"
-            app:layout_constraintStart_toStartOf="@+id/select_event_color_label"
-            app:layout_constraintTop_toBottomOf="@+id/select_event_color_label" />
-
-        <EditText
-            android:id="@+id/start_time_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:hint="Start time (hour)"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/start_time_label"
-            app:layout_constraintEnd_toEndOf="@+id/date_label"
-            app:layout_constraintStart_toStartOf="@+id/date_label"
-            app:layout_constraintTop_toBottomOf="@+id/date_label" />
-
-        <EditText
-            android:id="@+id/select_day_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:hint="Select date"
-            android:inputType="none"
-            app:layout_constraintBottom_toTopOf="@+id/date_label"
-            app:layout_constraintEnd_toEndOf="@+id/txtErrorMessage"
-            app:layout_constraintStart_toStartOf="@+id/txtErrorMessage"
-            app:layout_constraintTop_toBottomOf="@+id/txtErrorMessage" />
-
-        <Button
-            android:id="@+id/create_event_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Create event"
-            app:layout_constraintBottom_toTopOf="@+id/open_mass_events_button"
-            app:layout_constraintEnd_toEndOf="@+id/location_label"
-            app:layout_constraintStart_toStartOf="@+id/location_label"
-            app:layout_constraintTop_toBottomOf="@+id/location_label" />
-
-        <TextView
-            android:id="@+id/txtErrorMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@color/red"
-            app:layout_constraintBottom_toTopOf="@+id/select_day_input"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/date_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/select_date_label"
-            app:layout_constraintBottom_toTopOf="@+id/start_time_input"
-            app:layout_constraintEnd_toEndOf="@+id/select_day_input"
-            app:layout_constraintStart_toStartOf="@+id/select_day_input"
-            app:layout_constraintTop_toBottomOf="@+id/select_day_input" />
-
-        <TextView
-            android:id="@+id/start_time_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/start_time_label"
-            app:layout_constraintBottom_toTopOf="@+id/event_duration_input"
-            app:layout_constraintEnd_toEndOf="@+id/start_time_input"
-            app:layout_constraintStart_toStartOf="@+id/start_time_input"
-            app:layout_constraintTop_toBottomOf="@+id/start_time_input" />
-
-        <TextView
-            android:id="@+id/duration_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/duration_label"
-            app:layout_constraintBottom_toTopOf="@+id/event_name_input"
+            app:layout_constraintBottom_toTopOf="@+id/select_event_colors"
             app:layout_constraintEnd_toEndOf="@+id/event_duration_input"
             app:layout_constraintStart_toStartOf="@+id/event_duration_input"
             app:layout_constraintTop_toBottomOf="@+id/event_duration_input" />
@@ -164,33 +102,42 @@
             android:layout_width="210dp"
             android:layout_height="37dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/select_event_color_label"
-            app:layout_constraintEnd_toEndOf="@+id/event_name_label"
-            app:layout_constraintStart_toStartOf="@+id/event_name_label"
-            app:layout_constraintTop_toBottomOf="@+id/event_name_label" />
+            app:layout_constraintEnd_toEndOf="@+id/location_input"
+            app:layout_constraintStart_toStartOf="@+id/location_input"
+            app:layout_constraintTop_toBottomOf="@+id/location_input" />
 
         <TextView
             android:id="@+id/select_event_color_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:background="#FFFFFF"
             android:text="@string/color_label"
-            app:layout_constraintBottom_toTopOf="@+id/location_input"
+            app:layout_constraintBottom_toTopOf="@+id/create_event_btn"
             app:layout_constraintEnd_toEndOf="@+id/select_event_colors"
             app:layout_constraintStart_toStartOf="@+id/select_event_colors"
             app:layout_constraintTop_toBottomOf="@+id/select_event_colors" />
 
         <Button
+            android:id="@+id/create_event_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add single event"
+            app:layout_constraintBottom_toTopOf="@+id/open_mass_events_button"
+            app:layout_constraintEnd_toEndOf="@+id/select_event_color_label"
+            app:layout_constraintStart_toStartOf="@+id/select_event_color_label"
+            app:layout_constraintTop_toBottomOf="@+id/select_event_color_label" />
+
+        <Button
             android:id="@+id/open_mass_events_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Open mass events"
+            android:layout_marginBottom="16dp"
+            android:text="Create recurring event"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/create_event_btn"
-            app:layout_constraintHorizontal_bias="0.439"
             app:layout_constraintStart_toStartOf="@+id/create_event_btn"
             app:layout_constraintTop_toBottomOf="@+id/create_event_btn" />
 

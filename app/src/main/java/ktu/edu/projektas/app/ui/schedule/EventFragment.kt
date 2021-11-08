@@ -5,11 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import ktu.edu.projektas.R
 import ktu.edu.projektas.databinding.FragmentEventBinding
-import ktu.edu.projektas.databinding.FragmentHomeBinding
-import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
 
 class EventFragment : Fragment() {
@@ -32,6 +28,7 @@ class EventFragment : Fragment() {
 
         binding.eventNameText.text = args.eventName
         binding.startTimeText.text = args.startTime
+        binding.endTimeText.text = args.endTime
         binding.locationText.text = args.location
 
         binding.lifecycleOwner = viewLifecycleOwner

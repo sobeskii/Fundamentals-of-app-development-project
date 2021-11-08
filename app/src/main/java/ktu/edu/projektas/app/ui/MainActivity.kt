@@ -1,16 +1,8 @@
 package ktu.edu.projektas.app.ui
+
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
-import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -19,10 +11,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import ktu.edu.projektas.R
 import androidx.core.view.GravityCompat
-
-
-
-
 
 class MainActivity : AppCompatActivity(){
     private lateinit var navController : NavController
@@ -38,7 +26,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
 
         navController = findNavController(R.id.nav_host_fragment_container)
         drawerLayout = findViewById(R.id.drawer_layout)

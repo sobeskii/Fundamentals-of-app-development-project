@@ -14,169 +14,139 @@
         tools:context=".app.ui.MassAddEvents">
 
         <TextView
-            android:id="@+id/location_mass_input_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/location_name_label"
-            app:layout_constraintBottom_toTopOf="@+id/mass_add_btn"
-            app:layout_constraintEnd_toEndOf="@+id/location_mass_input"
-            app:layout_constraintStart_toStartOf="@+id/location_mass_input"
-            app:layout_constraintTop_toBottomOf="@+id/location_mass_input" />
-
-        <EditText
-            android:id="@+id/event_day_of_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Day of week (number)"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/textView"
-            app:layout_constraintEnd_toEndOf="@+id/txtErrorMessageMass"
-            app:layout_constraintStart_toStartOf="@+id/txtErrorMessageMass"
-            app:layout_constraintTop_toBottomOf="@+id/txtErrorMessageMass" />
-
-        <TextView
             android:id="@+id/txtErrorMessageMass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:textColor="@color/red"
-            app:layout_constraintBottom_toTopOf="@+id/event_day_of_week"
+            app:layout_constraintBottom_toTopOf="@+id/event_name_mass_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/start_time_mass_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Start time (hour)"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/start_time_mass_label"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <TextView
-            android:id="@+id/start_time_mass_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/start_time_label"
-            app:layout_constraintBottom_toTopOf="@+id/event_duration_mass_input"
-            app:layout_constraintEnd_toEndOf="@+id/start_time_mass_input"
-            app:layout_constraintStart_toStartOf="@+id/start_time_mass_input"
-            app:layout_constraintTop_toBottomOf="@+id/start_time_mass_input" />
-
-        <TextView
-            android:id="@+id/duration_mass_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/duration_label"
-            app:layout_constraintBottom_toTopOf="@+id/event_name_mass_input"
-            app:layout_constraintEnd_toEndOf="@+id/event_duration_mass_input"
-            app:layout_constraintStart_toStartOf="@+id/event_duration_mass_input"
-            app:layout_constraintTop_toBottomOf="@+id/event_duration_mass_input" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
             android:id="@+id/event_name_mass_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:ems="10"
-            android:hint="Event Name"
+            android:hint="Event title"
             android:inputType="textNoSuggestions"
-            app:layout_constraintBottom_toTopOf="@+id/event_name_mass_input_label"
-            app:layout_constraintEnd_toEndOf="@+id/duration_mass_label"
-            app:layout_constraintStart_toStartOf="@+id/duration_mass_label"
-            app:layout_constraintTop_toBottomOf="@+id/duration_mass_label" />
+            app:layout_constraintBottom_toTopOf="@+id/event_day_of_week"
+            app:layout_constraintEnd_toEndOf="@+id/txtErrorMessageMass"
+            app:layout_constraintStart_toStartOf="@+id/txtErrorMessageMass"
+            app:layout_constraintTop_toBottomOf="@+id/txtErrorMessageMass" />
+
+        <EditText
+            android:id="@+id/event_day_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Day of the week (no.)"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/start_time_mass_input"
+            app:layout_constraintEnd_toEndOf="@+id/event_name_mass_input"
+            app:layout_constraintStart_toStartOf="@+id/event_name_mass_input"
+            app:layout_constraintTop_toBottomOf="@+id/event_name_mass_input" />
+
+        <EditText
+            android:id="@+id/start_time_mass_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Start time"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/event_duration_mass_input"
+            app:layout_constraintEnd_toEndOf="@+id/event_day_of_week"
+            app:layout_constraintStart_toStartOf="@+id/event_day_of_week"
+            app:layout_constraintTop_toBottomOf="@+id/event_day_of_week" />
 
         <EditText
             android:id="@+id/event_duration_mass_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:ems="10"
-            android:hint="Duration (minutes)"
+            android:hint="Duration (min)"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/duration_mass_label"
-            app:layout_constraintEnd_toEndOf="@+id/start_time_mass_label"
-            app:layout_constraintStart_toStartOf="@+id/start_time_mass_label"
-            app:layout_constraintTop_toBottomOf="@+id/start_time_mass_label" />
+            app:layout_constraintBottom_toTopOf="@+id/on_which_week_input"
+            app:layout_constraintEnd_toEndOf="@+id/start_time_mass_input"
+            app:layout_constraintStart_toStartOf="@+id/start_time_mass_input"
+            app:layout_constraintTop_toBottomOf="@+id/start_time_mass_input" />
 
         <Spinner
-            android:id="@+id/select_colors"
+            android:id="@+id/on_which_week_input"
             android:layout_width="210dp"
             android:layout_height="37dp"
-            app:layout_constraintBottom_toTopOf="@+id/select_color_label2"
-            app:layout_constraintEnd_toEndOf="@+id/event_name_mass_input_label"
-            app:layout_constraintStart_toStartOf="@+id/event_name_mass_input_label"
-            app:layout_constraintTop_toBottomOf="@+id/event_name_mass_input_label" />
-
-        <EditText
-            android:id="@+id/location_mass_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Location"
-            android:inputType="textNoSuggestions"
-            app:layout_constraintBottom_toTopOf="@+id/location_mass_input_label"
-            app:layout_constraintEnd_toEndOf="@+id/select_color_label"
-            app:layout_constraintStart_toStartOf="@+id/select_color_label"
-            app:layout_constraintTop_toBottomOf="@+id/select_color_label" />
-
-        <TextView
-            android:id="@+id/event_name_mass_input_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/event_name_label"
-            app:layout_constraintBottom_toTopOf="@+id/select_colors"
-            app:layout_constraintEnd_toEndOf="@+id/event_name_mass_input"
-            app:layout_constraintStart_toStartOf="@+id/event_name_mass_input"
-            app:layout_constraintTop_toBottomOf="@+id/event_name_mass_input" />
-
-        <TextView
-            android:id="@+id/select_color_label2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/color_label"
-            app:layout_constraintBottom_toTopOf="@+id/on_which_week_input"
-            app:layout_constraintEnd_toEndOf="@+id/select_colors"
-            app:layout_constraintStart_toStartOf="@+id/select_colors"
-            app:layout_constraintTop_toBottomOf="@+id/select_colors" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/select_color_label"
+            app:layout_constraintEnd_toEndOf="@+id/event_duration_mass_input"
+            app:layout_constraintStart_toStartOf="@+id/event_duration_mass_input"
+            app:layout_constraintTop_toBottomOf="@+id/event_duration_mass_input" />
 
         <TextView
             android:id="@+id/select_color_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="@string/event_odd_week"
             app:layout_constraintBottom_toTopOf="@+id/location_mass_input"
             app:layout_constraintEnd_toEndOf="@+id/on_which_week_input"
             app:layout_constraintStart_toStartOf="@+id/on_which_week_input"
             app:layout_constraintTop_toBottomOf="@+id/on_which_week_input" />
 
+        <EditText
+            android:id="@+id/location_mass_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:ems="10"
+            android:hint="Location"
+            android:inputType="textNoSuggestions"
+            app:layout_constraintBottom_toTopOf="@+id/select_colors"
+            app:layout_constraintEnd_toEndOf="@+id/select_color_label"
+            app:layout_constraintStart_toStartOf="@+id/select_color_label"
+            app:layout_constraintTop_toBottomOf="@+id/select_color_label" />
+
+        <Spinner
+            android:id="@+id/select_colors"
+            android:layout_width="210dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/select_color_label2"
+            app:layout_constraintEnd_toEndOf="@+id/location_mass_input"
+            app:layout_constraintStart_toStartOf="@+id/location_mass_input"
+            app:layout_constraintTop_toBottomOf="@+id/location_mass_input" />
+
+        <TextView
+            android:id="@+id/select_color_label2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="#FFFFFF"
+            android:text="@string/color_label"
+            app:layout_constraintBottom_toTopOf="@+id/mass_add_btn"
+            app:layout_constraintEnd_toEndOf="@+id/select_colors"
+            app:layout_constraintStart_toStartOf="@+id/select_colors"
+            app:layout_constraintTop_toBottomOf="@+id/select_colors" />
+
         <Button
             android:id="@+id/mass_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mass add"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Add recurring event"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/location_mass_input_label"
-            app:layout_constraintStart_toStartOf="@+id/location_mass_input_label"
-            app:layout_constraintTop_toBottomOf="@+id/location_mass_input_label" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/day_of_week"
-            app:layout_constraintBottom_toTopOf="@+id/start_time_mass_input"
-            app:layout_constraintEnd_toEndOf="@+id/event_day_of_week"
-            app:layout_constraintStart_toStartOf="@+id/event_day_of_week"
-            app:layout_constraintTop_toBottomOf="@+id/event_day_of_week" />
-
-        <Spinner
-            android:id="@+id/on_which_week_input"
-            android:layout_width="210dp"
-            android:layout_height="37dp"
-            app:layout_constraintBottom_toTopOf="@+id/select_color_label"
             app:layout_constraintEnd_toEndOf="@+id/select_color_label2"
             app:layout_constraintStart_toStartOf="@+id/select_color_label2"
             app:layout_constraintTop_toBottomOf="@+id/select_color_label2" />

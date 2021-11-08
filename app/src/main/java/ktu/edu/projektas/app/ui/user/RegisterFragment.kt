@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +28,7 @@ class RegisterFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
 
     }
 

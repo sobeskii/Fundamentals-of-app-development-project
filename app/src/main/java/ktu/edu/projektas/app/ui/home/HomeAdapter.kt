@@ -24,14 +24,14 @@ class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback
         }
     }
     override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
+        parent: ViewGroup,
+        viewType: Int
     ): ViewHolder {
 
         return ViewHolder(
-                EventItemBinding.inflate(
-                        LayoutInflater.from(parent.context), parent, false
-                )
+            EventItemBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

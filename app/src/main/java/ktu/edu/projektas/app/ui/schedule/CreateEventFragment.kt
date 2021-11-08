@@ -3,11 +3,9 @@ package ktu.edu.projektas.app.ui
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +25,6 @@ import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentCreateEventBinding
-import java.io.Console
 import java.sql.Time
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -84,11 +81,11 @@ class CreateEventFragment : Fragment() {
         val location = location.length < 30 && location.isNotEmpty()
 
         errorMessage = when {
-            dateIsValid.not() -> "Date is not valid"
-            startTimeIsValid.not() -> "Start time is not valid"
-            duration.not() -> "Duration is not valid"
-            event.not() -> "Event is not valid"
-            location.not() -> "Location is not valid"
+            dateIsValid.not() -> "Date is invalid"
+            startTimeIsValid.not() -> "Start time is invalid - event has to take place between 8:00 and 19:00"
+            duration.not() -> "Duration is invalid - event has to last from 60 to 300 minutes"
+            event.not() -> "Event title is invalid"
+            location.not() -> "Location is invalid"
 
             else -> null
         }

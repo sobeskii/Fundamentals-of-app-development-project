@@ -5,19 +5,13 @@ import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.*
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
-import kotlin.collections.ArrayList
-
 
 class ScheduleViewModel(context: Context,
                         private val semesterStart: Long, private val semesterEnd: Long) : ViewModel() {

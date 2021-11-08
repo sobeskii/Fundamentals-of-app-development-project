@@ -139,7 +139,7 @@ class ScheduleFragment : Fragment() {
 
     private fun onClick(event: Event) {
 
-        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.startTime.toString())
+        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString())
 
         view?.findNavController()
             ?.navigate(action)

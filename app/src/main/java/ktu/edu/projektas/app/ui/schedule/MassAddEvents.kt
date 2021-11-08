@@ -83,11 +83,11 @@ class MassAddEvents : Fragment() {
         val location            =       location.length < 30 && location.isNotEmpty()
 
         errorMessage = when {
-            weekDayValid.not() -> "Week day is not valid"
-            startTimeIsValid.not() -> "Start time is not valid"
-            duration.not() -> "Duration is not valid"
-            event.not() -> "Event is not valid"
-            location.not() -> "Location is not valid"
+            weekDayValid.not() -> "Day of the week is invalid - has to be expressed as number from 1 to 7"
+            startTimeIsValid.not() -> "Start time is invalid - event has to take place between 8:00 and 19:00"
+            duration.not() -> "Duration is invalid - event has to last from 60 to 300 minutes"
+            event.not() -> "Event title is invalid"
+            location.not() -> "Location is invalid"
 
             else -> null
         }

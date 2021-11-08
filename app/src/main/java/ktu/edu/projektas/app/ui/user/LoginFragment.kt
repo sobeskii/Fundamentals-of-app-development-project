@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import ktu.edu.projektas.R
-import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.databinding.FragmentLoginBinding
 import androidx.appcompat.app.AppCompatActivity
 
@@ -28,7 +27,7 @@ class LoginFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
     }
     override fun onResume() {
         super.onResume()

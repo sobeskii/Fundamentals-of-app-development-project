@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ktu.edu.projektas.app.utils.formatLocalDate
+import ktu.edu.projektas.app.utils.formatLocalDateTime
+import ktu.edu.projektas.app.utils.longToLocalDateTime
 import ktu.edu.projektas.databinding.FragmentEventBinding
 
 
@@ -27,8 +30,8 @@ class EventFragment : Fragment() {
         val args = EventFragmentArgs.fromBundle(requireArguments())
 
         binding.eventNameText.text = args.eventName
-        binding.startTimeText.text = args.startTime
-        binding.endTimeText.text = args.endTime
+        binding.startTimeText.text = formatLocalDateTime(longToLocalDateTime(args.startTime.toLong()))
+        binding.endTimeText.text = formatLocalDateTime(longToLocalDateTime(args.endTime.toLong()))
         binding.locationText.text = args.location
 
         binding.lifecycleOwner = viewLifecycleOwner

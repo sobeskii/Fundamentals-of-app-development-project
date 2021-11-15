@@ -2,12 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/query"
+        android:title="ActionBar Input"
+        app:actionViewClass="com.google.android.material.textfield.TextInputEditText"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/button_query"
+        android:title="ActionBar Button"
+        android:text="Search"
+        app:backgroundTint="@color/orange_500"
+        android:textColor="@color/white"
+        app:actionViewClass="androidx.appcompat.widget.AppCompatButton"
+        app:showAsAction="always"
+        />
+    <item
         android:id="@+id/spinner"
         android:title="ActionBar Spinner"
         app:actionViewClass="android.widget.Spinner"
-
         android:background="#ff00"
         app:showAsAction="always"
         />
-
 </menu>

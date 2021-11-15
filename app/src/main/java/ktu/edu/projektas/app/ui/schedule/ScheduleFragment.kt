@@ -2,6 +2,7 @@ package ktu.edu.projektas.app.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -16,13 +17,15 @@ import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
-import ktu.edu.projektas.databinding.FragmentScheduleBinding
 import java.time.*
 import android.view.MenuInflater
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.app.ui.schedule.ScheduleAdapter
+import androidx.appcompat.widget.AppCompatButton
+import com.google.android.material.textfield.TextInputEditText
+import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
 
 class ScheduleFragment : Fragment() {
@@ -91,6 +94,33 @@ class ScheduleFragment : Fragment() {
                 binding.weekView.adapter = adapter
             }
         }
+
+        val getItemBtn = menu.findItem(R.id.button_query)
+        val getItemInput = menu.findItem(R.id.query)
+        if (getItemBtn != null && getItemInput != null) {
+            val btn = getItemBtn.actionView as AppCompatButton
+            val input = getItemInput.actionView as TextInputEditText
+
+            btn.setBackgroundColor(resources.getColor(R.color.orange_900))
+            btn.text = "Search"
+            btn.setTextColor(resources.getColor(R.color.white))
+
+            btn.setOnClickListener{
+
+                var query  = input.text.toString()
+
+                binding.weekView.adapter = null
+
+                // Get events by color
+                viewModel.getAllEventsByQuery(query)?.observe(viewLifecycleOwner){
+                    adapter.submitList(it)
+                }
+                binding.weekView.adapter = adapter
+
+            }
+        }
+
+
         return super.onCreateOptionsMenu(menu!!, inflater!!)
     }
     override fun onCreateView(

@@ -4,14 +4,20 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.*
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.launch
+import ktu.edu.projektas.R
 import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
+
+
+
 
 class ScheduleViewModel(context: Context,
                         private val semesterStart: Long, private val semesterEnd: Long) : ViewModel() {
@@ -23,6 +29,9 @@ class ScheduleViewModel(context: Context,
 
     private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
     private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(1).withHour(0))
+
+
+    private val context : Context = context
 
     internal var events:MutableLiveData<List<Event>>
         get() { return _events}
@@ -61,7 +70,7 @@ class ScheduleViewModel(context: Context,
         }
     }
 
-    fun listenToUpcomingEvents(){
+    private fun listenToUpcomingEvents(){
         if (currentTime != null) {
             if (timeAfterHour != null) {
                 fdb.collection("events")
@@ -120,6 +129,38 @@ class ScheduleViewModel(context: Context,
         }
         return data
     }
+
+
+    fun getAllEventsByQuery(query:String) : LiveData<List<Event>>? {
+        if(query.isEmpty())
+            return events
+
+        var data: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
+
+        fdb.collection("events").
+        orderBy("title").startAt(query).endAt(query+"\uf8ff").addSnapshotListener {
+                snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen Failed", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val allEvents = mutableListOf<Event>()
+                val documents = snapshot.documents
+                documents.forEach {
+
+                    val event = it.toObject(Event::class.java)
+                    if (event != null) {
+                        event.firebaseId = it.id
+                        allEvents.add(event!!)
+                    }
+                }
+                data.value = Collections.unmodifiableList(allEvents)
+            }
+        }
+        return data
+    }
+
     fun deleteByGroup(groupId : Int) {
         val eventsRef: CollectionReference = fdb.collection("events")
         val docIdQuery: Query = eventsRef.whereEqualTo("groupId", groupId)
@@ -227,12 +268,14 @@ class ScheduleViewModel(context: Context,
         }
     }
     private fun getColorCode(str:String?) : Int{
+
+
         return when (str) {
-            "Red" -> Color.RED
-            "Black" -> Color.BLACK
-            "Blue" -> Color.BLUE
-            "Green" -> Color.GREEN
-            "Cyan" -> Color.CYAN
+            "Red" -> ContextCompat.getColor(context, R.color.red_700)
+            "Black" -> ContextCompat.getColor(context, R.color.black)
+            "Blue" -> ContextCompat.getColor(context, R.color.blue)
+            "Green" -> ContextCompat.getColor(context, R.color.green)
+            "Cyan" -> ContextCompat.getColor(context, R.color.cyan)
 
             else -> -1
         }

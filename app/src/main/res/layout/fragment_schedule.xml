@@ -3,17 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-        <data>
-
-        </data>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/schedule_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".app.ui.ScheduleFragment"
             tools:viewBindingIgnore="false">
-                >
+
                 <com.alamkanak.weekview.WeekView
                     android:id="@+id/weekView"
                     android:layout_width="match_parent"
@@ -35,8 +31,7 @@
                     app:eventPaddingHorizontal="12dp"
                     app:eventPaddingVertical="12dp"
                     app:eventMarginVertical="12dp"
-                    app:eventCornerRadius="8dp"
-                    />
+                    app:eventCornerRadius="8dp"/>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/add_event"
@@ -50,7 +45,8 @@
                     app:layout_constraintHorizontal_bias="0.954"
                     app:layout_constraintStart_toStartOf="parent"
                     app:rippleColor="#FFFFFF"
-                    app:srcCompat="@drawable/add_ic" />
+                    app:srcCompat="@drawable/add_ic"
+                    android:contentDescription="@string/event_add_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

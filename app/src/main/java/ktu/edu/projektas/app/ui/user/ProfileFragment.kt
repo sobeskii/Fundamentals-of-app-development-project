@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.user
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,17 +11,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import ktu.edu.projektas.R
 import ktu.edu.projektas.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
+// fragment class for user's profile
+class ProfileFragment: Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
     private lateinit var uid: String
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -29,6 +26,7 @@ class ProfileFragment : Fragment() {
         binding.buttonChange.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_profileFragment_to_changePwFragment)
         }
+
         auth = FirebaseAuth.getInstance()
         uid = auth.currentUser?.uid.toString()
 
@@ -41,10 +39,12 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
-    private fun logOut(){
+
+    private fun logOut() {
         auth.signOut()
         view?.findNavController()?.navigate(R.id.action_profileFragment_to_loginFragment)
     }
+
     private fun readFireStoreData() {
         val db = FirebaseFirestore.getInstance()
         db.collection("users").document(uid).get().addOnSuccessListener { documentSnapshot ->
@@ -60,7 +60,4 @@ class ProfileFragment : Fragment() {
             binding.layoutGroup.text = group
         }
     }
-
-
-
 }

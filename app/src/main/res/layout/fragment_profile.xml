@@ -2,14 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".app.ui.User.ProfileFragment">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,36 +17,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <ImageView
 
+                <ImageView
                     android:layout_width="100dp"
                     android:layout_gravity="center"
                     android:layout_height="100dp"
                     android:layout_marginTop="50dp"
                     android:src="@drawable/ic_person"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/profile_icon" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine">
 
-
                 <TextView
-
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Name: "
+                    android:text="@string/name"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
-                <TextView
 
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
@@ -57,81 +55,76 @@
 
                     android:text=""
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"/>
+                    android:textSize="24sp"/>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine">
 
                 <TextView
-
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Surname: "
+                    android:text="@string/surname"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text=""
                     android:id="@+id/lastname"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
-
+                    android:textSize="24sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine">
 
                 <TextView
-
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Email: "
+                    android:text="@string/email"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text=""
                     android:id="@+id/email"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
-
+                    android:textSize="24sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine">
 
-
                 <TextView
-
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Group: "
+                    android:text="@string/group"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -139,27 +132,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="IF-8/1"
+                    android:text=""
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
-
+                    android:textSize="24sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine">
 
-
                 <TextView
-
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Role: "
+                    android:text="@string/role"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -167,30 +158,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Student"
+                    android:text=""
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
-
+                    android:textSize="24sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center">
+
                 <Button
                     android:id="@+id/button_change"
                     android:layout_width="200dp"
-                    android:layout_centerInParent="true"
-                    android:text="Change password"
+                    android:text="@string/change_password"
+                    android:layout_height="50dp">
+                </Button>
 
-                    android:layout_height="50dp"></Button>
                 <Button
                     android:id="@+id/button_logout"
                     android:layout_width="200dp"
-                    android:layout_centerInParent="true"
-                    android:text="Log Out"
+                    android:text="@string/log_out"
+                    android:layout_height="50dp">
+                </Button>
 
-                    android:layout_height="50dp"></Button>
             </LinearLayout>
 
 

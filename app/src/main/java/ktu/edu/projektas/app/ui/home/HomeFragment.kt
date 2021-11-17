@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.home
 
 import android.content.Context
 import android.os.Bundle
@@ -13,13 +13,13 @@ import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.databinding.FragmentHomeBinding
 
-
-class HomeFragment : Fragment() {
+// home's fragment class
+class HomeFragment: Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter : HomeAdapter
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
+    private lateinit var adapter: HomeAdapter
+    private var semesterStart: Long? = null
+    private var semesterEnd: Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -27,16 +27,13 @@ class HomeFragment : Fragment() {
         semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
     }
 
-    private val viewModel : ScheduleViewModel by activityViewModels {
+    private val viewModel: ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        adapter =   HomeAdapter()
+        adapter = HomeAdapter()
 
         viewModel.upcomingEvents.observe(viewLifecycleOwner, { list ->
             if(list.isNotEmpty()) {
@@ -49,7 +46,8 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
-    private fun setVisible(boolean: Boolean){
+
+    private fun setVisible(boolean: Boolean) {
         binding.upcomingEventAdapter.visibility = if(boolean) View.VISIBLE else View.GONE
         binding.emptyView.visibility = if(boolean) View.GONE else View.VISIBLE
     }

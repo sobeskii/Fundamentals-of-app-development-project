@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.user
 
 import android.app.Dialog
 import android.os.Bundle
@@ -11,8 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.databinding.FragmentChangepwBinding
 
-
-class ChangePwFragment : Fragment() {
+// fragment class for changing user's password
+class ChangePwFragment: Fragment() {
 
     private lateinit var binding: FragmentChangepwBinding
     private lateinit var auth : FirebaseAuth
@@ -23,11 +23,7 @@ class ChangePwFragment : Fragment() {
     private lateinit var mAuth : FirebaseAuth
 
 
-    override fun onCreateView(
-
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mAuth = FirebaseAuth.getInstance()
         binding = FragmentChangepwBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner

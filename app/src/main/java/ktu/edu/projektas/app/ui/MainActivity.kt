@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity(){
         navigationView.setupWithNavController(navController)
 
         navigationView.setNavigationItemSelectedListener{
-            it ->
             when(it.itemId) {
                 R.id.nav_logout -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
@@ -73,7 +72,6 @@ class MainActivity : AppCompatActivity(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return false
     }
-
 
     private fun logOut(){
         mAuth.signOut()

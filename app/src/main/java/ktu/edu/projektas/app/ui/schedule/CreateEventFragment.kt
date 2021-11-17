@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.schedule
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -30,8 +30,8 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
-class CreateEventFragment : Fragment() {
+// fragment class for creating events
+class CreateEventFragment: Fragment() {
 
     private lateinit var binding: FragmentCreateEventBinding
 
@@ -45,8 +45,8 @@ class CreateEventFragment : Fragment() {
     private val location = MutableStateFlow("")
     private var errorMessage: String? = null
 
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
+    private var semesterStart: Long? = null
+    private var semesterEnd: Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,9 +54,10 @@ class CreateEventFragment : Fragment() {
         semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
     }
 
-    private val viewModel : ScheduleViewModel by activityViewModels {
+    private val viewModel: ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
     }
+
     private val formIsValid = combine(
             date,
             startTime,
@@ -66,12 +67,12 @@ class CreateEventFragment : Fragment() {
     ) { date, startTime, duration, event, location ->
         binding.txtErrorMessage.text = ""
 
-        var valid       =   dateIsValid(date)
-        var longDate    =   convertLocalDateToLong(valid)
+        val valid       =   dateIsValid(date)
+        val longDate    =   convertLocalDateToLong(valid)
 
         val startTimeValues = startTime.split(":")
 
-        val dateIsValid =   valid != null && longDate!! <= semesterEnd!! && longDate!! >= semesterStart!!
+        val dateIsValid =   valid != null && longDate!! <= semesterEnd!! && longDate >= semesterStart!!
         val duration    =   duration.length in 1..3 && duration.toInt() <= 300 && duration.toInt() >= 60
         val startTimeIsValid =  startTimeValues[0].length in 1..2 &&
                                 startTimeValues[0].toInt() <= 19 &&
@@ -97,13 +98,10 @@ class CreateEventFragment : Fragment() {
         dateIsValid and duration and startTimeIsValid and event and location
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
 
+        // for selecting event colors from a drop-down list
         val spinner: Spinner = binding.selectEventColors
         ArrayAdapter.createFromResource(
                 activity?.applicationContext!!,
@@ -114,16 +112,19 @@ class CreateEventFragment : Fragment() {
             spinner.adapter = adapter
         }
 
+        // for selecting time through time picker
         binding.startTimeInput.isFocusable = false
         binding.startTimeInput.setOnClickListener{
             setTimeFromTimePicker(context, binding.startTimeInput)
         }
 
+        // for selecting day input from date picker
         binding.selectDayInput.isFocusable = false
         binding.selectDayInput.setOnClickListener{
             setDateFromDatePicker(context, binding.selectDayInput)
         }
 
+        // for adding parameters through text input
         with(binding) {
             selectDayInput.doOnTextChanged { text, _, _, _ ->
                 date.value = text.toString()
@@ -141,9 +142,10 @@ class CreateEventFragment : Fragment() {
                 location.value = text.toString()
             }
         }
-
+        
         val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added!", Snackbar.LENGTH_LONG) }
 
+        // button's OnClick listener
         binding.createEventBtn.setOnClickListener {
             if (snackBar != null) {
                 snackBar.show()
@@ -161,6 +163,7 @@ class CreateEventFragment : Fragment() {
             }
         }
 
+        // for getting to massAddEvents
         binding.openMassEventsButton.setOnClickListener{
             view?.findNavController()?.navigate(R.id.action_createEventFragment_to_massAddEvents)
         }
@@ -180,7 +183,8 @@ class CreateEventFragment : Fragment() {
         return binding.root
     }
 
-    fun setDateFromDatePicker(context: Context?, editText: EditText) {
+    // configures date picker
+    private fun setDateFromDatePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -197,7 +201,9 @@ class CreateEventFragment : Fragment() {
         }
         dpd?.show()
     }
-    fun setTimeFromTimePicker(context: Context?, editText: EditText) {
+
+    // configures time picker
+    private fun setTimeFromTimePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)

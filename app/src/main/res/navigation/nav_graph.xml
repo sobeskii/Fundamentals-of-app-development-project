@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="ktu.edu.projektas.app.ui.ScheduleFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.ScheduleFragment"
         android:label="Schedule">
         <action
             android:id="@+id/action_scheduleFragment_to_createEventFragment"
@@ -24,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ktu.edu.projektas.app.ui.HomeFragment"
+        android:name="ktu.edu.projektas.app.ui.home.HomeFragment"
         android:label="Home">
         <action
             android:id="@+id/action_homeFragment_to_scheduleFragment"
@@ -41,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
-        android:name="ktu.edu.projektas.app.ui.CreateEventFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.CreateEventFragment"
         android:label="Create single event">
         <action
             android:id="@+id/action_createEventFragment_to_scheduleFragment"
@@ -55,8 +54,8 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="ktu.edu.projektas.app.ui.ProfileFragment"
-        android:label="Profile" >
+        android:name="ktu.edu.projektas.app.ui.user.ProfileFragment"
+        android:label="Profile">
         <action
             android:id="@+id/action_profileFragment2_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
@@ -75,7 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/eventFragment"
-        android:name="ktu.edu.projektas.app.ui.EventFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.EventFragment"
         android:label="Event details">
         <argument
             android:name="event_name"
@@ -95,7 +94,7 @@
     </fragment>
     <fragment
         android:id="@+id/massAddEvents"
-        android:name="ktu.edu.projektas.app.ui.MassAddEvents"
+        android:name="ktu.edu.projektas.app.ui.schedule.MassAddEvents"
         android:label="Create recurring event">
         <action
             android:id="@+id/action_massAddEvents_to_homeFragment"
@@ -124,8 +123,8 @@
     </fragment>
     <fragment
         android:id="@+id/changePwFragment"
-        android:name="ktu.edu.projektas.app.ui.ChangePwFragment"
-        android:label="Change password" >
+        android:name="ktu.edu.projektas.app.ui.user.ChangePwFragment"
+        android:label="Change password">
         <action
             android:id="@+id/action_changePwFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

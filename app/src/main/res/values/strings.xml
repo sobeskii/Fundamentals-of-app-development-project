@@ -1,8 +1,15 @@
+<!-- strings for a safer and more convenient usage in code -->
 <resources>
-    <string name="app_name">Schedule app</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="format">%1$tY-%1$tm-%1$td %1$tH:%1$tM</string>
+
+    <string name="app_name">Schedule app</string>
+
+    <!-- string for the drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- strings for adding events -->
     <string name="select_date_label"> Select date</string>
     <string name="duration_label"> Enter a duration (from 60min to 300min)</string>
     <string name="start_time_label">Enter start time (from 8h to 19h)</string>
@@ -10,11 +17,15 @@
     <string name="location_name_label">Enter location name</string>
     <string name="color_label">Event color</string>
     <string name="day_of_week">Enter day of week (1 from 7)</string>
-    <string name="format">%1$tY-%1$tm-%1$td %1$tH:%1$tM</string>
+    <string name="event_odd_week">Event recurrence</string>
+
     <string name="upcoming_events">Upcoming events today:</string>
     <string name="no_data_available">You have no upcoming events today</string>
-    <string name="event_odd_week">Event recurrence</string>
+
     <string name="sign_up_text">Don\'t have an account?</string>
+    <string name="search_button">Search</string>
+
+    <!-- strings for color's spinner -->
     <string-array name="colors">
         <item>None</item>
         <item>Red</item>
@@ -23,13 +34,17 @@
         <item>Black</item>
         <item>Cyan</item>
     </string-array>
+
+    <!-- strings for recurrence's spinner -->
     <string-array name="even_odd_options">
         <item>Every week</item>
         <item>Even week</item>
         <item>Odd week</item>
     </string-array>
+
     <string name="title_activity_change_pw_fragment">ChangePwFragment</string>
-    <!-- Strings used for fragments for navigation -->
+
+    <!-- strings for fragments of navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
@@ -38,4 +53,43 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <!-- strings for UI text and hints of EditText-->
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="repeat_new_password">Repeat new password</string>
+    <string name="confirm">Confirm</string>
+    <string name="event_title">Event title</string>
+    <string name="date">Date</string>
+    <string name="start_time">Start time</string>
+    <string name="duration_min">Duration (min)</string>
+    <string name="location">Location</string>
+    <string name="add_single_event">Add single event</string>
+    <string name="create_recurring_event">Create recurring event</string>
+    <string name="title">Title:</string>
+    <string name="start_time_event">Start time:</string>
+    <string name="end_time">End time:</string>
+    <string name="location_event">Location:</string>
+    <string name="increase_progress">Increase progress</string>
+    <string name="progress_square">Progress square</string>
+    <string name="log_in_to_schedule_app">Log in to Schedule App</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="day_of_the_week_no">Day of the week (no.)</string>
+    <string name="add_recurring_event">Add recurring event</string>
+    <string name="profile_icon">Profile icon</string>
+    <string name="name">Name:</string>
+    <string name="surname">Surname:</string>
+    <string name="email">Email:</string>
+    <string name="group">Group:</string>
+    <string name="role">Role:</string>
+    <string name="change_password">Change password</string>
+    <string name="log_out">Log out</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="student">Student</string>
+    <string name="academic_group_for_students">Academic group (for students)</string>
+    <string name="event_add_button">Event add button</string>
 </resources>

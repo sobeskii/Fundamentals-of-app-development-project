@@ -7,13 +7,14 @@ import com.alamkanak.weekview.jsr310.setStartTime
 import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.app.utils.longToLocalDateTime
 
-class ScheduleAdapter( private val clickListener: (data:Event) -> Unit,
-                       private val secondListener: (data:Event) -> Unit) : WeekView.SimpleAdapter<Event>() {
+// schedule's adapter class
+class ScheduleAdapter(private val clickListener: (data:Event) -> Unit, private val secondListener: (data:Event) -> Unit): WeekView.SimpleAdapter<Event>() {
+
     override fun onCreateEntity(item: Event): WeekViewEntity {
         val style = WeekViewEntity.Style.Builder()
                 .setBackgroundColor(item.color)
                 .build()
-       return longToLocalDateTime(item.startTime)?.let {
+        return longToLocalDateTime(item.startTime)?.let {
            longToLocalDateTime(item.endTime)?.let { it1 ->
                WeekViewEntity.Event.Builder(item)
                    .setId(item.id)
@@ -26,15 +27,12 @@ class ScheduleAdapter( private val clickListener: (data:Event) -> Unit,
            }
        }!!
     }
+
     override fun onEventLongClick(data: Event) {
-        if (data is Event) {
-            clickListener(data)
-        }
+        clickListener(data)
     }
 
     override fun onEventClick(data: Event) {
-        if (data is Event) {
-            secondListener(data)
-        }
+        secondListener(data)
     }
 }

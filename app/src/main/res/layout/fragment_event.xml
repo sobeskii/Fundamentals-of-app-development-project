@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_fragment"
         android:layout_width="match_parent"
@@ -25,13 +21,13 @@
                 <TextView
                     android:layout_width="325dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginTop="200dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
-                    android:text="Title: "
+                    android:text="@string/title"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -42,7 +38,7 @@
                     android:layout_weight="1"
                     android:text=""
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -54,11 +50,11 @@
                     android:layout_width="325dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Start time: "
+                    android:text="@string/start_time_event"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -68,7 +64,7 @@
                     android:text=""
                     android:id="@+id/start_time_text"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -79,12 +75,12 @@
                 <TextView
                     android:layout_width="325dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
-                    android:text="End time: "
+                    android:text="@string/end_time"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -94,7 +90,7 @@
                     android:text=""
                     android:id="@+id/end_time_text"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -106,11 +102,11 @@
                     android:layout_width="325dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Location: "
+                    android:text="@string/location_event"
                     android:textColor="@android:color/black"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -120,14 +116,16 @@
                     android:layout_weight="1"
                     android:text=""
                     android:textColor="@android:color/black"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="match_parent"
+                android:layout_width="225dp"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_marginTop="50dp"
+                android:text="@string/increase_progress"
+                android:layout_gravity="center"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -153,7 +151,6 @@
                         android:layout_marginTop="15dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/ic_baseline_crop_square_24" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -166,10 +163,9 @@
                     android:layout_marginLeft="10sp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="7dp"
-                    android:background="#37c100"></LinearLayout>
+                    android:background="#37c100">
+                </LinearLayout>
             </RelativeLayout>
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

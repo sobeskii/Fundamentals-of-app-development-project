@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="user"
+            type="ktu.edu.projektas.app.data.User" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_fragment"
@@ -55,7 +57,7 @@
                     android:layout_weight="1"
                     android:id="@+id/fullname"
 
-                    android:text=""
+                    android:text="@{user.firstName }"
                     android:textColor="@android:color/black"
                     android:textSize="24dp"/>
 
@@ -82,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=""
+                    android:text="@{user.lastName}"
                     android:id="@+id/lastname"
                     android:textColor="@android:color/black"
                     android:textSize="24dp" />
@@ -110,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=""
+                    android:text="@{user.email}"
                     android:id="@+id/email"
                     android:textColor="@android:color/black"
                     android:textSize="24dp" />
@@ -139,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="IF-8/1"
+                    android:text="@{user.group}"
                     android:textColor="@android:color/black"
                     android:textSize="24dp" />
 
@@ -167,7 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Student"
+                    android:text="@{user.role}"
                     android:textColor="@android:color/black"
                     android:textSize="24dp" />
 

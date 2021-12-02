@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -23,6 +27,7 @@ import kotlinx.coroutines.launch
 import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentCreateEventBinding
 import java.sql.Time
@@ -44,6 +49,7 @@ class CreateEventFragment : Fragment() {
     private val event = MutableStateFlow("")
     private val location = MutableStateFlow("")
     private var errorMessage: String? = null
+    private var userData : User? = null
 
     private var semesterStart : Long? = null
     private var semesterEnd : Long? = null
@@ -57,6 +63,13 @@ class CreateEventFragment : Fragment() {
     private val viewModel : ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        userData = viewModel.userData!!
+    }
+
     private val formIsValid = combine(
             date,
             startTime,
@@ -101,8 +114,11 @@ class CreateEventFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        userData = viewModel.userData!!
 
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
+
+        binding.isLecturer = (userData!!.role == "Lecturer")
 
         val spinner: Spinner = binding.selectEventColors
         ArrayAdapter.createFromResource(
@@ -160,10 +176,10 @@ class CreateEventFragment : Fragment() {
                 binding.locationInput.text.clear()
             }
         }
+            binding.openMassEventsButton.setOnClickListener{
+                view?.findNavController()?.navigate(R.id.action_createEventFragment_to_massAddEvents)
+            }
 
-        binding.openMassEventsButton.setOnClickListener{
-            view?.findNavController()?.navigate(R.id.action_createEventFragment_to_massAddEvents)
-        }
 
         lifecycleScope.launch {
             formIsValid.collect {

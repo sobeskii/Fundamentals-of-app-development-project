@@ -9,6 +9,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.*
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.launch
 import ktu.edu.projektas.R
@@ -17,10 +19,9 @@ import java.time.*
 import java.util.*
 
 
-
-
 class ScheduleViewModel(context: Context,
                         private val semesterStart: Long, private val semesterEnd: Long) : ViewModel() {
+
 
     private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
     private var _events: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
@@ -30,24 +31,56 @@ class ScheduleViewModel(context: Context,
     private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
     private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(1).withHour(0))
 
+    private lateinit var _userData : User
 
     private val context : Context = context
 
+    internal var userData:User?
+        get() {
+            getUserData()
+            return _userData
+        }
+        set(value) {_userData = value!! }
+
     internal var events:MutableLiveData<List<Event>>
-        get() { return _events}
+        get() {
+            listenToEvents()
+            return _events
+        }
         set(value) {_events = value}
 
     internal var upcomingEvents:MutableLiveData<List<Event>>
         get() { return _upcomingEvents}
         set(value) {_upcomingEvents = value}
 
+
     init {
         fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
         listenToEvents()
         listenToUpcomingEvents()
+        getUserData()
     }
 
+    private fun getUserData(){
+        val user = FirebaseAuth.getInstance().currentUser
+        fdb.collection("users").document(user!!.uid).addSnapshotListener{ documentSnapshot,e ->
+            if (documentSnapshot != null) {
+                documentSnapshot.data
+                userData = User(
+                    documentSnapshot.getString("firstName")!!,
+                    documentSnapshot.getString("lastName")!!,
+                    documentSnapshot.getString("email")!!,
+                    documentSnapshot.getString("role")!!,
+                    documentSnapshot.getString("group")!!,
+                )
+            }
+        }
+    }
+
+
     private fun listenToEvents() {
+        val user = FirebaseAuth.getInstance().currentUser
+
         fdb.collection("events").addSnapshotListener {
                 snapshot, e ->
             if (e != null) {
@@ -60,9 +93,15 @@ class ScheduleViewModel(context: Context,
                 documents.forEach {
 
                     val event = it.toObject(Event::class.java)
-                    if (event != null) {
+                    if (event != null && user != null) {
                         event.firebaseId = it.id
-                        allEvents.add(event!!)
+                        if(event.groupId == 0 ){
+                            if(event.userUUID == user!!.uid){
+                                allEvents.add(event!!)
+                            }
+                        }else if( event.groupId != 0){
+                            allEvents.add(event!!)
+                        }
                     }
                 }
                 _events.value = Collections.unmodifiableList(allEvents)
@@ -168,50 +207,65 @@ class ScheduleViewModel(context: Context,
             if (task.isSuccessful) {
                 for (document in task.result!!) {
                     document.reference.delete()
-                        .addOnSuccessListener(object : OnSuccessListener<Void?> {
-                            override fun onSuccess(aVoid: Void?) {
-                                Log.d(TAG, "Document successfully deleted!")
-                            }
-                        }).addOnFailureListener(object : OnFailureListener {
-                        override fun onFailure(e: Exception) {
-                            Log.w(TAG, "Error deleting document", e)
+                        .addOnSuccessListener {
+                            Log.d(TAG, "Document successfully deleted!")
+                        }.addOnFailureListener { e ->
+                            Log.w(
+                                TAG,
+                                "Error deleting document",
+                                e
+                            )
                         }
-                    })
                 }
             } else {
                 Log.d(
                     TAG,
                     "Error getting documents: ",
-                    task.getException()
-                ) //Don't ignore potential errors!
+                    task.exception
+                )
             }
         }
     }
+    fun deleteByFirebaseId(id : String){
+        fdb.collection("events").document(id).delete().
+        addOnSuccessListener {
+            Log.d(TAG, "Document successfully deleted!")
+        }.addOnFailureListener{ e ->
+            Log.w(
+                TAG,
+                "Error deleting document",
+                e
+            )
+        }
+    }
+
 
     fun addEvent(date: String, startTime: String, duration: String, name: String, color: String,location: String,group : Int = 0) {
+        val user = FirebaseAuth.getInstance().currentUser
 
         val yr : LocalDate = LocalDate.parse(date)
         val time = LocalTime.parse(startTime)
 
         var colorCode = getColorCode(color)
 
-        var groupId =   if (group == 0)  generateGroupId()   else   group
+        var groupId =   if (group == 0)  0   else   group
         val startDateTime = yr.atTime(time)
         val endDateTime = startDateTime.plusMinutes(duration.toLong())
 
         val ref: DocumentReference = fdb.collection("events").document()
         val myId = ref.id
 
-
-        localDateTimeToLong(startDateTime)?.let {
-            localDateTimeToLong(endDateTime)?.let { it1 ->
-                Event(myId,generateId(),groupId, name,
-                    it, it1, colorCode,location)
+        if (user != null) {
+            localDateTimeToLong(startDateTime)?.let {
+                localDateTimeToLong(endDateTime)?.let { it1 ->
+                    Event(myId,generateId(),groupId, name,
+                        it, it1, colorCode,location,user.uid)
+                }
+            }?.let {
+                fdb.collection("events").document(myId).set(
+                    it,
+                    SetOptions.merge())
             }
-        }?.let {
-            fdb.collection("events").document(myId).set(
-                it,
-                SetOptions.merge())
         }
     }
     fun massAddEvents(weekDay: String, startTime: String, duration: String, name: String, color: String, location:String, evenOdd:String) {
@@ -281,10 +335,10 @@ class ScheduleViewModel(context: Context,
         }
     }
     private fun generateGroupId(): Int {
-        return (0..100000).random()
+        return (1..100000).random()
     }
     private fun generateId(): Long {
-        return (0..1000000000000).random()
+        return (1..1000000000000).random()
     }
 }
 

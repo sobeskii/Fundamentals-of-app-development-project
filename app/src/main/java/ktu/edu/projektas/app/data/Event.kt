@@ -8,5 +8,6 @@ package ktu.edu.projektas.app.data
         val startTime: Long =0,
         val endTime: Long=0,
         val color : Int=0,
-        val location : String=""
+        val location : String="",
+        val userUUID : String = ""
         )

@@ -164,7 +164,7 @@ class ScheduleFragment : Fragment() {
                 .setTitle("Delete entry")
                 .setMessage("Are you sure you want to delete this entry?")
                 .setPositiveButton(android.R.string.yes) { dialog, which ->
-                    if (event.groupId == 0) {
+                    if (event.groupId != 0) {
                         viewModel.deleteByGroup(event.groupId)
                     } else {
                         viewModel.deleteByFirebaseId(event.firebaseId)

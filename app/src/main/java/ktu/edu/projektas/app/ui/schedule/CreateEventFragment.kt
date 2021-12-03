@@ -49,7 +49,7 @@ class CreateEventFragment : Fragment() {
     private val event = MutableStateFlow("")
     private val location = MutableStateFlow("")
     private var errorMessage: String? = null
-    private var userData : User? = null
+    private lateinit var userData : User
 
     private var semesterStart : Long? = null
     private var semesterEnd : Long? = null
@@ -58,16 +58,11 @@ class CreateEventFragment : Fragment() {
         super.onAttach(context)
         semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
         semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+        userData = viewModel.userData!!
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        userData = viewModel.userData!!
     }
 
     private val formIsValid = combine(
@@ -114,7 +109,6 @@ class CreateEventFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        userData = viewModel.userData!!
 
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
 

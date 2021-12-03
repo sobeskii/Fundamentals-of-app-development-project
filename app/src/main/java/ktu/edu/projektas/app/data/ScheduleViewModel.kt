@@ -29,7 +29,7 @@ class ScheduleViewModel(context: Context,
     private var _upcomingEvents: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
     private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
-    private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(1).withHour(0))
+    private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(2).withHour(0))
 
     private lateinit var _userData : User
 
@@ -63,17 +63,20 @@ class ScheduleViewModel(context: Context,
 
     private fun getUserData(){
         val user = FirebaseAuth.getInstance().currentUser
-        fdb.collection("users").document(user!!.uid).addSnapshotListener{ documentSnapshot,e ->
-            if (documentSnapshot != null) {
-                documentSnapshot.data
-                userData = User(
-                    documentSnapshot.getString("firstName")!!,
-                    documentSnapshot.getString("lastName")!!,
-                    documentSnapshot.getString("email")!!,
-                    documentSnapshot.getString("role")!!,
-                    documentSnapshot.getString("group")!!,
-                )
-            }
+        if(user != null) {
+            fdb.collection("users").document(user!!.uid)
+                .addSnapshotListener { documentSnapshot, e ->
+                    if (documentSnapshot != null) {
+                        documentSnapshot.data
+                        userData = User(
+                            documentSnapshot.getString("firstName")!!,
+                            documentSnapshot.getString("lastName")!!,
+                            documentSnapshot.getString("email")!!,
+                            documentSnapshot.getString("role")!!,
+                            documentSnapshot.getString("group")!!,
+                        )
+                    }
+                }
         }
     }
 

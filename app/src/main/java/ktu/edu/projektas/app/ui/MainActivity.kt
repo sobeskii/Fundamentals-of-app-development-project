@@ -52,6 +52,10 @@ class MainActivity : AppCompatActivity(){
                     drawerLayout.closeDrawer(GravityCompat.START)
                     navController.navigate(R.id.profileFragment)
                 }
+                R.id.notificationFragment ->    {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    navController.navigate(R.id.notificationFragment)
+                }
             }
             true
         }

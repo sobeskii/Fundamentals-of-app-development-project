@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_scheduleFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -52,6 +55,9 @@
         <action
             android:id="@+id/action_createEventFragment_to_massAddEvents"
             app:destination="@id/massAddEvents" />
+        <action
+            android:id="@+id/action_createEventFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -130,4 +136,8 @@
             android:id="@+id/action_changePwFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="ktu.edu.projektas.app.ui.NotificationFragment"
+        android:label="Notifications" />
 </navigation>

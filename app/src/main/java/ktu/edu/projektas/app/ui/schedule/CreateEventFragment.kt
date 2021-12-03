@@ -34,6 +34,7 @@ import java.sql.Time
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class CreateEventFragment : Fragment() {
@@ -153,7 +154,6 @@ class CreateEventFragment : Fragment() {
         }
 
         val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added!", Snackbar.LENGTH_LONG) }
-
         binding.createEventBtn.setOnClickListener {
             if (snackBar != null) {
                 snackBar.show()

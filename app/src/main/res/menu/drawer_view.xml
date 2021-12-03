@@ -14,6 +14,10 @@
             android:icon="?android:attr/listChoiceIndicatorSingle"
             android:title="Profile" />
         <item
+            android:id="@+id/notificationFragment"
+            android:icon="@drawable/ic_baseline_notifications_24"
+            android:title="Notifications" />
+        <item
             android:id="@+id/nav_logout"
             android:title="Log out" />
     </group>

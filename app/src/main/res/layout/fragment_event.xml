@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="isLecturer"
+            type="boolean" />
+        <import type="android.view.View"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_fragment"
@@ -124,50 +127,21 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button"
+                android:visibility="@{!isLecturer ? View.VISIBLE : View.GONE}"
+                android:id="@+id/buttonReg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:background="@color/green"
+                android:text="Register to event" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
-                android:layout_gravity="bottom|center"
-                android:background="#fff"
-                android:gravity="bottom"
-                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10sp"
-                    android:layout_marginBottom="0dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="15dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_baseline_crop_square_24" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/green"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10sp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="#37c100"></LinearLayout>
-            </RelativeLayout>
+            <Button
+                android:visibility="@{isLecturer ? View.VISIBLE : View.GONE}"
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/red"
+                android:text="ALERT COVID!"/>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@ class NotificationFragment : Fragment() {
     ): View? {
         mAuth = FirebaseAuth.getInstance()
         binding = FragmentNotificationBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
+        //binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }

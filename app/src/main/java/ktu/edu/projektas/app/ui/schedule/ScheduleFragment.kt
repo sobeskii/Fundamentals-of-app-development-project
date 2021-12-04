@@ -33,6 +33,7 @@ import ktu.edu.projektas.app.utils.convertLongToLocalDate
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
 
+
 class ScheduleFragment : Fragment() {
 
     private lateinit var binding: FragmentScheduleBinding
@@ -186,7 +187,7 @@ class ScheduleFragment : Fragment() {
 
     private fun onClick(event: Event) {
 
-        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString())
+        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString(),event.firebaseId)
 
         view?.findNavController()
             ?.navigate(action)

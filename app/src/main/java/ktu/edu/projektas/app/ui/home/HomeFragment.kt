@@ -33,6 +33,7 @@ import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.app.utils.longToLocalDateTime
 import ktu.edu.projektas.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.*
+import ktu.edu.projektas.app.ui.home.HomeAdapter
 
 
 class HomeFragment : Fragment() {

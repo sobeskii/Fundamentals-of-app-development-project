@@ -27,18 +27,15 @@ class EventFragment: Fragment() {
     private val user = FirebaseAuth.getInstance().currentUser
     private val db =    FirebaseFirestore.getInstance()
     private lateinit var userData  :   DocumentSnapshot
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
     private var userData1 : User? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+        ScheduleViewModelFactory(requireContext())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

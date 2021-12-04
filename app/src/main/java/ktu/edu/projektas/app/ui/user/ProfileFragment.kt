@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.databinding.FragmentProfileBinding
@@ -21,18 +22,15 @@ class ProfileFragment: Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth : FirebaseAuth
-
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
+    private lateinit var userData : User
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+        userData = viewModel.userData!!
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+        ScheduleViewModelFactory(requireContext())
     }
 
     override fun onCreateView(

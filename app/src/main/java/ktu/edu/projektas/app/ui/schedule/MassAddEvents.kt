@@ -1,5 +1,4 @@
-package ktu.edu.projektas.app.ui.schedule
-
+package ktu.edu.projektas.app.ui
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -29,11 +28,12 @@ import ktu.edu.projektas.app.utils.formatTime
 import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.databinding.FragmentMassAddEventsBinding
+
 import java.sql.Time
 import java.util.*
 
-// fragment class for adding recurrent events
-class MassAddEvents: Fragment() {
+
+class MassAddEvents : Fragment() {
     private lateinit var binding: FragmentMassAddEventsBinding
 
     private val defaultButtonTintColor = "#1B1717"
@@ -47,22 +47,15 @@ class MassAddEvents: Fragment() {
 
     private var errorMessage: String? = null
 
-    private lateinit var prefs: SharedPreferences
-    private var semesterStart: Long? = null
-    private var semesterEnd: Long? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        prefs = requireContext().getSharedPreferences("ktu.edu.projektas.app", Context.MODE_PRIVATE)
-        semesterStart = prefs.getLong("ktu.edu.projektas.app.semester_start", getCurrentMonthFirstDay()?.toEpochMilli()!!)
-        semesterEnd = prefs.getLong("ktu.edu.projektas.app.semester_end", getCurrentMonthLastDay()?.toEpochMilli()!!)
     }
 
-    private val viewModel: ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
-    }
+    private val viewModel : ScheduleViewModel by activityViewModels {
+        ScheduleViewModelFactory(requireContext())
 
+    }
     private val formIsValid = combine(
         weekDay,
         startTime,
@@ -98,10 +91,10 @@ class MassAddEvents: Fragment() {
         }
         weekDayValid and duration and startTimeIsValid and event and location
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         binding = FragmentMassAddEventsBinding.inflate(inflater, container, false)
 
-        // for selecting event colors from a drop-down list
         val colorSpinner: Spinner = binding.selectColors
         ArrayAdapter.createFromResource(
             activity?.applicationContext!!,
@@ -122,13 +115,12 @@ class MassAddEvents: Fragment() {
             evenOddSpinner.adapter = adapter
         }
 
-        // for selecting time through time picker
+
         binding.startTimeMassInput.isFocusable = false
         binding.startTimeMassInput.setOnClickListener{
             setTimeFromTimePicker(context, binding.startTimeMassInput)
         }
 
-        // for adding parameters through text input
         with(binding) {
             eventDayOfWeek.doOnTextChanged { text, _, _, _ ->
                 weekDay.value = text.toString()
@@ -145,11 +137,11 @@ class MassAddEvents: Fragment() {
             locationMassInput.doOnTextChanged { text, _, _, _ ->
                 location.value = text.toString()
             }
+
         }
 
         val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Events added!", Snackbar.LENGTH_LONG) }
 
-        // button's OnClick listener
         binding.massAddBtn.setOnClickListener {
             if (snackBar != null) {
                 snackBar.show()
@@ -185,8 +177,6 @@ class MassAddEvents: Fragment() {
         }
         return binding.root
     }
-
-    // configures time picker
     private fun setTimeFromTimePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)

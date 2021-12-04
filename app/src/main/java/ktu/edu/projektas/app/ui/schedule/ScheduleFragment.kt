@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import ktu.edu.projektas.app.data.Event
 import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
 // schedule's fragment class
@@ -31,8 +32,9 @@ class ScheduleFragment: Fragment() {
 
     private lateinit var binding: FragmentScheduleBinding
 
-    private var semesterStart: Long? = null
-    private var semesterEnd: Long? = null
+    private var semesterStart : Long? = null
+    private var semesterEnd : Long? = null
+    private val user = FirebaseAuth.getInstance().currentUser
 
     private lateinit var spinner: Spinner
     private val adapter = ScheduleAdapter(clickListener = this::onLongClick, secondListener = this::onClick)
@@ -150,19 +152,30 @@ class ScheduleFragment: Fragment() {
     }
 
     private fun onLongClick(event: Event) {
-        AlertDialog.Builder(context)
-                .setTitle("Delete event")
-                .setMessage("Are you sure you want to delete this event?")
-                .setPositiveButton(android.R.string.yes) { _, _ ->
-                    viewModel.deleteByGroup(event.groupId)
+        if (event.userUUID == user!!.uid) {
+            AlertDialog.Builder(context)
+                .setTitle("Delete entry")
+                .setMessage("Are you sure you want to delete this entry?")
+                .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    if (event.groupId != 0) {
+                        viewModel.deleteByGroup(event.groupId)
+                    } else {
+                        viewModel.deleteByFirebaseId(event.firebaseId)
+                    }
                 }
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
+        }
     }
 
     private fun onClick(event: Event) {
-        val action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title, event.location, event.endTime.toString(), event.startTime.toString())
+        val action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(
+            event.title,
+            event.location,
+            event.endTime.toString(),
+            event.startTime.toString()
+        )
 
         view?.findNavController()
             ?.navigate(action)

@@ -54,7 +54,7 @@ class LoginFragment: Fragment() {
         return binding.root
     }
 
-    fun userLogin() {
+    private fun userLogin() {
         if(binding.etEmail.text.toString().trim().isEmpty()) {
             binding.etEmail.error = "Email is required!"
             binding.etEmail.requestFocus()

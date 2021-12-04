@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentCreateEventBinding
 import java.sql.Time
@@ -44,20 +45,21 @@ class CreateEventFragment: Fragment() {
     private val event = MutableStateFlow("")
     private val location = MutableStateFlow("")
     private var errorMessage: String? = null
+    private lateinit var userData: User
 
-    private var semesterStart: Long? = null
-    private var semesterEnd: Long? = null
+    private var semesterStart : Long? = null
+    private var semesterEnd : Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
         semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+        userData = viewModel.userData!!
     }
 
-    private val viewModel: ScheduleViewModel by activityViewModels {
+    private val viewModel : ScheduleViewModel by activityViewModels {
         ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
     }
-
     private val formIsValid = combine(
             date,
             startTime,
@@ -101,6 +103,7 @@ class CreateEventFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
 
+        binding.isLecturer = (userData.role == "Lecturer")
         // for selecting event colors from a drop-down list
         val spinner: Spinner = binding.selectEventColors
         ArrayAdapter.createFromResource(
@@ -112,19 +115,16 @@ class CreateEventFragment: Fragment() {
             spinner.adapter = adapter
         }
 
-        // for selecting time through time picker
         binding.startTimeInput.isFocusable = false
         binding.startTimeInput.setOnClickListener{
             setTimeFromTimePicker(context, binding.startTimeInput)
         }
 
-        // for selecting day input from date picker
         binding.selectDayInput.isFocusable = false
         binding.selectDayInput.setOnClickListener{
             setDateFromDatePicker(context, binding.selectDayInput)
         }
 
-        // for adding parameters through text input
         with(binding) {
             selectDayInput.doOnTextChanged { text, _, _, _ ->
                 date.value = text.toString()
@@ -142,7 +142,7 @@ class CreateEventFragment: Fragment() {
                 location.value = text.toString()
             }
         }
-        
+
         val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added!", Snackbar.LENGTH_LONG) }
 
         // button's OnClick listener

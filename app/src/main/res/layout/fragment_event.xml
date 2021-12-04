@@ -125,18 +125,10 @@
                     android:textSize="24sp" />
             </LinearLayout>
 
-            <Button
-                android:visibility="@{!isLecturer ? View.VISIBLE : View.GONE}"
-                android:id="@+id/buttonReg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/green"
-                android:text="Register to event" />
-
 
             <Button
                 android:visibility="@{isLecturer ? View.VISIBLE : View.GONE}"
-                android:id="@+id/button2"
+                android:id="@+id/buttonReg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/red"

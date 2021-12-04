@@ -12,6 +12,7 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
+import kotlin.collections.HashMap
 
 // schedule's ViewModel class
 class ScheduleViewModel(context: Context, private val semesterStart: Long, private val semesterEnd: Long): ViewModel() {
@@ -51,6 +52,24 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
         listenToEvents()
         listenToUpcomingEvents()
         getUserData()
+    }
+
+
+    fun insertAlert(event: EventReg){
+
+        val data = hashMapOf(
+            "eventid" to event.eventid,
+            "userid" to event.userid
+        )
+
+        fdb.collection("eventReg")
+            .add(data)
+            .addOnSuccessListener {
+                Log.d("TAG","paejo")
+            }
+            .addOnFailureListener{
+                Log.d("TAG","nepaejo")
+            }
     }
 
     private fun getUserData(){

@@ -2,7 +2,6 @@ package ktu.edu.projektas.app.ui.schedule
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import ktu.edu.projektas.app.data.EventReg
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.data.User
@@ -63,19 +63,10 @@ class EventFragment: Fragment() {
         binding.isLecturer = (userData1!!.role == "Lecturer")
 
         binding.buttonReg.setOnClickListener {
-            val db = FirebaseFirestore.getInstance().document("eventReg")
-            val eventData = hashMapOf(
-                "userid" to 10,
-                "eventid" to 11
-            )
-            db.collection("eventReg")
-                .add(eventData)
-                .addOnSuccessListener {
-                    Log.d("TAG","paejo")
-                }
-                .addOnFailureListener{
-                    Log.d("TAG","nepaejo")
-                }
+
+            val eventReg = EventReg(10,11)
+
+            viewModel.insertAlert(eventReg)
         }
         binding.lifecycleOwner = viewLifecycleOwner
 

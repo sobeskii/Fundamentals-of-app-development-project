@@ -174,7 +174,8 @@ class ScheduleFragment: Fragment() {
             event.title,
             event.location,
             event.endTime.toString(),
-            event.startTime.toString()
+            event.startTime.toString(),
+            event.firebaseId.toString()
         )
 
         view?.findNavController()

@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.util.Log
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.EventReg
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
@@ -64,12 +67,44 @@ class EventFragment: Fragment() {
 
         binding.buttonReg.setOnClickListener {
 
-            val eventReg = EventReg(10,11)
-
-            viewModel.insertAlert(eventReg)
+            val eventReg = EventReg(user!!.uid.toString(),args.firebaseid.toString())
+            CheckIfRegistered(eventReg)
         }
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
+    }
+    fun insertEventRegistration(event: EventReg){
+
+        val data = hashMapOf(
+            "eventid" to event.eventid,
+            "userid" to event.userid
+        )
+
+        db.collection("eventReg")
+            .add(data)
+            .addOnSuccessListener {
+                activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout),"You have registered successfully!", Snackbar.LENGTH_LONG).show()}
+            }
+    }
+    fun CheckIfRegistered(event: EventReg){
+        var check = false
+        db.collection("eventReg").get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.get("eventid")!!.equals(event.eventid) && document.get("userid")!!.equals(event.userid)
+                    ) {
+                        //if document found
+                        check = true
+                    }
+                }
+                if (check == false) {
+                    //if document not found
+                    insertEventRegistration(event)
+                }
+                else{
+                    activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "You have registered already", Snackbar.LENGTH_LONG).show() }
+                }
+            }
     }
 }

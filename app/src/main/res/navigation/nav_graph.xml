@@ -97,6 +97,9 @@
         <argument
             android:name="end_time"
             app:argType="string" />
+        <argument
+            android:name="firebaseid"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/massAddEvents"

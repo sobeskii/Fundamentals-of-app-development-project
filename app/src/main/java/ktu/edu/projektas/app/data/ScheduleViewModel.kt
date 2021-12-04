@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.launch
@@ -12,7 +13,9 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
+import androidx.fragment.app.activityViewModels
 import kotlin.collections.HashMap
+import kotlin.math.log
 
 // schedule's ViewModel class
 class ScheduleViewModel(context: Context, private val semesterStart: Long, private val semesterEnd: Long): ViewModel() {
@@ -55,22 +58,6 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
     }
 
 
-    fun insertAlert(event: EventReg){
-
-        val data = hashMapOf(
-            "eventid" to event.eventid,
-            "userid" to event.userid
-        )
-
-        fdb.collection("eventReg")
-            .add(data)
-            .addOnSuccessListener {
-                Log.d("TAG","paejo")
-            }
-            .addOnFailureListener{
-                Log.d("TAG","nepaejo")
-            }
-    }
 
     private fun getUserData(){
         val user = FirebaseAuth.getInstance().currentUser

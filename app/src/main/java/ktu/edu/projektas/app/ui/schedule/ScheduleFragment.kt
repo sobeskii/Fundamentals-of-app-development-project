@@ -24,8 +24,12 @@ import android.widget.AdapterView.OnItemSelectedListener
 import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.app.ui.schedule.ScheduleAdapter
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import ktu.edu.projektas.app.data.User
+import ktu.edu.projektas.app.utils.convertLongToLocalDate
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
 
@@ -33,9 +37,8 @@ class ScheduleFragment : Fragment() {
 
     private lateinit var binding: FragmentScheduleBinding
 
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
     private val user = FirebaseAuth.getInstance().currentUser
+    private lateinit var userData  : User
 
     private lateinit var spinner : Spinner
     private val adapter =   ScheduleAdapter(clickListener = this::onLongClick,
@@ -43,12 +46,11 @@ class ScheduleFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+        userData = viewModel.userData!!
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+        ScheduleViewModelFactory(requireContext())
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,8 +123,6 @@ class ScheduleFragment : Fragment() {
 
             }
         }
-
-
         return super.onCreateOptionsMenu(menu!!, inflater!!)
     }
     override fun onCreateView(
@@ -140,8 +140,8 @@ class ScheduleFragment : Fragment() {
         binding.weekView.maxHour  = 20
 
         binding.weekView.numberOfVisibleDays = 7
-        binding.weekView.minDateAsLocalDate = convertLongToLocalDate(semesterStart)
-        binding.weekView.maxDateAsLocalDate = convertLongToLocalDate(semesterEnd)
+        binding.weekView.minDateAsLocalDate = convertLongToLocalDate(viewModel.semesterStart)
+        binding.weekView.maxDateAsLocalDate = convertLongToLocalDate(viewModel.semesterEnd)
 
         binding.weekView.showFirstDayOfWeekFirst
 
@@ -151,6 +151,14 @@ class ScheduleFragment : Fragment() {
         binding.addEvent.setOnClickListener{
             view?.findNavController()?.navigate(R.id.action_scheduleFragment_to_createEventFragment)
         }
+
+        binding.settingsBtn.visibility = if(userData!!.role == "Lecturer") View.VISIBLE else View.GONE
+
+        binding.settingsBtn.setOnClickListener{
+            view?.findNavController()?.navigate(R.id.action_scheduleFragment_to_settingsFragment)
+        }
+
+
 
         return binding.root
     }

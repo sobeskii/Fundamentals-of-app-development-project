@@ -6,6 +6,9 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+fun convertLongToLocalDate(value: Long?) : LocalDate {
+    return Instant.ofEpochMilli(value!!).atZone(ZoneId.systemDefault()).toLocalDate()
+}
 fun convertLocalDateToLong(value: LocalDate?) : Long? {
     return value?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
 }

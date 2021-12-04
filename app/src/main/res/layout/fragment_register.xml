@@ -118,8 +118,8 @@
             android:hint="Academic group (for students)"
             android:inputType="textNoSuggestions"
             app:layout_constraintBottom_toTopOf="@+id/bt_register"
-            app:layout_constraintEnd_toEndOf="@+id/layout_role"
-            app:layout_constraintStart_toStartOf="@+id/layout_role"
+            app:layout_constraintEnd_toEndOf="@+id/et_repeat_password"
+            app:layout_constraintStart_toStartOf="@+id/et_repeat_password"
             app:layout_constraintTop_toBottomOf="@+id/layout_role" />
 
         <Button

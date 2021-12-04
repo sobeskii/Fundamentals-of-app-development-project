@@ -1,8 +1,12 @@
 package ktu.edu.projektas.app.ui
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -11,14 +15,18 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import ktu.edu.projektas.R
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.activityViewModels
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import ktu.edu.projektas.app.data.ScheduleViewModel
+import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
 
 class MainActivity : AppCompatActivity(){
     private lateinit var navController : NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout:DrawerLayout
     private lateinit var navigationView : NavigationView
-
-
     private lateinit var mAuth : FirebaseAuth
 
 
@@ -27,6 +35,7 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+
 
         navController = findNavController(R.id.nav_host_fragment_container)
         drawerLayout = findViewById(R.id.drawer_layout)

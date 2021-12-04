@@ -50,19 +50,19 @@ class CreateEventFragment : Fragment() {
     private val location = MutableStateFlow("")
     private var errorMessage: String? = null
     private lateinit var userData : User
+    private  var semesterEnd : Long? = null
+    private  var semesterStart : Long?  = null
 
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
         userData = viewModel.userData!!
+        semesterEnd = viewModel.semesterEnd!!
+        semesterStart = viewModel.semesterStart!!
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+        ScheduleViewModelFactory(requireContext())
     }
 
     private val formIsValid = combine(
@@ -112,7 +112,9 @@ class CreateEventFragment : Fragment() {
 
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
 
-        binding.isLecturer = (userData!!.role == "Lecturer")
+
+        binding.openMassEventsButton.visibility = if(userData!!.role == "Lecturer") View.VISIBLE else View.GONE
+
 
         val spinner: Spinner = binding.selectEventColors
         ArrayAdapter.createFromResource(

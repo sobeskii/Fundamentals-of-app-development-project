@@ -47,20 +47,13 @@ class MassAddEvents : Fragment() {
 
     private var errorMessage: String? = null
 
-    private lateinit var prefs: SharedPreferences
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        prefs = requireContext().getSharedPreferences("ktu.edu.projektas.app", Context.MODE_PRIVATE)
-        semesterStart = prefs.getLong("ktu.edu.projektas.app.semester_start", getCurrentMonthFirstDay()?.toEpochMilli()!!)
-        semesterEnd = prefs.getLong("ktu.edu.projektas.app.semester_end", getCurrentMonthLastDay()?.toEpochMilli()!!)
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+        ScheduleViewModelFactory(requireContext())
 
     }
     private val formIsValid = combine(

@@ -2,12 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <data>
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/home_fragment"
+        android:id="@+id/notificaion_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.ui.HomeFragment">
+        tools:context=".app.ui.user.NotificationFragment">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/upcoming_event_adapter"
@@ -28,7 +30,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/upcoming_events"
+            android:text="@string/notific_text"
             app:layout_constraintBottom_toTopOf="@+id/upcoming_event_adapter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +44,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:visibility="gone"
-            android:text="@string/no_data_available" />
+            android:text="@string/no_notific" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

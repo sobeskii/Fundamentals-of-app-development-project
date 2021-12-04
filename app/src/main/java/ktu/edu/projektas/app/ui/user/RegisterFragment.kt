@@ -16,26 +16,21 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.databinding.FragmentRegisterBinding
 
+// fragment class for user's signup
+class RegisterFragment: Fragment() {
 
-class RegisterFragment : Fragment() {
-
-    private lateinit var mAuth : FirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var binding: FragmentRegisterBinding
-    private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
-
+    private var fdb: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
         mAuth = FirebaseAuth.getInstance()
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -47,11 +42,9 @@ class RegisterFragment : Fragment() {
         binding.etRole.setAdapter(arrayAdapter)
 
         return binding.root
-
     }
 
-    private fun registerUser(){
-
+    private fun registerUser() {
         if(binding.etFirstName.text.toString().trim().isEmpty()) {
             binding.etFirstName.error = "First name is required!"
             binding.etFirstName.requestFocus()
@@ -78,7 +71,7 @@ class RegisterFragment : Fragment() {
             return
         }
         if(binding.etPassword.text.toString().length < 6){
-            binding.etPassword.error = "Provide a longer password!"
+            binding.etPassword.error = "Password is too short - it has to be at least 6 characters long!"
             binding.etPassword.requestFocus()
             return
         }
@@ -87,13 +80,13 @@ class RegisterFragment : Fragment() {
             binding.etRepeatPassword.requestFocus()
             return
         }
-        mAuth.createUserWithEmailAndPassword(binding.etEmail.text.toString(),binding.etPassword.text.toString()).addOnCompleteListener{
+        mAuth.createUserWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString()).addOnCompleteListener{
             task ->
             if(task.isSuccessful){
                 activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered!", Snackbar.LENGTH_LONG) }
                     ?.show()
 
-                var user = User(binding.etFirstName.text.toString(),binding.etLastName.text.toString(),binding.etEmail.text.toString(), binding.etRole.text.toString(), binding.etGroup.text.toString())
+                val user = User(binding.etFirstName.text.toString(), binding.etLastName.text.toString(), binding.etEmail.text.toString(), binding.etRole.text.toString(), binding.etGroup.text.toString())
 
                 FirebaseAuth.getInstance().currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
 
@@ -104,9 +97,5 @@ class RegisterFragment : Fragment() {
                     ?.show()
             }
         }
-
-
-
     }
-
 }

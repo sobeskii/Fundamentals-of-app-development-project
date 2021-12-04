@@ -2,14 +2,10 @@ package ktu.edu.projektas.app.data
 
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.*
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.launch
@@ -17,14 +13,16 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
+import androidx.fragment.app.activityViewModels
+import kotlin.collections.HashMap
+import kotlin.math.log
 
+// schedule's ViewModel class
+class ScheduleViewModel(context: Context): ViewModel() {
 
-class ScheduleViewModel(context: Context) : ViewModel() {
+    private var fdb: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-
-    private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
     private var _events: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
-
     private var _upcomingEvents: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
     private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
@@ -72,7 +70,6 @@ class ScheduleViewModel(context: Context) : ViewModel() {
             return _upcomingEvents}
         set(value) {_upcomingEvents = value}
 
-
     init {
         fdb.firestoreSettings = FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(false)
@@ -111,7 +108,7 @@ class ScheduleViewModel(context: Context) : ViewModel() {
     fun getUserData(){
         val user = FirebaseAuth.getInstance().currentUser
         if(user != null) {
-            fdb.collection("users").document(user!!.uid)
+            fdb.collection("users").document(user.uid)
                 .addSnapshotListener { documentSnapshot, e ->
                     if (documentSnapshot != null) {
                         userData = User(
@@ -127,6 +124,7 @@ class ScheduleViewModel(context: Context) : ViewModel() {
     }
 
 
+    // gathers all events
     private fun listenToEvents() {
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -145,11 +143,11 @@ class ScheduleViewModel(context: Context) : ViewModel() {
                     if (event != null && user != null) {
                         event.firebaseId = it.id
                         if(event.groupId == 0 ){
-                            if(event.userUUID == user!!.uid){
-                                allEvents.add(event!!)
+                            if(event.userUUID == user.uid){
+                                allEvents.add(event)
                             }
                         }else if( event.groupId != 0){
-                            allEvents.add(event!!)
+                            allEvents.add(event)
                         }
                     }
                 }
@@ -158,14 +156,14 @@ class ScheduleViewModel(context: Context) : ViewModel() {
         }
     }
 
-    private fun listenToUpcomingEvents(){
+    // gathers all upcoming events for today
+    private fun listenToUpcomingEvents() {
         val user = FirebaseAuth.getInstance().currentUser
-
         if (currentTime != null) {
             if (timeAfterHour != null) {
-                fdb.collection("events")
-                    .whereGreaterThan("startTime",currentTime)
-                    .addSnapshotListener { snapshot, e ->
+                    fdb.collection("events")
+                    .whereGreaterThan("startTime", currentTime)
+                    .addSnapshotListener {snapshot, e ->
                         if (e != null) {
                             Log.w(TAG, "Listen Failed", e)
                             return@addSnapshotListener
@@ -182,7 +180,7 @@ class ScheduleViewModel(context: Context) : ViewModel() {
                                             allEvents.add(event!!)
                                         }
                                     }else if( event.groupId != 0){
-                                        allEvents.add(event!!)
+                                        allEvents.add(event)
                                     }
                                 }
 
@@ -203,7 +201,7 @@ class ScheduleViewModel(context: Context) : ViewModel() {
         if(colorCode == -1)
             return events
 
-        var data: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
+        val data: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
         fdb.collection("events").addSnapshotListener {
                 snapshot, e ->
@@ -215,7 +213,6 @@ class ScheduleViewModel(context: Context) : ViewModel() {
                 val allEvents = mutableListOf<Event>()
                 val documents = snapshot.documents
                 documents.forEach {
-
                     val event = it.toObject(Event::class.java)
                     if (event != null &&  user != null && event.color == colorCode) {
                         event.firebaseId = it.id
@@ -224,7 +221,7 @@ class ScheduleViewModel(context: Context) : ViewModel() {
                                 allEvents.add(event!!)
                             }
                         }else if( event.groupId != 0){
-                            allEvents.add(event!!)
+                            allEvents.add(event)
                         }
                     }
                 }
@@ -234,14 +231,13 @@ class ScheduleViewModel(context: Context) : ViewModel() {
         return data
     }
 
-
-    fun getAllEventsByQuery(query:String) : LiveData<List<Event>>? {
+    // gathers events fulfilling a specified query
+    fun getAllEventsByQuery(query: String): LiveData<List<Event>> {
         val user = FirebaseAuth.getInstance().currentUser
-
         if(query.isEmpty())
             return events
 
-        var data: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
+        val data: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
 
         fdb.collection("events").
         orderBy("title").startAt(query).endAt(query+"\uf8ff").addSnapshotListener {
@@ -262,7 +258,7 @@ class ScheduleViewModel(context: Context) : ViewModel() {
                                 allEvents.add(event!!)
                             }
                         }else if( event.groupId != 0){
-                            allEvents.add(event!!)
+                            allEvents.add(event)
                         }
                     }
                 }
@@ -272,7 +268,8 @@ class ScheduleViewModel(context: Context) : ViewModel() {
         return data
     }
 
-    fun deleteByGroup(groupId : Int) {
+    // deletes events with a specified groupId
+    fun deleteByGroup(groupId: Int) {
         val eventsRef: CollectionReference = fdb.collection("events")
         val docIdQuery: Query = eventsRef.whereEqualTo("groupId", groupId)
         docIdQuery.get().addOnCompleteListener { task ->
@@ -318,9 +315,9 @@ class ScheduleViewModel(context: Context) : ViewModel() {
         val yr : LocalDate = LocalDate.parse(date)
         val time = LocalTime.parse(startTime)
 
-        var colorCode = getColorCode(color)
+        val colorCode = getColorCode(color)
 
-        var groupId =   if (group == 0)  0   else   group
+        val groupId =   if (group == 0)  0   else   group
         val startDateTime = yr.atTime(time)
         val endDateTime = startDateTime.plusMinutes(duration.toLong())
 
@@ -340,7 +337,9 @@ class ScheduleViewModel(context: Context) : ViewModel() {
             }
         }
     }
-    fun massAddEvents(weekDay: String, startTime: String, duration: String, name: String, color: String, location:String, evenOdd:String) {
+
+    // adds recurring events
+    fun massAddEvents(weekDay: String, startTime: String, duration: String, name: String, color: String, location: String, evenOdd: String) {
         viewModelScope.launch {
             val daysToAdd = (weekDay.toInt().toLong()-1)
             val startTimeValues = startTime.split(":")
@@ -357,9 +356,9 @@ class ScheduleViewModel(context: Context) : ViewModel() {
 
             val firstEventTime = addedMins.toInstant(OffsetDateTime.now().offset).toEpochMilli()/1000
 
-            var iterate : Long = firstEventTime
+            var iterate: Long = firstEventTime
 
-            var groupId = generateGroupId()
+            val groupId = generateGroupId()
 
             val getEvenOdd = getEvenOddValues(evenOdd)
 
@@ -382,10 +381,11 @@ class ScheduleViewModel(context: Context) : ViewModel() {
                 iterate += 604800
                 weekNumber += 1
             }
-
         }
     }
-    private fun getEvenOddValues(str:String?) : Int{
+
+    // sets int of recurrence
+    private fun getEvenOddValues(str: String?): Int{
         return when (str) {
             "Every week" -> 0
             "Even week" ->  1
@@ -393,9 +393,9 @@ class ScheduleViewModel(context: Context) : ViewModel() {
             else -> 0
         }
     }
-    private fun getColorCode(str:String?) : Int{
 
-
+    // sets colors
+    private fun getColorCode(str: String?): Int{
         return when (str) {
             "Red" -> ContextCompat.getColor(context, R.color.red_700)
             "Black" -> ContextCompat.getColor(context, R.color.black)
@@ -406,16 +406,19 @@ class ScheduleViewModel(context: Context) : ViewModel() {
             else -> -1
         }
     }
+
+    // generates groupId
     private fun generateGroupId(): Int {
         return (1..100000).random()
     }
+
+    // generates Id
     private fun generateId(): Long {
         return (1..1000000000000).random()
     }
 }
 
-
-class ScheduleViewModelFactory(val context:Context) : ViewModelProvider.Factory {
+class ScheduleViewModelFactory(val context: Context): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(ScheduleViewModel::class.java)) {
             return ScheduleViewModel(context) as T

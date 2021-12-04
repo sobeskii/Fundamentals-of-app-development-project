@@ -15,13 +15,11 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.databinding.FragmentLoginBinding
 import androidx.appcompat.app.AppCompatActivity
 
-
-
-
-class LoginFragment : Fragment() {
+// fragment class for user's login
+class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var mAuth : FirebaseAuth
-    private var fdb : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var mAuth: FirebaseAuth
+    private var fdb: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +29,7 @@ class LoginFragment : Fragment() {
             .build()
         mAuth = FirebaseAuth.getInstance()
     }
+
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
@@ -41,10 +40,7 @@ class LoginFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -60,7 +56,7 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    fun userLogin(){
+    private fun userLogin() {
         if(binding.etEmail.text.toString().trim().isEmpty()) {
             binding.etEmail.error = "Email is required!"
             binding.etEmail.requestFocus()
@@ -77,12 +73,12 @@ class LoginFragment : Fragment() {
             return
         }
         if(binding.etPassword.text.toString().length < 6){
-            binding.etPassword.error = "Password is too short!"
+            binding.etPassword.error = "Password is too short - it has to be at least 6 characters long!"
             binding.etPassword.requestFocus()
             return
         }
 
-        mAuth.signInWithEmailAndPassword(binding.etEmail.text.toString(),binding.etPassword.text.toString()).addOnCompleteListener{
+        mAuth.signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString()).addOnCompleteListener{
                 task ->
             if(task.isSuccessful){
                 //activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered!", Snackbar.LENGTH_LONG) }
@@ -94,7 +90,5 @@ class LoginFragment : Fragment() {
                     ?.show()
             }
         }
-
     }
-
 }

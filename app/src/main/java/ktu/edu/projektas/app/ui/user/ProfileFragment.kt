@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.user
 
 import android.content.Context
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
@@ -18,7 +17,8 @@ import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
+// fragment class for user's profile
+class ProfileFragment: Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth : FirebaseAuth
@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner

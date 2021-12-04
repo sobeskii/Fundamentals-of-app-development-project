@@ -1,4 +1,5 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.home
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,15 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.databinding.EventItemBinding
 
-class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback()) {
-    class ViewHolder(private val binding: EventItemBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+// home's adapter class
+class HomeAdapter: ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback()) {
+
+    class ViewHolder(private val binding: EventItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Event) {
             binding.root.layoutParams
             binding.event = event
         }
     }
-    class EventDiffCallback : DiffUtil.ItemCallback<Event>() {
+
+    class EventDiffCallback: DiffUtil.ItemCallback<Event>() {
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem.id == newItem.id
         }
@@ -23,6 +26,7 @@ class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback
             return oldItem == newItem
         }
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,8 +38,8 @@ class HomeAdapter : ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback
             )
         )
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }

@@ -1,24 +1,45 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.schedule
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.util.Log
+import androidx.fragment.app.activityViewModels
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import ktu.edu.projektas.app.utils.formatLocalDate
-import ktu.edu.projektas.app.utils.formatLocalDateTime
-import ktu.edu.projektas.app.utils.longToLocalDateTime
+import ktu.edu.projektas.R
+import ktu.edu.projektas.app.data.EventReg
+import ktu.edu.projektas.app.data.ScheduleViewModel
+import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
+import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentEventBinding
 
-class EventFragment : Fragment() {
+// fragment class for viewing event's details
+class EventFragment: Fragment() {
 
     private lateinit var binding: FragmentEventBinding
     private val user = FirebaseAuth.getInstance().currentUser
     private val db =    FirebaseFirestore.getInstance()
-    private lateinit var userData   :   DocumentSnapshot
+    private lateinit var userData  :   DocumentSnapshot
+    private var semesterStart : Long? = null
+    private var semesterEnd : Long? = null
+    private var userData1 : User? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
+        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+    }
+
+    private val viewModel : ScheduleViewModel by activityViewModels {
+        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +51,9 @@ class EventFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
+        userData1 = viewModel.userData!!
 
         binding = FragmentEventBinding.inflate(inflater, container, false)
 
@@ -40,22 +63,48 @@ class EventFragment : Fragment() {
         binding.startTimeText.text = formatLocalDateTime(longToLocalDateTime(args.startTime.toLong()))
         binding.endTimeText.text = formatLocalDateTime(longToLocalDateTime(args.endTime.toLong()))
         binding.locationText.text = args.location
+        binding.isLecturer = (userData1!!.role == "Lecturer")
 
-        binding.button.setOnClickListener{
-            var graph: View = binding.green
-            var params: ViewGroup.LayoutParams = graph.layoutParams
-            if(params.height <= 140){
-                params.height += 10
-            }
+        binding.buttonReg.setOnClickListener {
 
-            graph =  binding.green;
-            graph.layoutParams = params;
+            val eventReg = EventReg(user!!.uid.toString(),args.firebaseid.toString())
+            CheckIfRegistered(eventReg)
         }
-
-
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
+    }
+    fun insertEventRegistration(event: EventReg){
 
+        val data = hashMapOf(
+            "eventid" to event.eventid,
+            "userid" to event.userid
+        )
+
+        db.collection("eventReg")
+            .add(data)
+            .addOnSuccessListener {
+                activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout),"You have registered successfully!", Snackbar.LENGTH_LONG).show()}
+            }
+    }
+    fun CheckIfRegistered(event: EventReg){
+        var check = false
+        db.collection("eventReg").get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.get("eventid")!!.equals(event.eventid) && document.get("userid")!!.equals(event.userid)
+                    ) {
+                        //if document found
+                        check = true
+                    }
+                }
+                if (check == false) {
+                    //if document not found
+                    insertEventRegistration(event)
+                }
+                else{
+                    activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "You have registered already", Snackbar.LENGTH_LONG).show() }
+                }
+            }
     }
 }

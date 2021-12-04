@@ -1,15 +1,20 @@
 package ktu.edu.projektas.app.ui.schedule
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import ktu.edu.projektas.app.utils.formatLocalDateTime
-import ktu.edu.projektas.app.utils.longToLocalDateTime
+import ktu.edu.projektas.app.data.ScheduleViewModel
+import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
+import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentEventBinding
 
 // fragment class for viewing event's details
@@ -18,7 +23,20 @@ class EventFragment: Fragment() {
     private lateinit var binding: FragmentEventBinding
     private val user = FirebaseAuth.getInstance().currentUser
     private val db =    FirebaseFirestore.getInstance()
-    private lateinit var userData   :   DocumentSnapshot
+    private lateinit var userData  :   DocumentSnapshot
+    private var semesterStart : Long? = null
+    private var semesterEnd : Long? = null
+    private var userData1 : User? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
+        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+    }
+
+    private val viewModel : ScheduleViewModel by activityViewModels {
+        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +50,8 @@ class EventFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        userData1 = viewModel.userData!!
+
         binding = FragmentEventBinding.inflate(inflater, container, false)
 
         val args = EventFragmentArgs.fromBundle(requireArguments())
@@ -40,19 +60,23 @@ class EventFragment: Fragment() {
         binding.startTimeText.text = formatLocalDateTime(longToLocalDateTime(args.startTime.toLong()))
         binding.endTimeText.text = formatLocalDateTime(longToLocalDateTime(args.endTime.toLong()))
         binding.locationText.text = args.location
+        binding.isLecturer = (userData1!!.role == "Lecturer")
 
-
-        binding.button.setOnClickListener{
-            var graph: View = binding.green
-            val params: ViewGroup.LayoutParams = graph.layoutParams
-            if(params.height <= 140){
-                params.height += 10
-            }
-
-            graph =  binding.green
-            graph.layoutParams = params
+        binding.buttonReg.setOnClickListener {
+            val db = FirebaseFirestore.getInstance().document("eventReg")
+            val eventData = hashMapOf(
+                "userid" to 10,
+                "eventid" to 11
+            )
+            db.collection("eventReg")
+                .add(eventData)
+                .addOnSuccessListener {
+                    Log.d("TAG","paejo")
+                }
+                .addOnFailureListener{
+                    Log.d("TAG","nepaejo")
+                }
         }
-
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root

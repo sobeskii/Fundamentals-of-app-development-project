@@ -30,6 +30,7 @@ import java.sql.Time
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.HashMap
 
 // fragment class for creating events
 class CreateEventFragment: Fragment() {

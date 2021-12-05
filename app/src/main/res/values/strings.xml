@@ -22,6 +22,7 @@
     <string name="upcoming_events">Upcoming events today:</string>
     <string name="notific_text">Received notifications:</string>
     <string name="no_data_available">You have no upcoming events today</string>
+    <string name="no_notifs_available">You have no notifications</string>
     <string name="no_notific">You have not received notifications</string>
     <string name="sign_up_text">Don\'t have an account?</string>
     <string name="search_button">Search</string>

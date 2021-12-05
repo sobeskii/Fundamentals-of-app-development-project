@@ -24,6 +24,7 @@ class ScheduleViewModel(context: Context): ViewModel() {
 
     private var _events: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
     private var _upcomingEvents: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
+    private var _notifications: MutableLiveData<List<Notification>> = MutableLiveData<List<Notification>>()
 
     private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
     private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(1).withHour(0))
@@ -64,6 +65,13 @@ class ScheduleViewModel(context: Context): ViewModel() {
         }
         set(value) {_events = value}
 
+    internal var notifications:MutableLiveData<List<Notification>>
+        get() {
+            listenToNotifications()
+            return _notifications
+        }
+        set(value) {_notifications = value}
+
     internal var upcomingEvents:MutableLiveData<List<Event>>
         get() {
             listenToUpcomingEvents()
@@ -80,6 +88,34 @@ class ScheduleViewModel(context: Context): ViewModel() {
         listenToUpcomingEvents()
         getUserData()
     }
+
+    // gathers all events
+    private fun listenToNotifications() {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        fdb.collection("notifications").addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen Failed", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val allNotifications = mutableListOf<Notification>()
+                val documents = snapshot.documents
+                documents.forEach {
+
+                    val notification = it.toObject(Notification::class.java)
+                    if (notification != null && user != null) {
+                        notification.firebaseId = it.id
+                        if (notification.userid == user.uid) {
+                            allNotifications.add(notification)
+                        }
+                    }
+                }
+                _notifications.value = Collections.unmodifiableList(allNotifications)
+            }
+        }
+    }
+
 
 
     private fun getSemesterDates() {

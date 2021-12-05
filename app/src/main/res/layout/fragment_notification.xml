@@ -1,116 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/notificaion_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".app.ui.user.NotificationFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TableLayout
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notificaion_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:layout_margin="40dp">
+        android:layout_height="match_parent"
+        tools:context=".app.ui.user.NotificationFragment">
 
-        <TableRow
-            android:background="@android:color/holo_green_dark">
+        <TextView
+            android:id="@+id/empty_view2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_notifs_available"
+            android:visibility="gone" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:padding="10sp"
-                android:text="Date"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center_horizontal"
-                android:padding="10sp"
-                android:text="Notification"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="2021-12-04 10:50"
-                android:padding="10sp"
-                android:textSize="12sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="COVID ALERT RECOGNIZED IN YOUR CLASS"
-                android:padding="10sp"
-                android:textSize="12sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
-        </TableRow>
-        <TableRow>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="2021-12-04 10:50"
-                android:padding="10sp"
-                android:textSize="12sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="COVID ALERT RECOGNIZED IN YOUR CLASS"
-                android:padding="10sp"
-                android:textSize="12sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
-        </TableRow>
-        <TableRow>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="2021-12-04 10:50"
-                android:padding="10sp"
-                android:textSize="12sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="COVID ALERT RECOGNIZED IN YOUR CLASS"
-                android:padding="10sp"
-                android:textSize="12sp"
-                android:layout_weight="4"
-                android:gravity="center_horizontal"
-                />
-
-        </TableRow>
-
-    </TableLayout>
-
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notification_adapter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

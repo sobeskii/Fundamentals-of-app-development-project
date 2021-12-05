@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="ktu.edu.projektas.app.ui.ScheduleFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.ScheduleFragment"
         android:label="Schedule">
         <action
             android:id="@+id/action_scheduleFragment_to_createEventFragment"
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
-        android:name="ktu.edu.projektas.app.ui.CreateEventFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.CreateEventFragment"
         android:label="Create single event">
         <action
             android:id="@+id/action_createEventFragment_to_scheduleFragment"
@@ -110,7 +110,7 @@
     </fragment>
     <fragment
         android:id="@+id/massAddEvents"
-        android:name="ktu.edu.projektas.app.ui.MassAddEvents"
+        android:name="ktu.edu.projektas.app.ui.schedule.MassAddEvents"
         android:label="Create recurring event">
         <action
             android:id="@+id/action_massAddEvents_to_homeFragment"
@@ -147,7 +147,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="ktu.edu.projektas.app.ui.SettingsFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" >
         <action

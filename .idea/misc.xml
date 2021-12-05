@@ -14,6 +14,7 @@
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/ic_new_launcher_foreground.xml" value="0.17604166666666668" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/ic_person.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/outline_event_24.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/outline_login_24.xml" value="0.190625" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/outline_password_24.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/outline_school2_24.xml" value="0.17604166666666668" />
@@ -22,7 +23,7 @@
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/dropdown_item.xml" value="0.15625" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/event_item.xml" value="0.264" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_changepw.xml" value="0.264" />
-        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.2" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.264" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_event.xml" value="0.2" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_login.xml" value="0.264" />
@@ -32,6 +33,7 @@
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register.xml" value="0.264" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register_to_event.xml" value="0.16" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/notification_item.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/menu/drawer_view.xml" value="0.16" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/menu/top_menu.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17604166666666668" />
@@ -64,13 +66,9 @@
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_home.xml" value="0.15942028985507245" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_login.xml" value="0.2653061224489796" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_mass_add_events.xml" value="0.15942028985507245" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_notification.xml" value="0.23278985507246377" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_profile.xml" value="0.15942028985507245" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register.xml" value="0.264" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register_to_event.xml" value="0.2341485507246377" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.264" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_settings.xml" value="0.2341485507246377" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/notification_item.xml" value="0.536" />
+        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.15942028985507245" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/menu/drawer_view.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/menu/top_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/vlada/Desktop/Fundamentals-of-app-development-project/app/src/main/res/drawable-anydpi/add_ic.xml" value="0.23958333333333334" />

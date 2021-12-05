@@ -22,4 +22,9 @@
     <color name="teal_regular">#398884</color>
     <color name="teal_dark">#005b57</color>
     <color name="teal_light">#6bb8b4</color>
+    <color name="red_light">#E57373</color>
+    <color name="grey_light">#BDBDBD</color>
+    <color name="blue_light">#90CAF9</color>
+    <color name="green_light">#A5D6A7</color>
+    <color name="cyan_light">#80DEEA</color>
 </resources>

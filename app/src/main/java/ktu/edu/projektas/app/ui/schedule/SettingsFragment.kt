@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.schedule
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.SharedPreferences

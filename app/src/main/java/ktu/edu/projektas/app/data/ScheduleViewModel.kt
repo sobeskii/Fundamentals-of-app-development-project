@@ -433,11 +433,11 @@ class ScheduleViewModel(context: Context): ViewModel() {
     // sets colors
     private fun getColorCode(str: String?): Int{
         return when (str) {
-            "Red" -> ContextCompat.getColor(context, R.color.red_700)
-            "Black" -> ContextCompat.getColor(context, R.color.black)
-            "Blue" -> ContextCompat.getColor(context, R.color.blue)
-            "Green" -> ContextCompat.getColor(context, R.color.green)
-            "Cyan" -> ContextCompat.getColor(context, R.color.cyan)
+            "Red" -> ContextCompat.getColor(context, R.color.red_light)
+            "Grey" -> ContextCompat.getColor(context, R.color.grey_light)
+            "Blue" -> ContextCompat.getColor(context, R.color.blue_light)
+            "Green" -> ContextCompat.getColor(context, R.color.green_light)
+            "Cyan" -> ContextCompat.getColor(context, R.color.cyan_light)
 
             else -> -1
         }

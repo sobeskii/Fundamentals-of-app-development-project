@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.schedule
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -40,8 +36,8 @@ class CreateEventFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateEventBinding
 
-    private val defaultButtonTintColor = "#1B1717"
-    private val onFormValidButtonTintColor = "#4F774F"
+    private val defaultButtonTintColor = "#3a5d87"
+    private val onFormValidButtonTintColor = "#3a5d87"
 
     private val date = MutableStateFlow("")
     private val startTime = MutableStateFlow("")
@@ -90,8 +86,8 @@ class CreateEventFragment : Fragment() {
 
         errorMessage = when {
             dateIsValid.not() -> "Date is invalid"
-            startTimeIsValid.not() -> "Start time is invalid - event has to take place between 8:00 and 19:00"
-            duration.not() -> "Duration is invalid - event has to last from 60 to 300 minutes"
+            startTimeIsValid.not() -> "Event has to take place between 8:00 and 19:00"
+            duration.not() -> "Event has to last from 60 to 300 minutes"
             event.not() -> "Event title is invalid"
             location.not() -> "Location is invalid"
 
@@ -154,7 +150,7 @@ class CreateEventFragment : Fragment() {
             }
         }
 
-        val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added!", Snackbar.LENGTH_LONG) }
+        val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added", Snackbar.LENGTH_LONG) }
 
         binding.createEventBtn.setOnClickListener {
             if (snackBar != null) {

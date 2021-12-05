@@ -19,7 +19,7 @@
     <string name="day_of_week">Enter day of week (1 from 7)</string>
     <string name="event_odd_week">Event recurrence</string>
 
-    <string name="upcoming_events">Upcoming events today:</string>
+    <string name="upcoming_events">Upcoming events</string>
     <string name="notific_text">Received notifications:</string>
     <string name="no_data_available">You have no upcoming events today</string>
     <string name="no_notifs_available">You have no notifications</string>
@@ -33,7 +33,7 @@
         <item>Red</item>
         <item>Blue</item>
         <item>Green</item>
-        <item>Black</item>
+        <item>Grey</item>
         <item>Cyan</item>
     </string-array>
 
@@ -99,4 +99,10 @@
     <string name="profile">Profile</string>
     <string name="notifications">Notifications</string>
     <string name="graduation_cap_icon">Graduation cap icon</string>
+    <string name="search">Search</string>
+    <string name="actionbar_button">ActionBar Button</string>
+    <string name="actionbar_spinner">ActionBar Spinner</string>
+    <string name="actionbar_input">ActionBar Input</string>
+    <string name="register_attendance">Register attendance</string>
+    <string name="register_covid_outbreak">Register COVID outbreak</string>
 </resources>

@@ -26,7 +26,9 @@ class RegisterFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(false)
+            .build()
         mAuth = FirebaseAuth.getInstance()
     }
 

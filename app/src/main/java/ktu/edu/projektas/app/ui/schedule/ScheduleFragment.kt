@@ -1,8 +1,9 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.schedule
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color.BLACK
+import android.graphics.Color.LTGRAY
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -15,21 +16,15 @@ import com.alamkanak.weekview.jsr310.minDateAsLocalDate
 import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
-import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
-import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import java.time.*
 import android.view.MenuInflater
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import ktu.edu.projektas.app.data.Event
-import ktu.edu.projektas.app.ui.schedule.ScheduleAdapter
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import ktu.edu.projektas.app.data.User
-import ktu.edu.projektas.app.utils.convertLongToLocalDate
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
 
@@ -106,9 +101,10 @@ class ScheduleFragment : Fragment() {
             val btn = getItemBtn.actionView as AppCompatButton
             val input = getItemInput.actionView as TextInputEditText
 
-            btn.setBackgroundColor(resources.getColor(R.color.orange_900))
+            btn.setBackgroundColor(resources.getColor(R.color.teal_regular))
             btn.text = "Search"
             btn.setTextColor(resources.getColor(R.color.white))
+            btn.width = 10
 
             btn.setOnClickListener{
 
@@ -138,13 +134,14 @@ class ScheduleFragment : Fragment() {
         }
 
         binding.weekView.minHour  = 8
-        binding.weekView.maxHour  = 20
+        binding.weekView.maxHour  = 24
 
         binding.weekView.numberOfVisibleDays = 7
         binding.weekView.minDateAsLocalDate = convertLongToLocalDate(viewModel.semesterStart)
         binding.weekView.maxDateAsLocalDate = convertLongToLocalDate(viewModel.semesterEnd)
 
         binding.weekView.showFirstDayOfWeekFirst
+        binding.weekView.eventTextSize = 30
 
         binding.weekView.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
@@ -170,8 +167,8 @@ class ScheduleFragment : Fragment() {
     private fun onLongClick(event: Event) {
         if(event.userUUID == user!!.uid) {
             AlertDialog.Builder(context)
-                .setTitle("Delete entry")
-                .setMessage("Are you sure you want to delete this entry?")
+                .setTitle("Delete event")
+                .setMessage("Are you sure you want to delete this event?")
                 .setPositiveButton(android.R.string.yes) { dialog, which ->
                     if (event.groupId != 0) {
                         viewModel.deleteByGroup(event.groupId)

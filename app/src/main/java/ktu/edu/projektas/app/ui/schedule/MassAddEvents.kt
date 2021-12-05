@@ -1,7 +1,6 @@
-package ktu.edu.projektas.app.ui
+package ktu.edu.projektas.app.ui.schedule
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -25,8 +24,6 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.utils.formatTime
-import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
-import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.databinding.FragmentMassAddEventsBinding
 
 import java.sql.Time
@@ -36,8 +33,8 @@ import java.util.*
 class MassAddEvents : Fragment() {
     private lateinit var binding: FragmentMassAddEventsBinding
 
-    private val defaultButtonTintColor = "#1B1717"
-    private val onFormValidButtonTintColor = "#4F774F"
+    private val defaultButtonTintColor = "#3a5d87"
+    private val onFormValidButtonTintColor = "#3a5d87"
 
     private val weekDay = MutableStateFlow("")
     private val startTime = MutableStateFlow("")

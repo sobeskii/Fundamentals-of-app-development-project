@@ -106,7 +106,7 @@ class ScheduleFragment : Fragment() {
             val btn = getItemBtn.actionView as AppCompatButton
             val input = getItemInput.actionView as TextInputEditText
 
-            btn.setBackgroundColor(resources.getColor(R.color.orange_900))
+            btn.setBackgroundColor(resources.getColor(R.color.blue))
             btn.text = "Search"
             btn.setTextColor(resources.getColor(R.color.white))
 

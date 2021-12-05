@@ -30,11 +30,19 @@ class StudentListFragment : Fragment() {
 
     private lateinit var binding: FragmentStudentListBinding
     private var adapter: StudentAdapter? = null
-
+    private var list : MutableList<User>? = null
     override fun onStart() {
         super.onStart()
         adapter!!.startListening()
     }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,22 +53,29 @@ class StudentListFragment : Fragment() {
         binding.studentList.layoutManager = LinearLayoutManager(context)
         binding.studentList.setHasFixedSize(true)
 
-        val fdb = FirebaseFirestore.getInstance()
-        val query = fdb.collection("users")
-        val options = FirestoreRecyclerOptions.Builder<User>().setQuery(query, User::class.java).build()
-        adapter =   StudentAdapter(options)
+        val args = StudentListFragmentArgs.fromBundle(requireArguments())
 
+        val fdb = FirebaseFirestore.getInstance()
+
+        val query = fdb.collection("users")
+
+        val options = FirestoreRecyclerOptions.Builder<User>().setQuery(query, User::class.java).build()
+
+        adapter = StudentAdapter(options)
 
         binding.studentList.adapter = adapter
+
+
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
+
+
     override fun onStop() {
         super.onStop()
+        adapter!!.stopListening()
 
-        if (adapter != null) {
-            adapter!!.stopListening()
-        }
     }
+
 }

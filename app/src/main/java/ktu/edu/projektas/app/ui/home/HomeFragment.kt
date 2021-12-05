@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui.home
+package ktu.edu.projektas.app.ui
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,42 +8,51 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Nullable
 import androidx.core.app.NotificationCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
 import ktu.edu.projektas.R
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
+import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.app.utils.formatLocalDateTime
 import ktu.edu.projektas.app.utils.getCurrentMonthFirstDay
 import ktu.edu.projektas.app.utils.getCurrentMonthLastDay
 import ktu.edu.projektas.app.utils.longToLocalDateTime
 import ktu.edu.projektas.databinding.FragmentHomeBinding
+import com.google.firebase.firestore.*
+import ktu.edu.projektas.app.ui.home.HomeAdapter
 
-// home's fragment class
-class HomeFragment: Fragment() {
+
+class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter: HomeAdapter
-    private var semesterStart: Long? = null
-    private var semesterEnd: Long? = null
+    private lateinit var adapter : HomeAdapter
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+
+    private val viewModel : ScheduleViewModel by activityViewModels {
+        ScheduleViewModelFactory(requireContext())
     }
 
-    private val viewModel: ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        adapter = HomeAdapter()
+        adapter =   HomeAdapter()
 
         viewModel.upcomingEvents.observe(viewLifecycleOwner, Observer { list ->
             if(list.isNotEmpty()) {
@@ -65,7 +74,8 @@ class HomeFragment: Fragment() {
         return binding.root
     }
 
-    private fun setVisible(boolean: Boolean) {
+
+    private fun setVisible(boolean: Boolean){
         binding.upcomingEventAdapter.visibility = if(boolean) View.VISIBLE else View.GONE
         binding.emptyView.visibility = if(boolean) View.GONE else View.VISIBLE
     }
@@ -77,7 +87,7 @@ class HomeFragment: Fragment() {
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, 0)
 
-        val builder = NotificationCompat.Builder(requireContext(), channelId)
+        var builder = NotificationCompat.Builder(requireContext(), channelId)
             .setSmallIcon(R.drawable.calendar_ic)
             .setContentTitle(title)
             .setContentText(subtitle)

@@ -1,8 +1,8 @@
-package ktu.edu.projektas.app.ui.schedule
-
+package ktu.edu.projektas.app.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -22,46 +22,48 @@ import android.view.MenuInflater
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import ktu.edu.projektas.app.data.Event
+import ktu.edu.projektas.app.ui.schedule.ScheduleAdapter
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import ktu.edu.projektas.app.data.User
+import ktu.edu.projektas.app.utils.convertLongToLocalDate
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
 
-// schedule's fragment class
-class ScheduleFragment: Fragment() {
+
+
+class ScheduleFragment : Fragment() {
 
     private lateinit var binding: FragmentScheduleBinding
 
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
     private val user = FirebaseAuth.getInstance().currentUser
+    private lateinit var userData  : User
 
-    private lateinit var spinner: Spinner
-    private val adapter = ScheduleAdapter(clickListener = this::onLongClick, secondListener = this::onClick)
+    private lateinit var spinner : Spinner
+    private val adapter =   ScheduleAdapter(clickListener = this::onLongClick,
+                                            secondListener = this::onClick)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
+        userData = viewModel.userData!!
     }
 
-    private val viewModel: ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+    private val viewModel : ScheduleViewModel by activityViewModels {
+        ScheduleViewModelFactory(requireContext())
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-
-    // adds a drop-down list (a spinner) of colors for event filtering to top toolbar
+    // Add spinner to top toolbar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.top_menu, menu)
 
-        val item: MenuItem = menu.findItem(R.id.spinner)
+        val item: MenuItem = menu!!.findItem(R.id.spinner)
         spinner = item.actionView as Spinner
-
-        // fills the spinner with a list of colors
+        //Fill spinner with color list
         activity?.let {
             ArrayAdapter.createFromResource(
                 it.applicationContext,
@@ -71,15 +73,18 @@ class ScheduleFragment: Fragment() {
                 spinner.adapter = adapter
             }
         }
-
-        // adds onItemSelected listener for changing data (filtering events) when the spinner is changed
-        spinner.onItemSelectedListener = object: OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long) {
-                val selectedItem  = spinner.selectedItem.toString()
+        // On selected listener to change data when spinner is changed
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                var selectedItem  = spinner.selectedItem.toString()
                 binding.weekView.adapter = null
-
-                // gets events by color
-                viewModel.getAllEventsByColor(selectedItem).observe(viewLifecycleOwner){
+                // Get events by color
+                viewModel.getAllEventsByColor(selectedItem)?.observe(viewLifecycleOwner){
                     adapter.submitList(it)
                 }
                 binding.weekView.adapter = adapter
@@ -87,8 +92,7 @@ class ScheduleFragment: Fragment() {
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
                 binding.weekView.adapter = null
-
-                // resets to normal event data
+                // Reset to normal event data
                 viewModel.events.observe(viewLifecycleOwner){
                     adapter.submitList(it)
                 }
@@ -103,26 +107,31 @@ class ScheduleFragment: Fragment() {
             val input = getItemInput.actionView as TextInputEditText
 
             btn.setBackgroundColor(resources.getColor(R.color.orange_900))
-            btn.setText(R.string.search_button)
+            btn.text = "Search"
             btn.setTextColor(resources.getColor(R.color.white))
 
             btn.setOnClickListener{
-                val query  = input.text.toString()
+
+                var query  = input.text.toString()
 
                 binding.weekView.adapter = null
 
-                viewModel.getAllEventsByQuery(query).observe(viewLifecycleOwner){
+                // Get events by color
+                viewModel.getAllEventsByQuery(query)?.observe(viewLifecycleOwner){
                     adapter.submitList(it)
                 }
                 binding.weekView.adapter = adapter
+
             }
         }
-        return super.onCreateOptionsMenu(menu, inflater)
+        return super.onCreateOptionsMenu(menu!!, inflater!!)
     }
-
-    // configures schedule's view
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentScheduleBinding.inflate(inflater)
+
 
         viewModel.events.observe(viewLifecycleOwner){
             adapter.submitList(it)
@@ -132,8 +141,8 @@ class ScheduleFragment: Fragment() {
         binding.weekView.maxHour  = 20
 
         binding.weekView.numberOfVisibleDays = 7
-        binding.weekView.minDateAsLocalDate = convertLongToLocalDate(semesterStart)
-        binding.weekView.maxDateAsLocalDate = convertLongToLocalDate(semesterEnd)
+        binding.weekView.minDateAsLocalDate = convertLongToLocalDate(viewModel.semesterStart)
+        binding.weekView.maxDateAsLocalDate = convertLongToLocalDate(viewModel.semesterEnd)
 
         binding.weekView.showFirstDayOfWeekFirst
 
@@ -144,15 +153,22 @@ class ScheduleFragment: Fragment() {
             view?.findNavController()?.navigate(R.id.action_scheduleFragment_to_createEventFragment)
         }
 
+        binding.settingsBtn.visibility = if(userData!!.role == "Lecturer") View.VISIBLE else View.GONE
+
+        binding.settingsBtn.setOnClickListener{
+            view?.findNavController()?.navigate(R.id.action_scheduleFragment_to_settingsFragment)
+        }
+
+
+
         return binding.root
     }
 
-    private fun convertLongToLocalDate(value: Long?): LocalDate{
+    private fun convertLongToLocalDate(value: Long?) : LocalDate{
         return Instant.ofEpochMilli(value!!).atZone(ZoneId.systemDefault()).toLocalDate()
     }
-
     private fun onLongClick(event: Event) {
-        if (event.userUUID == user!!.uid) {
+        if(event.userUUID == user!!.uid) {
             AlertDialog.Builder(context)
                 .setTitle("Delete entry")
                 .setMessage("Are you sure you want to delete this entry?")
@@ -170,12 +186,8 @@ class ScheduleFragment: Fragment() {
     }
 
     private fun onClick(event: Event) {
-        val action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(
-            event.title,
-            event.location,
-            event.endTime.toString(),
-            event.startTime.toString()
-        )
+
+        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString(),event.firebaseId)
 
         view?.findNavController()
             ?.navigate(action)

@@ -1,4 +1,4 @@
-package ktu.edu.projektas.app.ui.schedule
+package ktu.edu.projektas.app.ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -30,10 +34,9 @@ import java.sql.Time
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.HashMap
 
-// fragment class for creating events
-class CreateEventFragment: Fragment() {
+
+class CreateEventFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateEventBinding
 
@@ -46,21 +49,22 @@ class CreateEventFragment: Fragment() {
     private val event = MutableStateFlow("")
     private val location = MutableStateFlow("")
     private var errorMessage: String? = null
-    private lateinit var userData: User
+    private lateinit var userData : User
+    private  var semesterEnd : Long? = null
+    private  var semesterStart : Long?  = null
 
-    private var semesterStart : Long? = null
-    private var semesterEnd : Long? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        semesterStart = getCurrentMonthFirstDay()?.toEpochMilli()!!
-        semesterEnd = getCurrentMonthLastDay()?.toEpochMilli()!!
         userData = viewModel.userData!!
+        semesterEnd = viewModel.semesterEnd!!
+        semesterStart = viewModel.semesterStart!!
     }
 
     private val viewModel : ScheduleViewModel by activityViewModels {
-        ScheduleViewModelFactory(requireContext(), semesterStart!!, semesterEnd!!)
+        ScheduleViewModelFactory(requireContext())
     }
+
     private val formIsValid = combine(
             date,
             startTime,
@@ -70,12 +74,12 @@ class CreateEventFragment: Fragment() {
     ) { date, startTime, duration, event, location ->
         binding.txtErrorMessage.text = ""
 
-        val valid       =   dateIsValid(date)
-        val longDate    =   convertLocalDateToLong(valid)
+        var valid       =   dateIsValid(date)
+        var longDate    =   convertLocalDateToLong(valid)
 
         val startTimeValues = startTime.split(":")
 
-        val dateIsValid =   valid != null && longDate!! <= semesterEnd!! && longDate >= semesterStart!!
+        val dateIsValid =   valid != null && longDate!! <= semesterEnd!! && longDate!! >= semesterStart!!
         val duration    =   duration.length in 1..3 && duration.toInt() <= 300 && duration.toInt() >= 60
         val startTimeIsValid =  startTimeValues[0].length in 1..2 &&
                                 startTimeValues[0].toInt() <= 19 &&
@@ -101,11 +105,17 @@ class CreateEventFragment: Fragment() {
         dateIsValid and duration and startTimeIsValid and event and location
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+
         binding = FragmentCreateEventBinding.inflate(inflater, container, false)
 
-        binding.isLecturer = (userData.role == "Lecturer")
-        // for selecting event colors from a drop-down list
+
+        binding.openMassEventsButton.visibility = if(userData!!.role == "Lecturer") View.VISIBLE else View.GONE
+
+
         val spinner: Spinner = binding.selectEventColors
         ArrayAdapter.createFromResource(
                 activity?.applicationContext!!,
@@ -146,7 +156,6 @@ class CreateEventFragment: Fragment() {
 
         val snackBar = activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Event added!", Snackbar.LENGTH_LONG) }
 
-        // button's OnClick listener
         binding.createEventBtn.setOnClickListener {
             if (snackBar != null) {
                 snackBar.show()
@@ -163,11 +172,10 @@ class CreateEventFragment: Fragment() {
                 binding.locationInput.text.clear()
             }
         }
+            binding.openMassEventsButton.setOnClickListener{
+                view?.findNavController()?.navigate(R.id.action_createEventFragment_to_massAddEvents)
+            }
 
-        // for getting to massAddEvents
-        binding.openMassEventsButton.setOnClickListener{
-            view?.findNavController()?.navigate(R.id.action_createEventFragment_to_massAddEvents)
-        }
 
         lifecycleScope.launch {
             formIsValid.collect {
@@ -184,8 +192,7 @@ class CreateEventFragment: Fragment() {
         return binding.root
     }
 
-    // configures date picker
-    private fun setDateFromDatePicker(context: Context?, editText: EditText) {
+    fun setDateFromDatePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -202,9 +209,7 @@ class CreateEventFragment: Fragment() {
         }
         dpd?.show()
     }
-
-    // configures time picker
-    private fun setTimeFromTimePicker(context: Context?, editText: EditText) {
+    fun setTimeFromTimePicker(context: Context?, editText: EditText) {
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)

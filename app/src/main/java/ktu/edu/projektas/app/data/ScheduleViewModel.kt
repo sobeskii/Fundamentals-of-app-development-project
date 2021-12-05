@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.launch
@@ -12,20 +13,27 @@ import ktu.edu.projektas.R
 import ktu.edu.projektas.app.utils.localDateTimeToLong
 import java.time.*
 import java.util.*
+import androidx.fragment.app.activityViewModels
 import kotlin.collections.HashMap
+import kotlin.math.log
 
 // schedule's ViewModel class
-class ScheduleViewModel(context: Context, private val semesterStart: Long, private val semesterEnd: Long): ViewModel() {
+class ScheduleViewModel(context: Context): ViewModel() {
 
     private var fdb: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private var _events: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
     private var _upcomingEvents: MutableLiveData<List<Event>> = MutableLiveData<List<Event>>()
+    private var _notifications: MutableLiveData<List<Notification>> = MutableLiveData<List<Notification>>()
 
     private val currentTime     =   localDateTimeToLong(LocalDateTime.now())
-    private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(2).withHour(0))
+    private val timeAfterHour   =   localDateTimeToLong(LocalDateTime.now().plusDays(1).withHour(0))
 
-    private lateinit var _userData : User
+    private var _userData : User? = null
+    private var _semesterStart : Long? = null
+    private var _semesterEnd : Long? = null
+    private var _semesterDateId : String? = null
+
 
     private val context : Context = context
 
@@ -36,6 +44,20 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
         }
         set(value) {_userData = value!! }
 
+    internal var semesterEnd:Long?
+        get() {
+            getSemesterDates()
+            return _semesterEnd
+        }
+        set(value) {_semesterEnd = value!! }
+
+    internal var semesterStart:Long?
+        get() {
+            getSemesterDates()
+            return _semesterStart
+        }
+        set(value) {_semesterStart = value!! }
+
     internal var events:MutableLiveData<List<Event>>
         get() {
             listenToEvents()
@@ -43,42 +65,88 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
         }
         set(value) {_events = value}
 
-    internal var upcomingEvents: MutableLiveData<List<Event>>
-        get() {return _upcomingEvents}
+    internal var notifications:MutableLiveData<List<Notification>>
+        get() {
+            listenToNotifications()
+            return _notifications
+        }
+        set(value) {_notifications = value}
+
+    internal var upcomingEvents:MutableLiveData<List<Event>>
+        get() {
+            listenToUpcomingEvents()
+            return _upcomingEvents}
         set(value) {_upcomingEvents = value}
 
     init {
-        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(false)
+            .build()
+
+        getSemesterDates()
         listenToEvents()
         listenToUpcomingEvents()
         getUserData()
     }
 
+    // gathers all events
+    private fun listenToNotifications() {
+        val user = FirebaseAuth.getInstance().currentUser
 
-    fun insertAlert(event: EventReg){
-
-        val data = hashMapOf(
-            "eventid" to event.eventid,
-            "userid" to event.userid
-        )
-
-        fdb.collection("eventReg")
-            .add(data)
-            .addOnSuccessListener {
-                Log.d("TAG","paejo")
+        fdb.collection("notifications").addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen Failed", e)
+                return@addSnapshotListener
             }
-            .addOnFailureListener{
-                Log.d("TAG","nepaejo")
+            if (snapshot != null) {
+                val allNotifications = mutableListOf<Notification>()
+                val documents = snapshot.documents
+                documents.forEach {
+
+                    val notification = it.toObject(Notification::class.java)
+                    if (notification != null && user != null) {
+                        notification.firebaseId = it.id
+                        if (notification.userid == user.uid) {
+                            allNotifications.add(notification)
+                        }
+                    }
+                }
+                _notifications.value = Collections.unmodifiableList(allNotifications)
             }
+        }
     }
 
-    private fun getUserData(){
+
+
+    private fun getSemesterDates() {
+        fdb.collection("semester_dates").limit(1).addSnapshotListener{
+                snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen Failed", e)
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                val semesterDates = snapshot.documents[0]
+                _semesterEnd = semesterDates.get("semester_end") as Long?
+                _semesterStart = semesterDates.get("semester_start") as Long?
+                _semesterDateId = semesterDates.id
+            }
+        }
+    }
+    fun updateSemesterDate(date: Long,start : Boolean){
+        if(start){
+            fdb.collection("semester_dates").document(_semesterDateId!!).update("semester_start",date)
+        }else{
+            fdb.collection("semester_dates").document(_semesterDateId!!).update("semester_end",date)
+        }
+    }
+
+    fun getUserData(){
         val user = FirebaseAuth.getInstance().currentUser
         if(user != null) {
             fdb.collection("users").document(user.uid)
                 .addSnapshotListener { documentSnapshot, e ->
                     if (documentSnapshot != null) {
-                        documentSnapshot.data
                         userData = User(
                             documentSnapshot.getString("firstName")!!,
                             documentSnapshot.getString("lastName")!!,
@@ -126,6 +194,7 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
 
     // gathers all upcoming events for today
     private fun listenToUpcomingEvents() {
+        val user = FirebaseAuth.getInstance().currentUser
         if (currentTime != null) {
             if (timeAfterHour != null) {
                     fdb.collection("events")
@@ -140,10 +209,17 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
                             val documents = snapshot.documents
                             documents.forEach {
                                 val event = it.toObject(Event::class.java)
-                                if (event != null && event.endTime <= timeAfterHour) {
+                                if (event != null && user != null && event.endTime <= timeAfterHour) {
                                     event.firebaseId = it.id
-                                    allEvents.add(event)
+                                    if(event.groupId == 0 ){
+                                        if(event.userUUID == user!!.uid){
+                                            allEvents.add(event!!)
+                                        }
+                                    }else if( event.groupId != 0){
+                                        allEvents.add(event)
+                                    }
                                 }
+
                             }
                             _upcomingEvents.value = Collections.unmodifiableList(allEvents)
                         }
@@ -152,9 +228,11 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
         }
     }
 
-    // gathers events of a specified color
-    fun getAllEventsByColor(color: String): LiveData<List<Event>> {
-        val colorCode = getColorCode(color)
+
+    fun getAllEventsByColor(color:String) : LiveData<List<Event>>? {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        var colorCode = getColorCode(color)
 
         if(colorCode == -1)
             return events
@@ -172,9 +250,15 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
                 val documents = snapshot.documents
                 documents.forEach {
                     val event = it.toObject(Event::class.java)
-                    if (event != null && event.color == colorCode) {
+                    if (event != null &&  user != null && event.color == colorCode) {
                         event.firebaseId = it.id
-                        allEvents.add(event)
+                        if(event.groupId == 0 ){
+                            if(event.userUUID == user!!.uid){
+                                allEvents.add(event!!)
+                            }
+                        }else if( event.groupId != 0){
+                            allEvents.add(event)
+                        }
                     }
                 }
                 data.value = Collections.unmodifiableList(allEvents)
@@ -185,6 +269,7 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
 
     // gathers events fulfilling a specified query
     fun getAllEventsByQuery(query: String): LiveData<List<Event>> {
+        val user = FirebaseAuth.getInstance().currentUser
         if(query.isEmpty())
             return events
 
@@ -201,11 +286,16 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
                 val allEvents = mutableListOf<Event>()
                 val documents = snapshot.documents
                 documents.forEach {
-
                     val event = it.toObject(Event::class.java)
-                    if (event != null) {
+                    if (event != null && user != null ) {
                         event.firebaseId = it.id
-                        allEvents.add(event)
+                        if(event.groupId == 0 ){
+                            if(event.userUUID == user!!.uid){
+                                allEvents.add(event!!)
+                            }
+                        }else if( event.groupId != 0){
+                            allEvents.add(event)
+                        }
                     }
                 }
                 data.value = Collections.unmodifiableList(allEvents)
@@ -293,7 +383,7 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
             val hoursToAdd = startTimeValues[0].toInt().toLong()
             val minutesToAdd = startTimeValues[1].toInt().toLong()
 
-            val startDate = Instant.ofEpochMilli(semesterStart).atZone(ZoneId.systemDefault()).toLocalDateTime()
+            val startDate = Instant.ofEpochMilli(_semesterStart!!).atZone(ZoneId.systemDefault()).toLocalDateTime()
             val firstDayOfGivenWeek = startDate.with(DayOfWeek.MONDAY)
 
             val addedDays = firstDayOfGivenWeek.plusDays(daysToAdd)
@@ -310,7 +400,7 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
 
             var weekNumber = 1
 
-            while(iterate < (semesterEnd/1000)){
+            while(iterate < (_semesterEnd!! / 1000)){
                 if(weekNumber % 2 == 0 && getEvenOdd == 1) {
                     val eventStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(iterate), OffsetDateTime.now().offset)
                     addEvent(eventStart.toLocalDate().toString(),eventStart.toLocalTime().toString(),duration,name,color, location,groupId)
@@ -364,10 +454,10 @@ class ScheduleViewModel(context: Context, private val semesterStart: Long, priva
     }
 }
 
-class ScheduleViewModelFactory(val context: Context, private val semesterStart: Long, private val semesterEnd: Long): ViewModelProvider.Factory {
+class ScheduleViewModelFactory(val context: Context): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(ScheduleViewModel::class.java)) {
-            return ScheduleViewModel(context, semesterStart, semesterEnd) as T
+            return ScheduleViewModel(context) as T
         }
         throw IllegalArgumentException()
     }

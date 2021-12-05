@@ -7,58 +7,75 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".CreateEvent">
+        tools:context=".CreateEvent"
+        android:background="@drawable/border">
 
         <TextView
             android:id="@+id/tv_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
             android:text="@string/log_in_to_schedule_app"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textSize="28sp"
+            android:textStyle="normal"
             app:layout_constraintBottom_toTopOf="@+id/et_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView3"
             app:layout_constraintVertical_chainStyle="packed" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_email"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
-            android:ems="15"
-            android:autofillHints="@string/email_address"
             android:hint="@string/email_address"
-            android:inputType="textEmailAddress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/baseline_email_24"
             app:layout_constraintBottom_toTopOf="@+id/et_password"
             app:layout_constraintEnd_toEndOf="@+id/tv_heading"
             app:layout_constraintStart_toStartOf="@+id/tv_heading"
-            app:layout_constraintTop_toBottomOf="@+id/tv_heading" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_heading">
 
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_password"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:ems="15"
-            android:autofillHints="@string/password"
             android:hint="@string/password"
-            android:inputType="textPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/outline_password_24"
             app:layout_constraintBottom_toTopOf="@+id/bt_login"
             app:layout_constraintEnd_toEndOf="@+id/et_email"
             app:layout_constraintStart_toStartOf="@+id/et_email"
-            app:layout_constraintTop_toBottomOf="@+id/et_email" />
+            app:layout_constraintTop_toBottomOf="@+id/et_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textSize="18sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/bt_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:text="@string/log_in"
@@ -95,12 +112,28 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/orange_500"
+            android:textColor="@color/navy_dark"
             android:textSize="18sp"
             android:background="@android:color/transparent"
             android:textAllCaps="false"
-            android:text="@string/sign_up" />
+            android:text="@string/sign_up"
+            android:textStyle="bold"/>
     </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="109dp"
+            android:layout_height="102dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="160dp"
+            android:contentDescription="@string/graduation_cap_icon"
+            app:layout_constraintBottom_toTopOf="@+id/tv_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/outline_school_24"
+            app:tint="@color/teal_regular" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

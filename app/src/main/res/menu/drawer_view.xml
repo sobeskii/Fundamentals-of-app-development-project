@@ -4,21 +4,22 @@
         <item
             android:id="@+id/homeFragment"
             android:icon="@drawable/home_ic"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/scheduleFragment"
             android:icon="@drawable/calendar_ic"
-            android:title="Schedule" />
+            android:title="@string/schedule" />
         <item
             android:id="@+id/profileFragment"
-            android:icon="?android:attr/listChoiceIndicatorSingle"
-            android:title="Profile" />
+            android:icon="@drawable/ic_person"
+            android:title="@string/profile" />
         <item
             android:id="@+id/notificationFragment"
             android:icon="@drawable/ic_baseline_notifications_24"
-            android:title="Notifications" />
+            android:title="@string/notifications" />
         <item
             android:id="@+id/nav_logout"
-            android:title="Log out" />
+            android:title="@string/log_out"
+            android:icon="@drawable/baseline_logout_24"/>
     </group>
 </menu>

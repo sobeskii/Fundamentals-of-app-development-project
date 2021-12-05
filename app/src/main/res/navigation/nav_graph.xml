@@ -141,7 +141,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="ktu.edu.projektas.app.ui.user.RegisterFragment"
-        android:label="Sign up for Schedule App">
+        android:label="Sign up for Study Easy">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

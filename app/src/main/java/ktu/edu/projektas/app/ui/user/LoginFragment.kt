@@ -57,28 +57,28 @@ class LoginFragment: Fragment() {
     }
 
     private fun userLogin() {
-        if(binding.etEmail.text.toString().trim().isEmpty()) {
+        if(binding.etEmail.editText?.text.toString().trim().isEmpty()) {
             binding.etEmail.error = "Email is required!"
             binding.etEmail.requestFocus()
             return
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.text.toString()).matches()) {
+        if(!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.editText?.text.toString()).matches()) {
             binding.etEmail.error = "Please provide a valid email!"
             binding.etEmail.requestFocus()
             return
         }
-        if(binding.etPassword.text.toString().trim().isEmpty()) {
+        if(binding.etPassword.editText?.text.toString().trim().isEmpty()) {
             binding.etPassword.error = "Password is required!"
             binding.etPassword.requestFocus()
             return
         }
-        if(binding.etPassword.text.toString().length < 6){
+        if(binding.etPassword.editText?.text.toString().length < 6){
             binding.etPassword.error = "Password is too short - it has to be at least 6 characters long!"
             binding.etPassword.requestFocus()
             return
         }
 
-        mAuth.signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString()).addOnCompleteListener{
+        mAuth.signInWithEmailAndPassword(binding.etEmail.editText?.text.toString(), binding.etPassword.editText?.text.toString()).addOnCompleteListener{
                 task ->
             if(task.isSuccessful){
                 //activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered!", Snackbar.LENGTH_LONG) }

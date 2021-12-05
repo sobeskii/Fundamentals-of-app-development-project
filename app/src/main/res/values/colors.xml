@@ -16,4 +16,10 @@
     <color name="blue">#2196F3</color>
     <color name="green">#1B5E20</color>
     <color name="cyan">#84FFFF</color>
+    <color name="navy_regular">#3a5d87</color>
+    <color name="navy_dark">#00345a</color>
+    <color name="navy_light">#6a8ab7</color>
+    <color name="teal_regular">#398884</color>
+    <color name="teal_dark">#005b57</color>
+    <color name="teal_light">#6bb8b4</color>
 </resources>

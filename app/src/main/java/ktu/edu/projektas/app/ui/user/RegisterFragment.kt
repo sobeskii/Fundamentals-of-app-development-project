@@ -45,55 +45,55 @@ class RegisterFragment: Fragment() {
     }
 
     private fun registerUser() {
-        if(binding.etFirstName.text.toString().trim().isEmpty()) {
-            binding.etFirstName.error = "First name is required!"
+        if(binding.etFirstName.editText?.text.toString().trim().isEmpty()) {
+            binding.etFirstName.error = "First name is required"
             binding.etFirstName.requestFocus()
             return
         }
-        if(binding.etLastName.text.toString().trim().isEmpty()) {
-            binding.etLastName.error = "Last name is required!"
+        if(binding.etLastName.editText?.text.toString().trim().isEmpty()) {
+            binding.etLastName.error = "Last name is required"
             binding.etLastName.requestFocus()
             return
         }
-        if(binding.etEmail.text.toString().trim().isEmpty()) {
-            binding.etEmail.error = "Email is required!"
+        if(binding.etEmail.editText?.text.toString().trim().isEmpty()) {
+            binding.etEmail.error = "Email is required"
             binding.etEmail.requestFocus()
             return
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.text.toString()).matches()) {
-            binding.etEmail.error = "Please provide a valid email!"
+        if(!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.editText?.text.toString()).matches()) {
+            binding.etEmail.error = "Email is invalid"
             binding.etEmail.requestFocus()
             return
         }
-        if(binding.etPassword.text.toString().trim().isEmpty()) {
-            binding.etPassword.error = "Password is required!"
+        if(binding.etPassword.editText?.text.toString().trim().isEmpty()) {
+            binding.etPassword.error = "Password is required"
             binding.etPassword.requestFocus()
             return
         }
-        if(binding.etPassword.text.toString().length < 6){
-            binding.etPassword.error = "Password is too short - it has to be at least 6 characters long!"
+        if(binding.etPassword.editText?.text.toString().length < 6){
+            binding.etPassword.error = "Password has to be at least 6 characters long"
             binding.etPassword.requestFocus()
             return
         }
-        if(binding.etPassword.text.toString() != binding.etRepeatPassword.text.toString()){
-            binding.etRepeatPassword.error = "Passwords must match!"
+        if(binding.etPassword.editText?.text.toString() != binding.etRepeatPassword.editText?.text.toString()){
+            binding.etRepeatPassword.error = "Passwords must match"
             binding.etRepeatPassword.requestFocus()
             return
         }
-        mAuth.createUserWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString()).addOnCompleteListener{
+        mAuth.createUserWithEmailAndPassword(binding.etEmail.editText?.text.toString(), binding.etPassword.editText?.text.toString()).addOnCompleteListener{
             task ->
             if(task.isSuccessful){
-                activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered!", Snackbar.LENGTH_LONG) }
+                activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered", Snackbar.LENGTH_LONG) }
                     ?.show()
 
-                val user = User(binding.etFirstName.text.toString(), binding.etLastName.text.toString(), binding.etEmail.text.toString(), binding.etRole.text.toString(), binding.etGroup.text.toString())
+                val user = User(binding.etFirstName.editText?.text.toString(), binding.etLastName.editText?.text.toString(), binding.etEmail.editText?.text.toString(), binding.etRole.text.toString(), binding.etGroup.editText?.text.toString())
 
                 FirebaseAuth.getInstance().currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
 
                 view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
             }
             else {
-                activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "An error has occurred, please try again!", Snackbar.LENGTH_LONG) }
+                activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "Error has occurred, please try again", Snackbar.LENGTH_LONG) }
                     ?.show()
             }
         }

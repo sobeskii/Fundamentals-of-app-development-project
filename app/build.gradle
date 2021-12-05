@@ -79,5 +79,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
 
-
+    implementation("com.google.android.material:material:1.4.0")
 }

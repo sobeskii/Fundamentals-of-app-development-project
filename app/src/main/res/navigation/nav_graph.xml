@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
@@ -107,6 +110,12 @@
         <argument
             android:name="firebaseid"
             app:argType="string" />
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_eventFragment_to_studentListFragment"
+            app:destination="@id/studentListFragment" />
     </fragment>
     <fragment
         android:id="@+id/massAddEvents"
@@ -158,4 +167,13 @@
         android:id="@+id/notificationFragment"
         android:name="ktu.edu.projektas.app.ui.user.NotificationFragment"
         android:label="Notifications" />
+    <fragment
+        android:id="@+id/studentListFragment"
+        android:name="ktu.edu.projektas.app.ui.schedule.StudentListFragment"
+        android:label="fragment_student_list"
+        tools:layout="@layout/fragment_student_list" >
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+    </fragment>
 </navigation>

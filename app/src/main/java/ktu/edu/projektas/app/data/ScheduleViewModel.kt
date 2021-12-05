@@ -153,6 +153,7 @@ class ScheduleViewModel(context: Context): ViewModel() {
                             documentSnapshot.getString("email")!!,
                             documentSnapshot.getString("role")!!,
                             documentSnapshot.getString("group")!!,
+                            documentSnapshot.getString("firebaseId")!!,
                         )
                     }
                 }
@@ -191,7 +192,6 @@ class ScheduleViewModel(context: Context): ViewModel() {
             }
         }
     }
-
     // gathers all upcoming events for today
     private fun listenToUpcomingEvents() {
         val user = FirebaseAuth.getInstance().currentUser

@@ -87,10 +87,12 @@ class RegisterFragment: Fragment() {
             if(task.isSuccessful){
                 activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered", Snackbar.LENGTH_LONG) }
                     ?.show()
+                var currentUser = FirebaseAuth.getInstance().currentUser
 
-                val user = User(binding.etFirstName.editText?.text.toString(), binding.etLastName.editText?.text.toString(), binding.etEmail.editText?.text.toString(), binding.etRole.text.toString(), binding.etGroup.editText?.text.toString())
+                val user = User(binding.etFirstName.editText?.text.toString(), binding.etLastName.editText?.text.toString(), binding.etEmail.editText?.text.toString(), binding.etRole.text.toString(), binding.etGroup.editText?.text.toString(),
+                    currentUser!!.uid)
 
-                FirebaseAuth.getInstance().currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
+                currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
 
                 view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
             }

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -24,6 +25,7 @@ import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.app.ui.HomeFragment
+import ktu.edu.projektas.app.ui.ScheduleFragmentDirections
 import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentEventBinding
 import java.time.LocalDateTime
@@ -68,18 +70,28 @@ class EventFragment: Fragment() {
         binding.startTimeText.text = formatLocalDateTime(longToLocalDateTime(args.startTime.toLong()))
         binding.endTimeText.text = formatLocalDateTime(longToLocalDateTime(args.endTime.toLong()))
         binding.locationText.text = args.location
-        binding.isLecturer = (userData1!!.role == "Lecturer")
+
+        binding.buttonReg.visibility = if (userData1!!.role != "Lecturer") View.VISIBLE else View.GONE
+        binding.buttonReg.visibility = if(args.groupId != 0)  View.VISIBLE else View.GONE
+
+        binding.buttonAlert.visibility = if (userData1!!.role == "Lecturer") View.VISIBLE else View.GONE
 
         binding.buttonReg.setOnClickListener {
-
             val eventReg = EventReg(user!!.uid.toString(),args.firebaseid.toString())
             CheckIfRegistered(eventReg)
         }
-        binding.buttonAlert.setOnClickListener {
 
-            //val eventAlert = Notification(user!!.uid.toString(),args.firebaseid.toString())
+        binding.studentListBtn.setOnClickListener{
+            var action = EventFragmentDirections.actionEventFragmentToStudentListFragment(args.firebaseid)
+            view?.findNavController()
+                ?.navigate(action)
+        }
+
+
+        binding.buttonAlert.setOnClickListener {
             alertRegisteredUsers(args.firebaseid.toString(), args.eventName, args.startTime.toLong())
         }
+
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root

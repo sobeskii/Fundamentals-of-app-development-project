@@ -52,7 +52,12 @@ class HomeFragment : Fragment() {
     ): View? {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        adapter =   HomeAdapter()
+        adapter =   HomeAdapter{
+            event ->
+            var action = HomeFragmentDirections.actionHomeFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString(),event.firebaseId,event.groupId)
+            view?.findNavController()
+                ?.navigate(action)
+        }
 
         viewModel.upcomingEvents.observe(viewLifecycleOwner, Observer { list ->
             if(list.isNotEmpty()) {

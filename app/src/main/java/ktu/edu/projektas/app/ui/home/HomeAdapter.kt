@@ -1,5 +1,6 @@
 package ktu.edu.projektas.app.ui.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +10,7 @@ import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.databinding.EventItemBinding
 
 // home's adapter class
-class HomeAdapter: ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback()) {
+class HomeAdapter(val eventClick: (Event) -> Unit): ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback()) {
 
     class ViewHolder(private val binding: EventItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(event: Event) {
@@ -22,6 +23,7 @@ class HomeAdapter: ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback(
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem.id == newItem.id
         }
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem == newItem
         }
@@ -40,6 +42,11 @@ class HomeAdapter: ListAdapter<Event, HomeAdapter.ViewHolder>(EventDiffCallback(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val data = getItem(position)
+        holder.itemView.setOnClickListener {
+            eventClick(data)
+        }
+
         holder.bind(getItem(position))
     }
 }

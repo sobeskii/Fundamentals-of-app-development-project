@@ -158,6 +158,14 @@
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/studentListBtn"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@color/red"
+                android:text="Student list" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

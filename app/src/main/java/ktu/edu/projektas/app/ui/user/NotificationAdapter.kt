@@ -1,5 +1,6 @@
 package ktu.edu.projektas.app.ui.user
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -22,6 +23,7 @@ class NotificationAdapter: ListAdapter<Notification, NotificationAdapter.ViewHol
         override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean {
             return oldItem.firebaseId == newItem.firebaseId
         }
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: Notification, newItem: Notification): Boolean {
             return oldItem == newItem
         }
@@ -42,4 +44,5 @@ class NotificationAdapter: ListAdapter<Notification, NotificationAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
 }

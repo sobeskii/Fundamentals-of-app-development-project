@@ -159,8 +159,6 @@ class ScheduleFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_scheduleFragment_to_settingsFragment)
         }
 
-
-
         return binding.root
     }
 
@@ -187,7 +185,7 @@ class ScheduleFragment : Fragment() {
 
     private fun onClick(event: Event) {
 
-        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString(),event.firebaseId)
+        var action = ScheduleFragmentDirections.actionScheduleFragmentToEventFragment(event.title,event.location,event.endTime.toString(),event.startTime.toString(),event.firebaseId,event.groupId)
 
         view?.findNavController()
             ?.navigate(action)

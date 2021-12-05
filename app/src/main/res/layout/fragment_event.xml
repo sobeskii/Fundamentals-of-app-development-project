@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="isLecturer"
-            type="boolean" />
-        <import type="android.view.View"/>
+
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_fragment"
@@ -45,6 +43,7 @@
                     android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="24sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -127,19 +126,28 @@
 
 
             <Button
-                android:visibility="@{!isLecturer ? View.VISIBLE : View.GONE}"
                 android:id="@+id/buttonReg"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
                 android:background="@color/red"
-                android:text="Register to event"/>
+                android:text="Register to event" />
+
             <Button
-                android:visibility="@{isLecturer ? View.VISIBLE : View.GONE}"
                 android:id="@+id/buttonAlert"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
                 android:background="@color/red"
-                android:text="ALERT COVID!"/>
+                android:text="ALERT COVID!" />
+
+            <Button
+                android:id="@+id/studentListBtn"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@color/red"
+                android:text="Student list" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,9 @@ class RegisterFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
+        fdb.firestoreSettings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(false)
+            .build()
         mAuth = FirebaseAuth.getInstance()
     }
 
@@ -85,10 +87,12 @@ class RegisterFragment: Fragment() {
             if(task.isSuccessful){
                 activity?.let { Snackbar.make(it.findViewById(R.id.drawer_layout), "User has been registered!", Snackbar.LENGTH_LONG) }
                     ?.show()
+                var currentUser = FirebaseAuth.getInstance().currentUser
 
-                val user = User(binding.etFirstName.text.toString(), binding.etLastName.text.toString(), binding.etEmail.text.toString(), binding.etRole.text.toString(), binding.etGroup.text.toString())
+                val user = User(binding.etFirstName.text.toString(), binding.etLastName.text.toString(), binding.etEmail.text.toString(), binding.etRole.text.toString(), binding.etGroup.text.toString(),
+                    currentUser!!.uid)
 
-                FirebaseAuth.getInstance().currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
+                currentUser?.let { fdb.collection("users").document(it.uid).set(user) }
 
                 view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
             }

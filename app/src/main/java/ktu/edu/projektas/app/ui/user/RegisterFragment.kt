@@ -39,10 +39,6 @@ class RegisterFragment: Fragment() {
 
         binding.btRegister.setOnClickListener { registerUser()  }
 
-        val rolesArray = resources.getStringArray(R.array.roles)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, rolesArray)
-        binding.etRole.setAdapter(arrayAdapter)
-
         return binding.root
     }
 
@@ -89,7 +85,7 @@ class RegisterFragment: Fragment() {
                     ?.show()
                 var currentUser = FirebaseAuth.getInstance().currentUser
 
-                val user = User(binding.etFirstName.editText?.text.toString(), binding.etLastName.editText?.text.toString(), binding.etEmail.editText?.text.toString(), binding.etRole.text.toString(), binding.etGroup.editText?.text.toString(),
+                val user = User(binding.etFirstName.editText?.text.toString(), binding.etLastName.editText?.text.toString(), binding.etEmail.editText?.text.toString(), "Student", binding.etGroup.editText?.text.toString(),
                     currentUser!!.uid)
 
                 currentUser?.let { fdb.collection("users").document(it.uid).set(user) }

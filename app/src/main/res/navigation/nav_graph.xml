@@ -170,8 +170,8 @@
     <fragment
         android:id="@+id/studentListFragment"
         android:name="ktu.edu.projektas.app.ui.schedule.StudentListFragment"
-        android:label="fragment_student_list"
-        tools:layout="@layout/fragment_student_list" >
+        android:label="Student list"
+        tools:layout="@layout/fragment_student_list">
         <argument
             android:name="eventId"
             app:argType="string" />

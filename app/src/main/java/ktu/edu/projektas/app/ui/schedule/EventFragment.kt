@@ -67,12 +67,12 @@ class EventFragment: Fragment() {
         val args = EventFragmentArgs.fromBundle(requireArguments())
 
         binding.eventNameText.text = args.eventName
-        binding.startTimeText.text = formatLocalDateTime(longToLocalDateTime(args.startTime.toLong()))
-        binding.endTimeText.text = formatLocalDateTime(longToLocalDateTime(args.endTime.toLong()))
+        binding.startTimeText.text = formatLocalDateTime(longToLocalDateTime(args.endTime.toLong()))
+        binding.endTimeText.text = formatLocalDateTime(longToLocalDateTime(args.startTime.toLong()))
         binding.locationText.text = args.location
 
-        binding.buttonReg.visibility = if (userData1!!.role != "Lecturer") View.VISIBLE else View.GONE
         binding.buttonReg.visibility = if(args.groupId != 0)  View.VISIBLE else View.GONE
+        binding.buttonReg.visibility = if (userData1!!.role != "Lecturer") View.VISIBLE else View.GONE
 
         binding.buttonAlert.visibility = if (userData1!!.role == "Lecturer") View.VISIBLE else View.GONE
 

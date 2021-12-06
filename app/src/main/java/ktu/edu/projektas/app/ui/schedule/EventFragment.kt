@@ -25,7 +25,6 @@ import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.app.ui.HomeFragment
-import ktu.edu.projektas.app.ui.ScheduleFragmentDirections
 import ktu.edu.projektas.app.utils.*
 import ktu.edu.projektas.databinding.FragmentEventBinding
 import java.time.LocalDateTime

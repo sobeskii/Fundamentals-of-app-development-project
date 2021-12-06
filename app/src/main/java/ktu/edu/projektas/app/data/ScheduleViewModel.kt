@@ -334,7 +334,7 @@ class ScheduleViewModel(context: Context): ViewModel() {
     fun deleteByFirebaseId(id : String){
         fdb.collection("events").document(id).delete().
         addOnSuccessListener {
-            Log.d(TAG, "Document successfully deleted!")
+            Log.d(TAG, "Document successfully deleted")
         }.addOnFailureListener{ e ->
             Log.w(
                 TAG,

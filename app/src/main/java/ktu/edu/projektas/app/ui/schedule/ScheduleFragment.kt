@@ -1,8 +1,7 @@
 package ktu.edu.projektas.app.ui.schedule
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color.BLACK
-import android.graphics.Color.LTGRAY
+import android.graphics.Color.*
 import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
@@ -26,6 +25,10 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import ktu.edu.projektas.app.data.User
 import ktu.edu.projektas.databinding.FragmentScheduleBinding
+import android.widget.TextView
+
+
+
 
 
 
@@ -58,6 +61,9 @@ class ScheduleFragment : Fragment() {
 
         val item: MenuItem = menu!!.findItem(R.id.spinner)
         spinner = item.actionView as Spinner
+
+        spinner.setPopupBackgroundResource(R.color.teal_regular);
+
         //Fill spinner with color list
         activity?.let {
             ArrayAdapter.createFromResource(
@@ -77,6 +83,7 @@ class ScheduleFragment : Fragment() {
                 id: Long
             ) {
                 var selectedItem  = spinner.selectedItem.toString()
+                (selectedItemView as TextView).setTextColor(WHITE)
                 binding.weekView.adapter = null
                 // Get events by color
                 viewModel.getAllEventsByColor(selectedItem)?.observe(viewLifecycleOwner){

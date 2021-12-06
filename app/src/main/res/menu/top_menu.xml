@@ -21,6 +21,7 @@
         android:title="@string/actionbar_spinner"
         app:actionViewClass="android.widget.Spinner"
         android:background="@color/teal_regular"
+        android:textColor="@color/white"
         app:showAsAction="always"
         />
 </menu>

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/augus/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1480978260869565" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.17604166666666668" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/baseline_email_24.xml" value="0.15" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/drawable/baseline_logout_24.xml" value="0.18802083333333333" />
@@ -33,7 +34,10 @@
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register.xml" value="0.264" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register_to_event.xml" value="0.16" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_student_list.xml" value="0.1480978260869565" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/notification_item.xml" value="0.16032608695652173" />
+        <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/layout/student_item.xml" value="0.1480978260869565" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/menu/drawer_view.xml" value="0.16" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/menu/top_menu.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/augus/Desktop/AndroidStudioProjects/Fundamentals-of-app-development-project/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17604166666666668" />
@@ -61,10 +65,7 @@
         <entry key="..\:/Users/marty/Documents/GitHub/Fundamentals-of-app-development-project/app/src/main/res/xml/preferences.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/a.xml" value="0.1" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/event_item.xml" value="0.15942028985507245" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.264" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_changepw.xml" value="0.2128623188405797" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.1" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_event.xml" value="0.264" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_create_event.xml" value="0.264" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_event.xml" value="0.17255434782608695" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_home.xml" value="0.15942028985507245" />
@@ -72,7 +73,6 @@
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_mass_add_events.xml" value="0.15942028985507245" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_profile.xml" value="0.15942028985507245" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register.xml" value="0.264" />
-        <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.15942028985507245" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_register_to_event.xml" value="0.2341485507246377" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_schedule.xml" value="0.264" />
         <entry key="..\:/Users/vlada/Desktop/A/Fundamentals-of-app-development-project/app/src/main/res/layout/fragment_settings.xml" value="0.2341485507246377" />

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import ktu.edu.projektas.app.data.ScheduleViewModel
 import ktu.edu.projektas.app.data.ScheduleViewModelFactory
 import ktu.edu.projektas.app.data.User
+import ktu.edu.projektas.app.utils.keyHashes
 
 class MainActivity : AppCompatActivity(){
     private lateinit var navController : NavController
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity(){
 
         mAuth = FirebaseAuth.getInstance()
 
+
+        keyHashes(applicationContext)
 
         navController = findNavController(R.id.nav_host_fragment_container)
         drawerLayout = findViewById(R.id.drawer_layout)

@@ -4,7 +4,8 @@
     <string name="format">%1$tY-%1$tm-%1$td %1$tH:%1$tM</string>
 
     <string name="app_name">Study Easy</string>
-
+    <string name="facebook_app_id">423335222765369</string>
+    <string name="facebook_client_token">Facebook Client ID</string>
     <!-- string for the drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

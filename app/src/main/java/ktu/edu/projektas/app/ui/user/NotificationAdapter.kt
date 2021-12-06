@@ -1,13 +1,22 @@
 package ktu.edu.projektas.app.ui.user
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.share.model.ShareLinkContent
+import ktu.edu.projektas.app.data.Event
 import ktu.edu.projektas.app.data.Notification
 import ktu.edu.projektas.databinding.NotificationItemBinding
+import android.R
+
+import com.facebook.share.widget.ShareButton
+
+
+
 
 
 class NotificationAdapter: ListAdapter<Notification, NotificationAdapter.ViewHolder>(NotificationDiffCallback()) {
@@ -16,6 +25,7 @@ class NotificationAdapter: ListAdapter<Notification, NotificationAdapter.ViewHol
         fun bind(notification: Notification) {
             binding.root.layoutParams
             binding.notification = notification
+
         }
     }
 
@@ -41,7 +51,11 @@ class NotificationAdapter: ListAdapter<Notification, NotificationAdapter.ViewHol
         )
     }
 
+
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+
         holder.bind(getItem(position))
     }
 
